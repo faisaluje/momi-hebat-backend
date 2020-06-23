@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { Password } from '../services/password';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
+import { JWT_KEY } from '../../contants';
 
 const router = express.Router();
 
@@ -42,9 +43,9 @@ router.post(
     const userJwt = jwt.sign(
       {
         id: userExisting.id,
-        email: userExisting.username,
+        username: userExisting.username,
       },
-      process.env.JWT_KEY!
+      process.env.JWT_KEY || JWT_KEY
     );
 
     // Store it on session object

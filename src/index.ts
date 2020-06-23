@@ -3,7 +3,7 @@ import { app } from './app';
 import { JWT_KEY, MONGO_URI } from './contants';
 
 const start = async () => {
-  if (!JWT_KEY) {
+  if (!process.env.JWT_KEY && !JWT_KEY) {
     throw new Error('JWT_KEY undefined');
   }
 

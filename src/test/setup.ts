@@ -2,7 +2,6 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../app';
-import { UserPeran } from '../auth/enums/user-peran';
 
 declare global {
   namespace NodeJS {
@@ -14,8 +13,6 @@ declare global {
 
 let mongo: MongoMemoryServer;
 beforeAll(async () => {
-  process.env.JWT_KEY = 'key1';
-
   mongo = new MongoMemoryServer();
   const mongoUri = await mongo.getUri();
 
@@ -39,16 +36,12 @@ afterAll(async () => {
 });
 
 global.signin = async () => {
-  const username = 'uje';
-  const password = 'password';
-  const nama = 'Faisal Uje';
-  const noHp = '081297282354';
-  const peran = UserPeran.ADMIN;
-
-  const response = await request(app)
-    .post('/api/users/signup')
-    .send({ username, password, nama, noHp, peran })
-    .expect(201);
+  const response = await request(app).post('/api/users/signup').send({
+    username: 'admin',
+    password: 'ainkpisan',
+    nama: 'Faisal Uje',
+    noHp: '081297282354',
+  });
 
   return response.get('Set-Cookie');
 };

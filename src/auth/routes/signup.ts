@@ -4,7 +4,7 @@ import { body } from 'express-validator';
 import { User } from '../models/user';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { UserPeran } from '../enums/user-peran';
+import { JWT_KEY } from '../../contants';
 
 const router = express.Router();
 
@@ -42,7 +42,7 @@ router.post(
         id: user.id,
         username: user.username,
       },
-      process.env.JWT_KEY!
+      process.env.JWT_KEY || JWT_KEY
     );
 
     // Store it on session object

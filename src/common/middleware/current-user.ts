@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { JWT_KEY } from '../../contants';
 
 interface UserPayload {
   id: string;
-  email: string;
+  username: string;
 }
 
 declare global {
@@ -26,7 +27,7 @@ export const currentUser = (
   try {
     const payload = jwt.verify(
       req.session.jwt,
-      process.env.JWT_KEY!
+      process.env.JWT_KEY || JWT_KEY
     ) as UserPayload;
     req.currentUser = payload;
   } catch (err) {}
