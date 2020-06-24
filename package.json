@@ -23,6 +23,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.27",
     "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.6.0",
@@ -31,6 +32,7 @@
     "ts-node-dev": "^1.0.0-pre.49"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.6",
     "@types/jest": "^26.0.0",
     "@types/supertest": "^2.0.9",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
