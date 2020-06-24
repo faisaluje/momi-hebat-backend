@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { JWT_KEY } from '../../contants';
+import { JwtPayload } from '../dto/jwt-payload';
 
 const router = express.Router();
 
@@ -36,14 +37,16 @@ router.post(
     const user = User.build(req.body);
     await user.save();
 
+    const jwtPayload: JwtPayload = {
+      id: user.id,
+      username: user.username,
+      nama: user.nama,
+      noHp: user.noHp,
+      peran: user.peran,
+    };
+
     // Generate JWT
-    const userJwt = jwt.sign(
-      {
-        id: user.id,
-        username: user.username,
-      },
-      process.env.JWT_KEY || JWT_KEY
-    );
+    const userJwt = jwt.sign(jwtPayload, process.env.JWT_KEY || JWT_KEY);
 
     // Store it on session object
     req.session = {

@@ -7,6 +7,7 @@ import { Password } from '../services/password';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { JWT_KEY } from '../../contants';
+import { JwtPayload } from '../dto/jwt-payload';
 
 const router = express.Router();
 
@@ -39,14 +40,16 @@ router.post(
       throw new BadRequestError('Invalid credentials');
     }
 
+    const jwtPayload: JwtPayload = {
+      id: userExisting.id,
+      username: userExisting.username,
+      nama: userExisting.nama,
+      noHp: userExisting.noHp,
+      peran: userExisting.peran,
+    };
+
     // Generate JWT
-    const userJwt = jwt.sign(
-      {
-        id: userExisting.id,
-        username: userExisting.username,
-      },
-      process.env.JWT_KEY || JWT_KEY
-    );
+    const userJwt = jwt.sign(jwtPayload, process.env.JWT_KEY || JWT_KEY);
 
     // Store it on session object
     req.session = {

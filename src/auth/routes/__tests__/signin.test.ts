@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { app } from '../../../app';
+import { UserPeran } from '../../enums/user-peran';
 
 it('fails when an username that does not exist is supplied', async () => {
   await request(app)
@@ -35,4 +36,20 @@ it('responds with a cookie when given valid credentials', async () => {
     .expect(200);
 
   expect(response.get('Set-Cookie')).toBeDefined();
+});
+
+it('responds with a jwt payload  when login success', async () => {
+  await global.signin();
+
+  const response = await request(app)
+    .post('/api/users/signin')
+    .send({
+      username: 'admin',
+      password: 'ainkpisan',
+    })
+    .expect(200);
+
+  expect(response.body.username).toEqual('admin');
+  expect(response.body.peran).toEqual(UserPeran.OPERATOR);
+  expect(response.body.password).toBeUndefined();
 });

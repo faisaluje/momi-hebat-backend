@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { app } from '../../../app';
+import { UserPeran } from '../../enums/user-peran';
 
 it('responds with details about the current user', async () => {
   const cookie = await global.signin();
@@ -11,6 +12,8 @@ it('responds with details about the current user', async () => {
     .expect(200);
 
   expect(response.body.currentUser.username).toEqual('admin');
+  expect(response.body.currentUser.peran).toEqual(UserPeran.OPERATOR);
+  expect(response.body.currentUser.password).toBeUndefined();
 });
 
 it('responds with null if not authenticated', async () => {
