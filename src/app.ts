@@ -9,10 +9,16 @@ import { signoutRouter } from './auth/routes/signout';
 import { signupRouter } from './auth/routes/signup';
 import { NotFoundError } from './common/errors/not-foud-error';
 import { errorHandler } from './common/middleware/error-handler';
+import { URL_FRONTEND } from './contants';
 
 const app = express();
 app.set('trust proxy', true);
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: URL_FRONTEND,
+  })
+);
 app.use(json());
 app.use(
   cookieSession({
