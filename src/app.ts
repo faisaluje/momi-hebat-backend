@@ -10,10 +10,10 @@ import { signupRouter } from './auth/routes/signup';
 import { NotFoundError } from './common/errors/not-foud-error';
 import { errorHandler } from './common/middleware/error-handler';
 import { URL_FRONTEND } from './contants';
-import { indexUserRouter } from './auth/routes';
+import { indexPenggunaRouter } from './pengguna/routes';
 import { currentUser } from './common/middleware/current-user';
-import { newUserRouter } from './auth/routes/new';
-import { updateUserRouter } from './auth/routes/update';
+import { newPenggunaRouter } from './pengguna/routes/new';
+import { updatePenggunaRouter } from './pengguna/routes/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -35,13 +35,15 @@ app.use(
 app.use(currentUser);
 
 // Auth Module
-app.use(indexUserRouter);
-app.use(currentUserRouter);
+app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
-app.use(signupRouter);
-app.use(newUserRouter);
-app.use(updateUserRouter);
+app.use(currentUserRouter);
+
+// Pengguna Module
+app.use(indexPenggunaRouter);
+app.use(newPenggunaRouter);
+app.use(updatePenggunaRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();

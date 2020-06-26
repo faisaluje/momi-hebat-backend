@@ -3,7 +3,7 @@ import { app } from '../../../app';
 
 const createNewUser = async (cookie: string[], prefix: number = 1) => {
   const result = await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: `admin_${prefix}`,
@@ -17,7 +17,7 @@ const createNewUser = async (cookie: string[], prefix: number = 1) => {
 
 it('returns a 401 if not authenticated', () => {
   return request(app)
-    .patch('/api/users/12312324')
+    .patch('/api/pengguna/12312324')
     .send({
       username: 'faisaluje',
       password: 'ainkpisan',
@@ -33,7 +33,7 @@ it('returns a 400 if change the password', async () => {
   const user = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/users/${user.id}`)
+    .patch(`/api/pengguna/${user.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin_1',
@@ -50,7 +50,7 @@ it('returns a 400 if given username changed and exist', async () => {
   const user = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/users/${user.id}`)
+    .patch(`/api/pengguna/${user.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin',
@@ -66,7 +66,7 @@ it('returns a 400 if given invalid username', async () => {
   const user = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/users/${user.id}`)
+    .patch(`/api/pengguna/${user.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'ad',
@@ -82,7 +82,7 @@ it('returns a 400 if given invalid status', async () => {
   const user = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/users/${user.id}`)
+    .patch(`/api/pengguna/${user.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin_1',
@@ -99,7 +99,7 @@ it('returns a 200 if given a valid data', async () => {
   const user = await createNewUser(cookie);
 
   const update = await request(app)
-    .patch(`/api/users/${user.id}`)
+    .patch(`/api/pengguna/${user.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin_1',

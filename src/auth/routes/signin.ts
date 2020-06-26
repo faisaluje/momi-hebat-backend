@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
-import { User } from '../models/user';
+import { Pengguna } from '../../pengguna/models/pengguna';
 import { Password } from '../services/password';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
@@ -27,7 +27,7 @@ router.post(
   async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
-    const userExisting = await User.findOne({ username });
+    const userExisting = await Pengguna.findOne({ username });
     if (!userExisting) {
       throw new BadRequestError('Invalid credentials');
     }

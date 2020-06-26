@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../../app';
-import { UserPeran } from '../../enums/user-peran';
+import { PenggunaPeran } from '../../../pengguna/enums/pengguna-peran';
 
 it('responds with details about the current user', async () => {
   const cookie = await global.signin();
@@ -12,7 +12,7 @@ it('responds with details about the current user', async () => {
     .expect(200);
 
   expect(response.body.currentUser.username).toEqual('admin');
-  expect(response.body.currentUser.peran).toEqual(UserPeran.OPERATOR);
+  expect(response.body.currentUser.peran).toEqual(PenggunaPeran.OPERATOR);
   expect(response.body.currentUser.password).toBeUndefined();
 });
 

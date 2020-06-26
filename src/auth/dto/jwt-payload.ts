@@ -1,4 +1,4 @@
-import { UserPeran } from '../enums/user-peran';
+import { UserPeran } from '../../pengguna/enums/user-peran';
 
 export interface JwtPayload {
   id: string;

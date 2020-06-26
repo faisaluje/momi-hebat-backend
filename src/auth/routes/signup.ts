@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { body } from 'express-validator';
-import { User } from '../models/user';
+import { Pengguna } from '../../pengguna/models/pengguna';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { JWT_KEY } from '../../contants';
@@ -28,21 +28,21 @@ router.post(
   async (req: Request, res: Response) => {
     const { username } = req.body;
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await Pengguna.findOne({ username });
 
     if (existingUser) {
       throw new BadRequestError('Username sudah terdaftar!');
     }
 
-    const user = User.build(req.body);
-    await user.save();
+    const pengguna = Pengguna.build(req.body);
+    await pengguna.save();
 
     const jwtPayload: JwtPayload = {
-      id: user.id,
-      username: user.username,
-      nama: user.nama,
-      noHp: user.noHp,
-      peran: user.peran,
+      id: pengguna.id,
+      username: pengguna.username,
+      nama: pengguna.nama,
+      noHp: pengguna.noHp,
+      peran: pengguna.peran,
     };
 
     // Generate JWT
@@ -53,7 +53,7 @@ router.post(
       jwt: userJwt,
     };
 
-    res.status(201).send(user);
+    res.status(201).send(pengguna);
   }
 );
 

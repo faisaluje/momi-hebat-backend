@@ -1,10 +1,10 @@
 import request from 'supertest';
 import { app } from '../../../app';
-import { UserPeran } from '../../enums/user-peran';
+import { PenggunaPeran } from '../../enums/pengguna-peran';
 
 it('returns a 401 if not authenticated', () => {
   return request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .send({
       username: 'faisaluje',
       password: 'ainkpisan',
@@ -18,7 +18,7 @@ it('returns a 201 & new user on successful create new user', async () => {
   const cookie = await global.signin();
 
   const result = await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'faisaluje',
@@ -36,7 +36,7 @@ it('returns a 400 with an invalid username', async () => {
   const cookie = await global.signin();
 
   return request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'fa',
@@ -49,7 +49,7 @@ it('returns a 400 with an invalid password', async () => {
   const cookie = await global.signin();
 
   return request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'a@a.com',
@@ -64,7 +64,7 @@ it('returns a 400 with missing username and password', async () => {
   const cookie = await global.signin();
 
   await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'a@a.com',
@@ -72,7 +72,7 @@ it('returns a 400 with missing username and password', async () => {
     .expect(400);
 
   await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       password: 'faisaluje',
@@ -84,14 +84,14 @@ it('returns a 400 with filling peran', async () => {
   const cookie = await global.signin();
 
   const result = await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'faisaluje',
       password: 'ainkpisan',
       nama: 'Faisal Uje',
       noHp: '081297282354',
-      peran: UserPeran.ADMIN,
+      peran: PenggunaPeran.ADMIN,
     });
 
   expect(result.status).toEqual(400);
@@ -101,7 +101,7 @@ it('dissalows duplicate usernames', async () => {
   const cookie = await global.signin();
 
   await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'a@a.com',
@@ -112,7 +112,7 @@ it('dissalows duplicate usernames', async () => {
     .expect(201);
 
   await request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: 'a@a.com',

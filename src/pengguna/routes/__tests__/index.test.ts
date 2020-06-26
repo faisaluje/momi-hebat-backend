@@ -3,7 +3,7 @@ import { app } from '../../../app';
 
 const createNewUser = (prefix: number, cookie: string[]) => {
   return request(app)
-    .post('/api/users')
+    .post('/api/pengguna')
     .set('Cookie', cookie)
     .send({
       username: `admin_${prefix}`,
@@ -21,16 +21,21 @@ it('responds with list of users', async () => {
   }
 
   const response = await request(app)
-    .get('/api/users')
+    .get('/api/pengguna')
     .set('Cookie', cookie)
     .send()
     .expect(200);
+
+  for (const pengguna of response.body) {
+    expect(pengguna.password).toBeUndefined();
+    expect(pengguna.id).toBeDefined();
+  }
 
   expect(response.body.length).toEqual(11);
 });
 
 it('responds 401 if not authenticated', async () => {
-  const result = await request(app).post('/api/users').send({
+  const result = await request(app).post('/api/pengguna').send({
     username: `admin`,
     password: 'admin',
     nama: `Admin`,

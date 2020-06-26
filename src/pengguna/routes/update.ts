@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { User } from '../models/user';
+import { Pengguna } from '../models/pengguna';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { requireAuth } from '../../common/middleware/require-auth';
-import { UserStatus } from '../enums/user-status';
+import { PenggunaStatus } from '../enums/pengguna-status';
 import { NotFoundError } from '../../common/errors/not-foud-error';
 
 const router = express.Router();
 
 router.patch(
-  '/api/users/:userId',
+  '/api/pengguna/:penggunaId',
   requireAuth,
   [
     body('username')
@@ -22,17 +22,17 @@ router.patch(
     body('noHp').trim().notEmpty().withMessage('No. HP harus diisi'),
     body('peran').isEmpty().withMessage('Peran harus kosong'),
     body('status')
-      .isIn([UserStatus.AKTIF, UserStatus.TIDAK_AKTIF])
+      .isIn([PenggunaStatus.AKTIF, PenggunaStatus.TIDAK_AKTIF])
       .withMessage('Status hanya aktif & tidak_aktif'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
     const { username } = req.body;
-    const currentUser = await User.findById(req.params.userId);
+    const currentUser = await Pengguna.findById(req.params.penggunaId);
     if (!currentUser) throw new NotFoundError();
 
     if (currentUser.username !== username) {
-      const existingUser = await User.findOne({ username });
+      const existingUser = await Pengguna.findOne({ username });
       if (existingUser) {
         throw new BadRequestError('Username sudah terdaftar!');
       }
@@ -49,4 +49,4 @@ router.patch(
   }
 );
 
-export { router as updateUserRouter };
+export { router as updatePenggunaRouter };

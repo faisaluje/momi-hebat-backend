@@ -1,36 +1,36 @@
 import mongoose from 'mongoose';
-import { Password } from '../services/password';
-import { UserStatus } from '../enums/user-status';
-import { UserPeran } from '../enums/user-peran';
+import { Password } from '../../auth/services/password';
+import { PenggunaStatus } from '../enums/pengguna-status';
+import { PenggunaPeran } from '../enums/pengguna-peran';
 
 // An interface that describes the properties
 // that are required to create a new User
-interface UserAttrs {
+interface PenggunaAttrs {
   username: string;
   password: string;
   nama: string;
   noHp: string;
-  peran: UserPeran;
+  peran: PenggunaPeran;
 }
 
 // An interface that describes the properties
 // that a User Document has
-interface UserDoc extends mongoose.Document {
+interface PenggunaDoc extends mongoose.Document {
   username: string;
   password: string;
   nama: string;
   noHp: string;
-  peran: UserPeran;
-  status: UserStatus;
+  peran: PenggunaPeran;
+  status: PenggunaStatus;
 }
 
 // An interface that descibes the properties
 // that a User Model has
-interface UserModel extends mongoose.Model<UserDoc> {
-  build(attrs: UserAttrs): UserDoc;
+interface PenggunaModel extends mongoose.Model<PenggunaDoc> {
+  build(attrs: PenggunaAttrs): PenggunaDoc;
 }
 
-const userSchema = new mongoose.Schema(
+const penggunaSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -51,14 +51,14 @@ const userSchema = new mongoose.Schema(
     peran: {
       type: String,
       required: true,
-      enum: Object.values(UserPeran),
-      default: UserPeran.OPERATOR,
+      enum: Object.values(PenggunaPeran),
+      default: PenggunaPeran.OPERATOR,
     },
     status: {
       type: String,
       required: true,
-      enum: Object.values(UserStatus),
-      default: UserStatus.AKTIF,
+      enum: Object.values(PenggunaStatus),
+      default: PenggunaStatus.AKTIF,
     },
   },
   {
@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.pre('save', async function (done) {
+penggunaSchema.pre('save', async function (done) {
   if (this.isModified('password')) {
     const hashed = await Password.toHash(this.get('password'));
     this.set('password', hashed);
@@ -81,10 +81,13 @@ userSchema.pre('save', async function (done) {
   done();
 });
 
-userSchema.statics.build = (attrs: UserAttrs) => {
-  return new User(attrs);
+penggunaSchema.statics.build = (attrs: PenggunaAttrs) => {
+  return new Pengguna(attrs);
 };
 
-const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
+const Pengguna = mongoose.model<PenggunaDoc, PenggunaModel>(
+  'User',
+  penggunaSchema
+);
 
-export { User };
+export { Pengguna };

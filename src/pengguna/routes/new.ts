@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { User } from '../models/user';
+import { Pengguna } from '../models/pengguna';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { requireAuth } from '../../common/middleware/require-auth';
@@ -8,7 +8,7 @@ import { requireAuth } from '../../common/middleware/require-auth';
 const router = express.Router();
 
 router.post(
-  '/api/users',
+  '/api/pengguna',
   requireAuth,
   [
     body('username')
@@ -27,17 +27,17 @@ router.post(
   async (req: Request, res: Response) => {
     const { username } = req.body;
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await Pengguna.findOne({ username });
 
     if (existingUser) {
       throw new BadRequestError('Username sudah terdaftar!');
     }
 
-    const user = User.build(req.body);
-    await user.save();
+    const pengguna = Pengguna.build(req.body);
+    await pengguna.save();
 
-    res.status(201).send(user);
+    res.status(201).send(pengguna);
   }
 );
 
-export { router as newUserRouter };
+export { router as newPenggunaRouter };
