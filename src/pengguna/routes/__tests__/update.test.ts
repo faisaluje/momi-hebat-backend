@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { app } from '../../../app';
+import { PenggunaStatus } from '../../enums/pengguna-status';
 
 const createNewUser = async (cookie: string[], prefix: number = 1) => {
   const result = await request(app)
@@ -30,10 +31,10 @@ it('returns a 401 if not authenticated', () => {
 it('returns a 400 if change the password', async () => {
   const cookie = await global.signin();
 
-  const user = await createNewUser(cookie);
+  const pengguna = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/pengguna/${user.id}`)
+    .patch(`/api/pengguna/${pengguna.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin_1',
@@ -47,10 +48,10 @@ it('returns a 400 if change the password', async () => {
 it('returns a 400 if given username changed and exist', async () => {
   const cookie = await global.signin();
 
-  const user = await createNewUser(cookie);
+  const pengguna = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/pengguna/${user.id}`)
+    .patch(`/api/pengguna/${pengguna.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin',
@@ -63,10 +64,10 @@ it('returns a 400 if given username changed and exist', async () => {
 it('returns a 400 if given invalid username', async () => {
   const cookie = await global.signin();
 
-  const user = await createNewUser(cookie);
+  const pengguna = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/pengguna/${user.id}`)
+    .patch(`/api/pengguna/${pengguna.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'ad',
@@ -79,10 +80,10 @@ it('returns a 400 if given invalid username', async () => {
 it('returns a 400 if given invalid status', async () => {
   const cookie = await global.signin();
 
-  const user = await createNewUser(cookie);
+  const pengguna = await createNewUser(cookie);
 
   return request(app)
-    .patch(`/api/pengguna/${user.id}`)
+    .patch(`/api/pengguna/${pengguna.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin_1',
@@ -93,13 +94,13 @@ it('returns a 400 if given invalid status', async () => {
     .expect(400);
 });
 
-it('returns a 200 if given a valid data', async () => {
+it('returns status 200 & pengguna data if given a valid data', async () => {
   const cookie = await global.signin();
 
-  const user = await createNewUser(cookie);
+  const pengguna = await createNewUser(cookie);
 
   const update = await request(app)
-    .patch(`/api/pengguna/${user.id}`)
+    .patch(`/api/pengguna/${pengguna.id}`)
     .set('Cookie', cookie)
     .send({
       username: 'admin_1',
@@ -108,5 +109,8 @@ it('returns a 200 if given a valid data', async () => {
       status: 'tidak_aktif',
     });
 
+  console.log(update.body);
+
   expect(update.status).toEqual(200);
+  expect(update.body.status).toEqual(PenggunaStatus.TIDAK_AKTIF);
 });
