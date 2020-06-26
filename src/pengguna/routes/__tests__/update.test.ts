@@ -9,6 +9,7 @@ const createNewUser = async (cookie: string[], prefix: number = 1) => {
     .send({
       username: `admin_${prefix}`,
       password: 'admin',
+      retypePassword: 'admin',
       nama: `Admin ${prefix}`,
       noHp: '081297282354',
     });
@@ -108,8 +109,6 @@ it('returns status 200 & pengguna data if given a valid data', async () => {
       noHp: '081297282354',
       status: 'tidak_aktif',
     });
-
-  console.log(update.body);
 
   expect(update.status).toEqual(200);
   expect(update.body.status).toEqual(PenggunaStatus.TIDAK_AKTIF);

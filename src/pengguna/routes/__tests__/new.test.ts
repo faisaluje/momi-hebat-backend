@@ -23,6 +23,7 @@ it('returns a 201 & new user on successful create new user', async () => {
     .send({
       username: 'faisaluje',
       password: 'ainkpisan',
+      retypePassword: 'ainkpisan',
       nama: 'Faisal Uje',
       noHp: '081297282354',
     });
@@ -106,6 +107,7 @@ it('dissalows duplicate usernames', async () => {
     .send({
       username: 'a@a.com',
       password: 'ainkpisan',
+      retypePassword: 'ainkpisan',
       nama: 'Faisal Uje',
       noHp: '081297282354',
     })
@@ -117,6 +119,7 @@ it('dissalows duplicate usernames', async () => {
     .send({
       username: 'a@a.com',
       password: 'ainkpisan',
+      retypePassword: 'ainkpisan',
       nama: 'Faisal Uje',
       noHp: '081297282354',
     })

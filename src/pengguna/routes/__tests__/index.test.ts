@@ -8,6 +8,7 @@ const createNewUser = (prefix: number, cookie: string[]) => {
     .send({
       username: `admin_${prefix}`,
       password: 'admin',
+      retypePassword: 'admin',
       nama: `Admin ${prefix}`,
       noHp: '081297282354',
     });
