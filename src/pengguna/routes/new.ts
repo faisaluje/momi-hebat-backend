@@ -25,7 +25,6 @@ router.post(
       .custom((value, { req }) => value === req.body.password)
       .withMessage('Konfirmasi password tidak sesuai'),
     body('nama').trim().notEmpty().withMessage('Nama harus diisi'),
-    body('noHp').trim().notEmpty().withMessage('No. HP harus diisi'),
     body('peran').isEmpty().withMessage('Peran harus kosong'),
   ],
   validateRequest,

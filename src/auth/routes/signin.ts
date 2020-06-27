@@ -8,6 +8,7 @@ import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { JWT_KEY, URL_AUTH } from '../../contants';
 import { JwtPayload } from '../dto/jwt-payload';
+import { PenggunaStatus } from '../../pengguna/enums/pengguna-status';
 
 const router = express.Router();
 
@@ -27,7 +28,10 @@ router.post(
   async (req: Request, res: Response) => {
     const { username, password } = req.body;
 
-    const userExisting = await Pengguna.findOne({ username });
+    const userExisting = await Pengguna.findOne({
+      username,
+      status: PenggunaStatus.AKTIF,
+    });
     if (!userExisting) {
       throw new BadRequestError('Invalid credentials');
     }

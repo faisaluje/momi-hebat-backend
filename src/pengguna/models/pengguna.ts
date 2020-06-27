@@ -46,7 +46,6 @@ const penggunaSchema = new mongoose.Schema(
     },
     noHp: {
       type: String,
-      required: true,
     },
     peran: {
       type: String,

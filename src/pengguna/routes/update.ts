@@ -20,7 +20,6 @@ router.patch(
       .withMessage('Username harus antara 4 sampai 20 karakter'),
     body('password').isEmpty().withMessage('Password tidak bisa dirubah'),
     body('nama').trim().notEmpty().withMessage('Nama harus diisi'),
-    body('noHp').trim().notEmpty().withMessage('No. HP harus diisi'),
     body('peran').isEmpty().withMessage('Peran harus kosong'),
     body('status')
       .isIn([PenggunaStatus.AKTIF, PenggunaStatus.TIDAK_AKTIF])
