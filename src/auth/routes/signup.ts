@@ -4,13 +4,13 @@ import { body } from 'express-validator';
 import { Pengguna } from '../../pengguna/models/pengguna';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { JWT_KEY } from '../../contants';
+import { JWT_KEY, URL_AUTH } from '../../contants';
 import { JwtPayload } from '../dto/jwt-payload';
 
 const router = express.Router();
 
 router.post(
-  '/api/users/signup',
+  `${URL_AUTH}/signup`,
   [
     body('username')
       .trim()

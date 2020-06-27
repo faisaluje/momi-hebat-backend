@@ -1,8 +1,9 @@
 import express from 'express';
+import { URL_AUTH } from '../../contants';
 
 const router = express.Router();
 
-router.post('/api/users/signout', (req, res) => {
+router.post(`${URL_AUTH}/signout`, (req, res) => {
   req.session = null;
 
   res.send({});

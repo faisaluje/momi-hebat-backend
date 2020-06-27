@@ -4,11 +4,12 @@ import { Pengguna } from '../models/pengguna';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_PENGGUNA } from '../../contants';
 
 const router = express.Router();
 
 router.post(
-  '/api/pengguna',
+  URL_PENGGUNA,
   requireAuth,
   [
     body('username')

@@ -6,11 +6,12 @@ import { BadRequestError } from '../../common/errors/bad-request-error';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { NotFoundError } from '../../common/errors/not-foud-error';
 import { Password } from '../../auth/services/password';
+import { URL_PENGGUNA } from '../../contants';
 
 const router = express.Router();
 
 router.patch(
-  '/api/pengguna/changePassword/:penggunaId',
+  `${URL_PENGGUNA}/changePassword/:penggunaId`,
   requireAuth,
   [
     body('currentPassword')

@@ -6,13 +6,13 @@ import { Pengguna } from '../../pengguna/models/pengguna';
 import { Password } from '../services/password';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { JWT_KEY } from '../../contants';
+import { JWT_KEY, URL_AUTH } from '../../contants';
 import { JwtPayload } from '../dto/jwt-payload';
 
 const router = express.Router();
 
 router.post(
-  '/api/users/signin',
+  `${URL_AUTH}/signin`,
   [
     body('username')
       .trim()

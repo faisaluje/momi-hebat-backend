@@ -6,11 +6,12 @@ import { BadRequestError } from '../../common/errors/bad-request-error';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { PenggunaStatus } from '../enums/pengguna-status';
 import { NotFoundError } from '../../common/errors/not-foud-error';
+import { URL_PENGGUNA } from '../../contants';
 
 const router = express.Router();
 
 router.patch(
-  '/api/pengguna/:penggunaId',
+  `${URL_PENGGUNA}/:penggunaId`,
   requireAuth,
   [
     body('username')
