@@ -6,9 +6,9 @@ import { URL_PENGGUNA } from '../../contants';
 const router = express.Router();
 
 router.get(URL_PENGGUNA, requireAuth, async (_req: Request, res: Response) => {
-  const pengguna = await Pengguna.find({});
+  const penggunaList = await Pengguna.find({});
 
-  res.send(pengguna);
+  res.send(penggunaList);
 });
 
 export { router as indexPenggunaRouter };
