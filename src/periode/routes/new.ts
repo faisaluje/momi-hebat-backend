@@ -4,7 +4,6 @@ import { requireAuth } from '../../common/middleware/require-auth';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { body } from 'express-validator';
 import { Periode } from '../models/periode';
-import { PeriodeStatus } from '../enums/periode-status';
 import { PeriodeAktif } from '../services/periode-aktif';
 
 const router = express.Router();

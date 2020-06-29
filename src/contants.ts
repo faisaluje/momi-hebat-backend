@@ -7,3 +7,5 @@ export const URL_API = '/api';
 export const URL_AUTH = `${URL_API}/users`;
 export const URL_PENGGUNA = `${URL_API}/pengguna`;
 export const URL_PERIODE = `${URL_API}/periode`;
+export const URL_REFERENSI = `${URL_API}/referensi`;
+export const URL_KARYAWAN = `${URL_API}/karyawan`;
