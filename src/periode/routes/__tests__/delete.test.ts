@@ -43,7 +43,9 @@ it('successfully deleted', async () => {
     .send()
     .expect(204);
 
-  const notExisted = await Periode.findById(newPeriode.body.id);
+  const notExisted = await Periode.findOneDeleted({
+    _id: newPeriode.body.id,
+  });
 
-  expect(notExisted).toBeNull();
+  expect(notExisted).not.toBeNull();
 });

@@ -5,6 +5,7 @@ import { validateRequest } from '../../common/middleware/validate-request';
 import { body } from 'express-validator';
 import { Periode } from '../models/periode';
 import { PeriodeStatus } from '../enums/periode-status';
+import { PeriodeAktif } from '../services/periode-aktif';
 
 const router = express.Router();
 
@@ -27,12 +28,8 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const periodeAktif = await Periode.findOne({ status: PeriodeStatus.AKTIF });
-    if (periodeAktif) {
-      req.body.status = PeriodeStatus.TIDAK_AKTIF;
-    }
-
     const periode = Periode.build(req.body);
+    periode.status = await PeriodeAktif.getPeriodeStatus(req.body);
     await periode.save();
 
     res.status(201).send(periode);

@@ -16,7 +16,7 @@ interface PeriodeDoc extends mongooseDelete.SoftDeleteDocument {
   status: PeriodeStatus;
 }
 
-interface PeriodeModel extends mongoose.Model<PeriodeDoc> {
+interface PeriodeModel extends mongooseDelete.SoftDeleteModel<PeriodeDoc> {
   build(attrs: PeriodeAttrs): PeriodeDoc;
 }
 
@@ -68,4 +68,4 @@ const Periode = mongoose.model<PeriodeDoc, PeriodeModel>(
   periodeSchema
 );
 
-export { Periode };
+export { Periode, PeriodeDoc };
