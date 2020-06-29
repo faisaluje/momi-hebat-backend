@@ -2,6 +2,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../app';
+import { Periode } from '../periode/models/periode';
+import { PeriodeStatus } from '../periode/enums/periode-status';
 
 declare global {
   namespace NodeJS {
@@ -36,6 +38,14 @@ afterAll(async () => {
 });
 
 global.signin = async () => {
+  const periode = new Periode({
+    nama: `2019-2020`,
+    tglMulai: '2019-01-01',
+    tglBerakhir: '2020-01-01',
+    status: PeriodeStatus.AKTIF,
+  });
+  await periode.save();
+
   const response = await request(app).post('/api/users/signup').send({
     username: 'admin',
     password: 'ainkpisan',

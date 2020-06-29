@@ -27,12 +27,12 @@ it('responds with list of users', async () => {
     .send()
     .expect(200);
 
-  for (const pengguna of response.body) {
-    expect(pengguna.tglMulai).toBeDefined();
-    expect(pengguna.id).toBeDefined();
+  for (const periode of response.body) {
+    expect(periode.tglMulai).toBeDefined();
+    expect(periode.id).toBeDefined();
   }
 
-  expect(response.body.length).toEqual(10);
+  expect(response.body.length).toEqual(11);
 });
 
 it('responds 401 if not authenticated', async () => {

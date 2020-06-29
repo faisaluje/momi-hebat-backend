@@ -1,4 +1,5 @@
 import { PenggunaPeran } from '../../pengguna/enums/pengguna-peran';
+import mongoose from 'mongoose';
 
 export interface JwtPayload {
   id: string;
@@ -6,4 +7,5 @@ export interface JwtPayload {
   nama: string;
   noHp: string;
   peran: PenggunaPeran;
+  periode: mongoose.Types.ObjectId;
 }

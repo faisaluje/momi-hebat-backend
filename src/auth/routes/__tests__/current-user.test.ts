@@ -14,6 +14,7 @@ it('responds with details about the current user', async () => {
   expect(response.body.currentUser.username).toEqual('admin');
   expect(response.body.currentUser.peran).toEqual(PenggunaPeran.OPERATOR);
   expect(response.body.currentUser.password).toBeUndefined();
+  expect(response.body.periode).toBeDefined();
 });
 
 it('responds with null if not authenticated', async () => {

@@ -9,6 +9,7 @@ import { BadRequestError } from '../../common/errors/bad-request-error';
 import { JWT_KEY, URL_AUTH } from '../../contants';
 import { JwtPayload } from '../dto/jwt-payload';
 import { PenggunaStatus } from '../../pengguna/enums/pengguna-status';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
 
 const router = express.Router();
 
@@ -44,12 +45,14 @@ router.post(
       throw new BadRequestError('Invalid credentials');
     }
 
+    const periodeAktif = await PeriodeAktif.getPeriodeAktif();
     const jwtPayload: JwtPayload = {
       id: userExisting.id,
       username: userExisting.username,
       nama: userExisting.nama,
       noHp: userExisting.noHp,
       peran: userExisting.peran,
+      periode: periodeAktif?.id,
     };
 
     // Generate JWT
@@ -60,7 +63,7 @@ router.post(
       jwt: userJwt,
     };
 
-    res.status(200).send(userExisting);
+    res.status(200).send(jwtPayload);
   }
 );
 

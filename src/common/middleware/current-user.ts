@@ -2,16 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { JWT_KEY } from '../../contants';
 import { Pengguna } from '../../pengguna/models/pengguna';
-
-interface UserPayload {
-  id: string;
-  username: string;
-}
+import { JwtPayload } from '../../auth/dto/jwt-payload';
 
 declare global {
   namespace Express {
     interface Request {
-      currentUser?: UserPayload;
+      currentUser?: JwtPayload;
     }
   }
 }
@@ -29,7 +25,7 @@ export const currentUser = async (
     const payload = jwt.verify(
       req.session.jwt,
       process.env.JWT_KEY || JWT_KEY
-    ) as UserPayload;
+    ) as JwtPayload;
 
     const user = await Pengguna.findOne({ username: payload.username });
     if (!user) {

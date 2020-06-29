@@ -6,6 +6,7 @@ import { validateRequest } from '../../common/middleware/validate-request';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 import { JWT_KEY, URL_AUTH } from '../../contants';
 import { JwtPayload } from '../dto/jwt-payload';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
 
 const router = express.Router();
 
@@ -37,12 +38,15 @@ router.post(
     const pengguna = Pengguna.build(req.body);
     await pengguna.save();
 
+    const periodeAktif = await PeriodeAktif.getPeriodeAktif();
+
     const jwtPayload: JwtPayload = {
       id: pengguna.id,
       username: pengguna.username,
       nama: pengguna.nama,
       noHp: pengguna.noHp,
       peran: pengguna.peran,
+      periode: periodeAktif?.id,
     };
 
     // Generate JWT

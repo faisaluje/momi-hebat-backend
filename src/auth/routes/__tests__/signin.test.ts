@@ -69,6 +69,7 @@ it('responds with a jwt payload  when login success', async () => {
   expect(response.body.username).toEqual('admin');
   expect(response.body.peran).toEqual(PenggunaPeran.OPERATOR);
   expect(response.body.password).toBeUndefined();
+  expect(response.body.periode).toBeDefined();
 });
 
 it('Failed login if the user is tidak_aktif', async () => {
