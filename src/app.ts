@@ -15,6 +15,7 @@ import { currentUser } from './common/middleware/current-user';
 import { newPenggunaRouter } from './pengguna/routes/new';
 import { updatePenggunaRouter } from './pengguna/routes/update';
 import { changePenggunaPasswordRouter } from './pengguna/routes/change-password';
+import { newPeriodeRouter } from './periode/routes/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -46,6 +47,9 @@ app.use(indexPenggunaRouter);
 app.use(newPenggunaRouter);
 app.use(updatePenggunaRouter);
 app.use(changePenggunaPasswordRouter);
+
+// Periode Module
+app.use(newPeriodeRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();

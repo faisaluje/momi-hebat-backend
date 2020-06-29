@@ -32,7 +32,6 @@ router.post(
     const { username } = req.body;
 
     const existingUser = await Pengguna.findOne({ username });
-
     if (existingUser) {
       throw new BadRequestError('Username sudah terdaftar!');
     }
