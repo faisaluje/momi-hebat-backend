@@ -9,7 +9,7 @@ interface PeriodeAttrs {
   status: PeriodeStatus;
 }
 
-interface PeriodeDoc extends mongoose.Document {
+interface PeriodeDoc extends mongooseDelete.SoftDeleteDocument {
   nama: string;
   tglMulai: Date;
   tglBerakhir: Date;
