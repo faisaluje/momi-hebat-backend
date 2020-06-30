@@ -2,11 +2,18 @@ import mongoose from 'mongoose';
 import { PeriodeStatus } from '../enums/periode-status';
 import mongooseDelete from 'mongoose-delete';
 
+interface ReferensiDoc {
+  judul: string;
+  alamat: string;
+  noHp: string;
+}
+
 interface PeriodeAttrs {
   nama: string;
   tglMulai: Date;
   tglBerakhir: Date;
   status: PeriodeStatus;
+  referensi: ReferensiDoc;
 }
 
 interface PeriodeDoc extends mongooseDelete.SoftDeleteDocument {
@@ -14,6 +21,7 @@ interface PeriodeDoc extends mongooseDelete.SoftDeleteDocument {
   tglMulai: Date;
   tglBerakhir: Date;
   status: PeriodeStatus;
+  referensi: ReferensiDoc;
 }
 
 interface PeriodeModel extends mongooseDelete.SoftDeleteModel<PeriodeDoc> {
@@ -39,6 +47,21 @@ const periodeSchema = new mongoose.Schema(
       required: true,
       enum: Object.values(PeriodeStatus),
       default: PeriodeStatus.TIDAK_AKTIF,
+    },
+    referensi: {
+      judul: {
+        type: String,
+        required: true,
+        default: 'Paket Momi Hebat',
+      },
+      alamat: {
+        type: String,
+        default: 'Komplek Bojong Malaka Indah G5 No. 25 Bandung ',
+      },
+      noHp: {
+        type: String,
+        default: '085720977414',
+      },
     },
   },
   {
