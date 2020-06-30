@@ -54,7 +54,9 @@ karyawanSchema.plugin(mongooseDelete, {
 
 karyawanSchema.pre('save', async function (next) {
   const karyawanCount = await Karyawan.countDocuments();
-  this.set('no', karyawanCount + 1);
+  if (!this.get('no')) {
+    this.set('no', karyawanCount + 1);
+  }
 
   next();
 });

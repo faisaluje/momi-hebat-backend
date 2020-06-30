@@ -20,6 +20,9 @@ import { indexPeriodeRouter } from './periode/routes';
 import { deletePeriodeRouter } from './periode/routes/delete';
 import { updatePeriodeRouter } from './periode/routes/update';
 import { newKaryawanRouter } from './karyawan/routes/new';
+import { indexKaryawanRouter } from './karyawan/routes';
+import { updateKaryawanRouter } from './karyawan/routes/update';
+import { deleteKaryawanRouter } from './karyawan/routes/delete';
 
 const app = express();
 app.set('trust proxy', true);
@@ -60,6 +63,9 @@ app.use(updatePeriodeRouter);
 
 // Karyawan Module
 app.use(newKaryawanRouter);
+app.use(indexKaryawanRouter);
+app.use(updateKaryawanRouter);
+app.use(deleteKaryawanRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
