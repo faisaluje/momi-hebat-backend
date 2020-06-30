@@ -33,8 +33,6 @@ router.patch(
     if (!periode) throw new NotFoundError();
 
     periode.set({ ...req.body });
-    periode.status = await PeriodeAktif.getPeriodeStatus(req.body);
-
     try {
       await periode.save();
       res.status(200).send(periode);

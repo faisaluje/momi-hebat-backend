@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { PeriodeDoc, Periode } from '../models/periode';
 import { PeriodeStatus } from '../enums/periode-status';
 
@@ -8,12 +9,17 @@ export class PeriodeAktif {
     return periodeAktif;
   }
 
-  static async getPeriodeStatus(periode: PeriodeDoc): Promise<PeriodeStatus> {
-    const periodeAktif = await Periode.findOne({ status: PeriodeStatus.AKTIF });
-    if (!periodeAktif) {
-      return periode.status;
+  static async setPeriodeAktif(id: string): Promise<PeriodeStatus> {
+    const periodeAktif = await Periode.findOne({
+      _id: { $ne: mongoose.Types.ObjectId(id) },
+      status: PeriodeStatus.AKTIF,
+    });
+
+    if (periodeAktif) {
+      periodeAktif.status = PeriodeStatus.TIDAK_AKTIF;
+      await periodeAktif.save();
     }
 
-    return PeriodeStatus.TIDAK_AKTIF;
+    return PeriodeStatus.AKTIF;
   }
 }

@@ -28,7 +28,6 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const periode = Periode.build(req.body);
-    periode.status = await PeriodeAktif.getPeriodeStatus(req.body);
     await periode.save();
 
     res.status(201).send(periode);

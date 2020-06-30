@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { PeriodeStatus } from '../enums/periode-status';
 import mongooseDelete from 'mongoose-delete';
+import { PeriodeAktif } from '../services/periode-aktif';
 
 interface ReferensiDoc {
   judul: string;
@@ -56,7 +57,7 @@ const periodeSchema = new mongoose.Schema(
       },
       alamat: {
         type: String,
-        default: 'Komplek Bojong Malaka Indah G5 No. 25 Bandung ',
+        default: 'Komplek Bojong Malaka Indah G5 No. 25 Bandung',
       },
       noHp: {
         type: String,
@@ -80,6 +81,14 @@ periodeSchema.plugin(mongooseDelete, {
   deletedAt: true,
   deletedBy: true,
   overrideMethods: true,
+});
+
+periodeSchema.pre('save', async function (next) {
+  if (this.get('status') === PeriodeStatus.AKTIF) {
+    const status = await PeriodeAktif.setPeriodeAktif(this.get('_id'));
+    this.set({ status });
+  }
+  next();
 });
 
 periodeSchema.statics.build = (attrs: PeriodeAttrs) => {
