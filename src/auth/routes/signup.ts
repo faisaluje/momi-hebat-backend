@@ -46,7 +46,7 @@ router.post(
       nama: pengguna.nama,
       noHp: pengguna.noHp,
       peran: pengguna.peran,
-      periode: periodeAktif?.id,
+      periode: periodeAktif,
     };
 
     // Generate JWT

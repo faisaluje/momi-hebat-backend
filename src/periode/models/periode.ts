@@ -85,8 +85,7 @@ periodeSchema.plugin(mongooseDelete, {
 
 periodeSchema.pre('save', async function (next) {
   if (this.get('status') === PeriodeStatus.AKTIF) {
-    const status = await PeriodeAktif.setPeriodeAktif(this.get('_id'));
-    this.set({ status });
+    await PeriodeAktif.setPeriodeAktif(this.get('_id'));
   }
   next();
 });

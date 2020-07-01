@@ -9,7 +9,7 @@ export class PeriodeAktif {
     return periodeAktif;
   }
 
-  static async setPeriodeAktif(id: string): Promise<PeriodeStatus> {
+  static async setPeriodeAktif(id: string): Promise<void> {
     const periodeAktif = await Periode.findOne({
       _id: { $ne: mongoose.Types.ObjectId(id) },
       status: PeriodeStatus.AKTIF,
@@ -19,7 +19,5 @@ export class PeriodeAktif {
       periodeAktif.status = PeriodeStatus.TIDAK_AKTIF;
       await periodeAktif.save();
     }
-
-    return PeriodeStatus.AKTIF;
   }
 }

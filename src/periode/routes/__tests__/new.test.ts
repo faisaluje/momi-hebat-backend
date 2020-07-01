@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../../app';
 import { PeriodeStatus } from '../../enums/periode-status';
+import { Periode } from '../../models/periode';
 
 it('returns a 401 if not authenticated', () => {
   return request(app)
@@ -120,10 +121,10 @@ it('returns a 201 if given valid body', async () => {
     .expect(201);
 });
 
-it('status should tidak_aktif when a periode status aktif exist', async () => {
+it('current periode aktif should be tidak_aktif if periode aktif created', async () => {
   const cookie = await global.signin();
 
-  await request(app)
+  const periode = await request(app)
     .post('/api/periode')
     .set('Cookie', cookie)
     .send({
@@ -134,7 +135,7 @@ it('status should tidak_aktif when a periode status aktif exist', async () => {
     })
     .expect(201);
 
-  const periodeNonAktif = await request(app)
+  const periodeAktif = await request(app)
     .post('/api/periode')
     .set('Cookie', cookie)
     .send({
@@ -145,5 +146,8 @@ it('status should tidak_aktif when a periode status aktif exist', async () => {
     })
     .expect(201);
 
-  expect(periodeNonAktif.body.status).toEqual(PeriodeStatus.TIDAK_AKTIF);
+  const periodeExist = await Periode.findById(periode.body.id);
+
+  expect(periodeExist?.status).toEqual(PeriodeStatus.TIDAK_AKTIF);
+  expect(periodeAktif.body.status).toEqual(PeriodeStatus.AKTIF);
 });

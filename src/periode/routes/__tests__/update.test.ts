@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../../app';
 import mongoose from 'mongoose';
 import { PeriodeStatus } from '../../enums/periode-status';
+import { Periode } from '../../models/periode';
 
 const createNewPeriode = async (cookie: string[], prefix: number = 1) => {
   const result = await request(app)
@@ -145,13 +146,23 @@ it('returns a 201 if given valid body', async () => {
     .expect(200);
 });
 
-it('status should tidak_aktif when a periode status aktif exist', async () => {
+it('status current periode aktif should be tidak_aktif if periode aktif created', async () => {
   const cookie = await global.signin();
 
   const periode = await createNewPeriode(cookie);
 
-  const periodeNonAktif = await request(app)
-    .patch(`/api/periode/${periode.id}`)
+  const newPeriode = await request(app)
+    .post(`/api/periode`)
+    .set('Cookie', cookie)
+    .send({
+      nama: '2019-2020',
+      tglMulai: '2019-01-01',
+      tglBerakhir: '2020-01-01',
+    })
+    .expect(201);
+
+  const periodeAktif = await request(app)
+    .patch(`/api/periode/${newPeriode.body.id}`)
     .set('Cookie', cookie)
     .send({
       nama: '2019-2020',
@@ -161,5 +172,8 @@ it('status should tidak_aktif when a periode status aktif exist', async () => {
     })
     .expect(200);
 
-  expect(periodeNonAktif.body.status).toEqual(PeriodeStatus.TIDAK_AKTIF);
+  const periodeExist = await Periode.findById(periode.id);
+
+  expect(periodeExist?.status).toEqual(PeriodeStatus.TIDAK_AKTIF);
+  expect(periodeAktif.body.status).toEqual(PeriodeStatus.AKTIF);
 });

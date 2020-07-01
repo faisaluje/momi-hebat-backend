@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { JWT_KEY } from '../../contants';
 import { Pengguna } from '../../pengguna/models/pengguna';
 import { JwtPayload } from '../../auth/dto/jwt-payload';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
 
 declare global {
   namespace Express {
@@ -31,8 +32,12 @@ export const currentUser = async (
     if (!user) {
       return next();
     }
+    const periode = await PeriodeAktif.getPeriodeAktif();
 
-    req.currentUser = payload;
+    req.currentUser = {
+      ...payload,
+      periode,
+    };
   } catch (err) {}
 
   next();
