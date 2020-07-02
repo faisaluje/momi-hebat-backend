@@ -43,6 +43,8 @@ app.use(
   })
 );
 
+app.use(express.static('public'));
+
 // check user login before act all
 app.use(currentUser);
 
