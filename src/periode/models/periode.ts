@@ -36,11 +36,11 @@ const periodeSchema = new mongoose.Schema(
       required: true,
     },
     tglMulai: {
-      type: Date,
+      type: mongoose.Schema.Types.Date,
       required: true,
     },
     tglBerakhir: {
-      type: Date,
+      type: mongoose.Schema.Types.Date,
       required: true,
     },
     status: {
@@ -57,11 +57,9 @@ const periodeSchema = new mongoose.Schema(
       },
       alamat: {
         type: String,
-        default: 'Komplek Bojong Malaka Indah G5 No. 25 Bandung',
       },
       noHp: {
         type: String,
-        default: '085720977414',
       },
     },
   },

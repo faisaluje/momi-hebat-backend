@@ -9,3 +9,5 @@ export const URL_PENGGUNA = `${URL_API}/pengguna`;
 export const URL_PERIODE = `${URL_API}/periode`;
 export const URL_REFERENSI = `${URL_API}/referensi`;
 export const URL_KARYAWAN = `${URL_API}/karyawan`;
+export const URL_AGEN = `${URL_API}/agen`;
+export const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];

@@ -23,6 +23,9 @@ import { newKaryawanRouter } from './karyawan/routes/new';
 import { indexKaryawanRouter } from './karyawan/routes';
 import { updateKaryawanRouter } from './karyawan/routes/update';
 import { deleteKaryawanRouter } from './karyawan/routes/delete';
+import { newAgenRouter } from './agen/routes/new';
+import { indexAgenRouter } from './agen/routes';
+import { updateAgenRouter } from './agen/routes/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -66,6 +69,11 @@ app.use(newKaryawanRouter);
 app.use(indexKaryawanRouter);
 app.use(updateKaryawanRouter);
 app.use(deleteKaryawanRouter);
+
+// Agen Modul
+app.use(newAgenRouter);
+app.use(indexAgenRouter);
+app.use(updateAgenRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
