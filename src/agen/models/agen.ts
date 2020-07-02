@@ -8,13 +8,13 @@ interface BiodataDoc {
     jalan?: string | null;
     rt?: string | null;
     rw?: string | null;
-    keluraham?: string | null;
+    kelurahan?: string | null;
     kecamatan?: string | null;
     kabKota?: string | null;
   };
   lahir: {
     tempat?: string | null;
-    tgl: Date | null;
+    tanggal: Date | null;
   };
   pekerjaan?: string | null;
   noTlp?: string | null;
@@ -47,13 +47,13 @@ const biodataSchema = new mongoose.Schema(
       jalan: String,
       rt: String,
       rw: String,
-      keluraham: String,
-      kecamata: String,
+      kelurahan: String,
+      kecamatan: String,
       kabKota: String,
     },
     lahir: {
       tempat: String,
-      tgl: mongoose.Schema.Types.Date,
+      tanggal: mongoose.Schema.Types.Date,
     },
     pekerjaan: String,
     noTlp: String,
@@ -115,7 +115,7 @@ agenSchema.pre('save', async function (next) {
     if (!topAgen) {
       this.set('level', 1);
     } else {
-      this.set('leve', topAgen.level + 1);
+      this.set('level', topAgen.level + 1);
     }
   }
   next();

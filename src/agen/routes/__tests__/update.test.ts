@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../../app';
 import { AgenAttrs } from '../../models/agen';
 import mongoose from 'mongoose';
+import { AgenStatus } from '../../enums/agen-status';
 
 const agen: AgenAttrs = {
   diri: {
@@ -10,13 +11,13 @@ const agen: AgenAttrs = {
       jalan: 'Blok C8 No. 3',
       rt: null,
       rw: null,
-      keluraham: null,
+      kelurahan: null,
       kecamatan: null,
       kabKota: null,
     },
     lahir: {
       tempat: 'Bandung',
-      tgl: new Date('1993-07-22'),
+      tanggal: new Date('1993-07-22'),
     },
     pekerjaan: 'Swasta',
     noTlp: null,
@@ -27,13 +28,13 @@ const agen: AgenAttrs = {
       jalan: 'Blok C8 No. 3',
       rt: null,
       rw: null,
-      keluraham: null,
+      kelurahan: null,
       kecamatan: null,
       kabKota: null,
     },
     lahir: {
       tempat: 'Surga',
-      tgl: new Date('1980-01-20'),
+      tanggal: new Date('1980-01-20'),
     },
     pekerjaan: 'Pensiun',
     noTlp: null,
@@ -82,7 +83,7 @@ it('return a 200 if agen is updated', async () => {
     .patch(`/api/agen/${newAgen.body.id}`)
     .set('Cookie', cookie)
     .send({
-      no: '123',
+      status: AgenStatus.TIDAK_AKTIF,
     })
     .expect(200);
 });

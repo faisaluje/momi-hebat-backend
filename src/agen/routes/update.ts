@@ -3,7 +3,7 @@ import { URL_AGEN } from '../../contants';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { NotFoundError } from '../../common/errors/not-foud-error';
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { Agen } from '../models/agen';
+import { Agen, AgenDoc } from '../models/agen';
 import { NoAgen } from '../services/no-agen';
 
 const router = express.Router();
@@ -12,16 +12,27 @@ router.patch(
   `${URL_AGEN}/:agenId`,
   requireAuth,
   async (req: Request, res: Response) => {
+    const body: AgenDoc = req.body;
     const agen = await Agen.findById(req.params.agenId);
     if (!agen) throw new NotFoundError();
-    if (agen.topAgen && agen.topAgen._id !== req.body.topAgen?._id) {
-      const no = await NoAgen.generateNoAgen(agen.topAgen);
-      agen.no = no;
+
+    if (body.topAgen && body.topAgen.id !== agen.topAgen?._id) {
+      const topAgen = await Agen.findById(body.topAgen.id);
+      if (!topAgen) throw new BadRequestError('Agen referal tidak ditemukan');
+
+      const no = await NoAgen.generateNoAgen(topAgen);
+      body.no = no;
+      body.topAgen = topAgen;
     }
-    agen.set({ ...req.body });
+
+    if (!body.topAgen && agen.topAgen) {
+      agen.topAgen = null;
+    }
 
     try {
+      agen.set({ ...body });
       await agen.save();
+
       res.status(200).send(agen);
     } catch (e) {
       console.error(e);
