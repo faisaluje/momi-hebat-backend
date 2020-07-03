@@ -3,7 +3,7 @@ import { URL_BARANG } from '../../contants';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { body } from 'express-validator';
 import { validateRequest } from '../../common/middleware/validate-request';
-import { Barang } from '../model/barang';
+import { Barang } from '../models/barang';
 
 const router = express.Router();
 

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../../../app';
 import mongoose from 'mongoose';
-import { Barang } from '../../model/barang';
+import { Barang } from '../../models/barang';
 
 const createNewBarang = async (cookie: string[]) => {
   const barang = await request(app)

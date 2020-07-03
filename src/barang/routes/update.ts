@@ -5,7 +5,7 @@ import { body } from 'express-validator';
 import { validateRequest } from '../../common/middleware/validate-request';
 import { NotFoundError } from '../../common/errors/not-foud-error';
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { Barang } from '../model/barang';
+import { Barang } from '../models/barang';
 
 const router = express.Router();
 

@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { URL_BARANG } from '../../contants';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { NotFoundError } from '../../common/errors/not-foud-error';
-import { Barang } from '../model/barang';
+import { Barang } from '../models/barang';
 
 const router = express.Router();
 
