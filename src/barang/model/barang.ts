@@ -41,7 +41,7 @@ barangSchema.plugin(mongooseDelete, {
   overrideMethods: true,
 });
 
-barangSchema.statics.buil = (attrs: BarangAttrs) => {
+barangSchema.statics.build = (attrs: BarangAttrs) => {
   return new Barang(attrs);
 };
 

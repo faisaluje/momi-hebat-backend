@@ -10,4 +10,4 @@ router.get(URL_BARANG, requireAuth, async (_req: Request, res: Response) => {
   res.send(barangList);
 });
 
-export { router as indexAgeRouter };
+export { router as indexBarangRouter };

@@ -66,7 +66,7 @@ it('returns a 400 if field no is not empty', async () => {
     .expect(400);
 });
 
-it('returns a 201 if given valid body', async () => {
+it('returns a 200 if given valid body', async () => {
   const cookie = await global.signin();
 
   const karyawan = await createNewKaryawan(cookie);

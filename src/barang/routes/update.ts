@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { URL_KARYAWAN, URL_BARANG } from '../../contants';
+import { URL_BARANG } from '../../contants';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { body } from 'express-validator';
 import { validateRequest } from '../../common/middleware/validate-request';
@@ -12,7 +12,7 @@ const router = express.Router();
 router.patch(
   `${URL_BARANG}/:barangId`,
   requireAuth,
-  [body('nama').notEmpty().withMessage('Nama paket tidak boleh kosong')],
+  [body('nama').notEmpty().withMessage('Nama barang tidak boleh kosong')],
   validateRequest,
   async (req: Request, res: Response) => {
     const barang = await Barang.findById(req.params.barangId);
