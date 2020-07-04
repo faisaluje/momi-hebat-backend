@@ -6,7 +6,7 @@ import { validateRequest } from '../../common/middleware/validate-request';
 import { Paket, PaketAttrs } from '../models/paket';
 import { Periode } from '../../periode/models/periode';
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { BarangDoc, Barang } from '../../barang/models/barang';
+import { BarangDoc } from '../../barang/models/barang';
 import { ListBarang } from '../services/list-barang';
 
 const router = express.Router();
@@ -19,7 +19,10 @@ router.post(
   async (req: Request, res: Response) => {
     const body: PaketAttrs = req.body;
     let listBarang: BarangDoc[] = [];
-    const periode = await Periode.findById(body.periode.id);
+    const periode = body.periode
+      ? await Periode.findById(body.periode.id)
+      : await Periode.findById(req.currentUser!.periode?._id);
+
     if (!periode) {
       throw new BadRequestError('Periode tidak ditemkan');
     }
@@ -31,6 +34,7 @@ router.post(
     const paket = Paket.build({
       ...body,
       barangs: listBarang,
+      periode,
     });
     await paket.save();
 

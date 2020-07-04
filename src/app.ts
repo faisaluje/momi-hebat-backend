@@ -30,6 +30,10 @@ import { newBarangRouter } from './barang/routes/new';
 import { indexBarangRouter } from './barang/routes';
 import { updateBarangRouter } from './barang/routes/update';
 import { deleteBarangRouter } from './barang/routes/delete';
+import { newPaketRouter } from './paket/routes/new';
+import { indexPaketRouter } from './paket/routes';
+import { updatePaketRouter } from './paket/routes/update';
+import { deletePaketRouter } from './paket/routes/delete';
 
 const app = express();
 app.set('trust proxy', true);
@@ -86,6 +90,12 @@ app.use(newBarangRouter);
 app.use(indexBarangRouter);
 app.use(updateBarangRouter);
 app.use(deleteBarangRouter);
+
+// Paket Modul
+app.use(newPaketRouter);
+app.use(indexPaketRouter);
+app.use(updatePaketRouter);
+app.use(deletePaketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
