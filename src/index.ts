@@ -7,12 +7,15 @@ const start = async () => {
     throw new Error('JWT_KEY undefined');
   }
 
-  if (!MONGO_URI) {
+  if (!process.env.MONGO_URI && !MONGO_URI) {
     throw new Error('MONGO_URI undefined');
   }
 
   try {
-    await mongoose.connect(MONGO_URI, {
+    console.log(process.env.MONGO_URI);
+
+    const mongoUri = process.env.MONGO_URI || MONGO_URI;
+    await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

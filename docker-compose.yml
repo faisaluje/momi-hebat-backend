@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  momi-hebat:
+    image: faisaluje/momi-hebat
+    ports:
+      - 8031:3001
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://root:ainkpisan@mongo:27017/momi-hebat?authSource=admin
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - db-data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ainkpisan
+
+volumes:
+  db-data:

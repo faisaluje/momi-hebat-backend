@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-import Transaction from 'mongoose-transactions-typescript';
 import { BarangDoc, Barang } from '../../barang/models/barang';
 import { BadRequestError } from '../../common/errors/bad-request-error';
 
@@ -8,8 +6,8 @@ class ListBarang {
     listBarangSelected: BarangDoc[]
   ): Promise<BarangDoc[]> {
     const listBarang = await Barang.find({});
-    const newListBarangSelected: BarangDoc[] = [];
-    const transaction = new Transaction(true);
+    const newListBarang: BarangDoc[] = [];
+    let newListBarangSelected: BarangDoc[] = [];
 
     try {
       for (const barang of listBarangSelected) {
@@ -18,9 +16,7 @@ class ListBarang {
             throw new BadRequestError('Nama barang tidak boleh kosong');
           }
 
-          transaction.insert('Barang', barang);
-          const newBarang = await transaction.run();
-          newListBarangSelected.push(newBarang[0]);
+          newListBarang.push(barang);
         } else {
           const barangExist = listBarang.find((val) => val._id === barang.id);
           if (!barangExist) {
@@ -30,10 +26,13 @@ class ListBarang {
         }
       }
 
+      if (newListBarang.length > 0) {
+        const newBarangs = await Barang.insertMany(newListBarang);
+        newListBarangSelected = [...newListBarangSelected, ...newBarangs];
+      }
+
       return newListBarangSelected;
     } catch (e) {
-      await transaction.rollback();
-      transaction.clean();
       throw e;
     }
   }

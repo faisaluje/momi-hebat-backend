@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev --poll src/index.ts",
-    "test": "jest --watchAll --no-cache"
+    "test": "jest --watchAll --no-cache",
+    "start:prod": "nodemon dist/index.js"
   },
   "jest": {
     "preset": "ts-jest",
@@ -31,7 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
     "mongoose-delete": "^0.5.2",
-    "mongoose-transactions-typescript": "^1.1.4",
+    "nodemon": "^2.0.4",
     "ts-node-dev": "^1.0.0-pre.49"
   },
   "devDependencies": {
@@ -51,6 +52,6 @@
     "prettier": "2.0.5",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.1",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   }
 }
