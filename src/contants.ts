@@ -13,3 +13,5 @@ export const URL_KARYAWAN = `${URL_API}/karyawan`;
 export const URL_AGEN = `${URL_API}/agen`;
 export const URL_BARANG = `${URL_API}/barang`;
 export const URL_PAKET = `${URL_API}/paket`;
+export const URL_TRANSAKSI_BARANG = `${URL_API}/transaksi-barang`;
+export const URL_TRANSAKSI_SALDO = `${URL_API}/transaksi-saldo`;
