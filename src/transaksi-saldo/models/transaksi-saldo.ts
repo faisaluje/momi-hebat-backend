@@ -14,6 +14,7 @@ interface TransaksiSaldoAttrs {
   via?: TransaksiVia;
   atasNama?: string;
   kategori: TransaksiKategori;
+  nominal: number;
   periode: PeriodeDoc;
 }
 
@@ -26,6 +27,7 @@ interface TransaksiSaldoDoc extends mongooseDelete.SoftDeleteDocument {
   via?: TransaksiVia;
   atasNama?: string;
   kategori: TransaksiKategori;
+  nominal: number;
   periode: PeriodeDoc;
 }
 
@@ -62,6 +64,11 @@ const transaksiSaldoSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: Object.values(TransaksiKategori),
+    },
+    nominal: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     periode: {
       type: mongoose.Schema.Types.ObjectId,

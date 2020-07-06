@@ -34,10 +34,12 @@ interface AgenDoc extends mongooseDelete.SoftDeleteDocument {
   topAgen: AgenDoc | null;
   level: number;
   status: AgenStatus;
+  subAgens: AgenDoc[];
 }
 
 interface AgenModel extends mongooseDelete.SoftDeleteModel<AgenDoc> {
   build(attrs: AgenAttrs): AgenDoc;
+  findByAktif(): Promise<AgenDoc[]>;
 }
 
 const biodataSchema = new mongoose.Schema(
@@ -91,7 +93,11 @@ const agenSchema = new mongoose.Schema(
         ret.id = ret._id;
         delete ret._id;
       },
+      virtuals: true,
       versionKey: false,
+    },
+    toObject: {
+      virtuals: true,
     },
   }
 );
@@ -124,6 +130,16 @@ agenSchema.pre('save', async function (next) {
 agenSchema.statics.build = (attrs: AgenAttrs) => {
   return new Agen(attrs);
 };
+
+agenSchema.statics.findByAktif = () => {
+  return Agen.find({ status: AgenStatus.AKTIF });
+};
+
+agenSchema.virtual('subAgens', {
+  ref: 'Agen', // The model to use
+  localField: '_id', // Find people where `localField`
+  foreignField: 'topAgen', // is equal to `foreignField`
+});
 
 const Agen = mongoose.model<AgenDoc, AgenModel>('Agen', agenSchema);
 

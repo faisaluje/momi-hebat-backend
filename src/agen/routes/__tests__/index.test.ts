@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../../app';
-import { AgenAttrs } from '../../models/agen';
+import { AgenAttrs, AgenDoc, Agen } from '../../models/agen';
 
 const agen: AgenAttrs = {
   diri: {
@@ -39,13 +39,14 @@ const agen: AgenAttrs = {
   },
 };
 
-const createNewAgen = (no: string, cookie: string[]) => {
+const createNewAgen = (no: string, cookie: string[], topAgen?: AgenDoc) => {
   return request(app)
     .post('/api/agen')
     .set('Cookie', cookie)
     .send({
       ...agen,
       no,
+      topAgen,
     });
 };
 
@@ -80,4 +81,14 @@ it('responds with list of agens', async () => {
     expect(newAgen.diri.nama.lengkap).toBeDefined();
     expect(newAgen.no).toEqual(`${no}`);
   }
+});
+
+it('responds agen with sub agen', async () => {
+  const cookie = await global.signin();
+  const topAgen = await createNewAgen('212', cookie);
+  await createNewAgen('', cookie, topAgen.body);
+  await createNewAgen('', cookie, topAgen.body);
+
+  const agens = await Agen.findById(topAgen.body.id).populate('subAgens');
+  expect(agens?.subAgens.length).toEqual(2);
 });

@@ -12,8 +12,6 @@ const start = async () => {
   }
 
   try {
-    console.log(process.env.MONGO_URI);
-
     const mongoUri = process.env.MONGO_URI || MONGO_URI;
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,

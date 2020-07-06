@@ -3,7 +3,7 @@ import { ALPHABET } from '../../contants';
 
 export class NoAgen {
   static async generateNoAgen(topAgen: AgenDoc): Promise<string> {
-    const subAgenCount = 0;
+    const subAgenCount = await Agen.countDocuments({ topAgen });
     const no = `${topAgen.no}${ALPHABET[subAgenCount]}`;
 
     return no;

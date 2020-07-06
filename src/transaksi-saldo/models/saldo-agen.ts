@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import mongooseDelete from 'mongoose-delete';
-import { BarangDoc } from '../../barang/models/barang';
 import { PeriodeDoc } from '../../periode/models/periode';
 import { Paket } from '../../paket/models/paket';
 import { AgenDoc } from '../../agen/models/agen';
