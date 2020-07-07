@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import mongooseDelete from 'mongoose-delete';
 import { PeriodeDoc } from '../../periode/models/periode';
-import { Paket } from '../../paket/models/paket';
 import { AgenDoc } from '../../agen/models/agen';
 
 interface SaldoAgenAttrs {
@@ -33,7 +32,7 @@ const saldoAgenSchema = new mongoose.Schema({
     ref: 'Periode',
     required: true,
   },
-  stok: [
+  saldo: [
     {
       agen: {
         type: mongoose.Schema.Types.ObjectId,
@@ -55,7 +54,7 @@ const saldoAgenSchema = new mongoose.Schema({
   ],
 });
 
-saldoAgenSchema.statics.build = (attrs: SaldoAgenAttrs) => new Paket(attrs);
+saldoAgenSchema.statics.build = (attrs: SaldoAgenAttrs) => new SaldoAgen(attrs);
 
 const SaldoAgen = mongoose.model<SaldoAgenDoc, SaldoAgenModel>(
   'SaldoAgen',

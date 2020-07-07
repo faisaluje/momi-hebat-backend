@@ -1,5 +1,5 @@
 export const MONGO_URI =
-  'mongodb://root:root@localhost:27017/momi-hebat?authSource=admin&retryWrites=false';
+  'mongodb://localhost:27017,localhost:27018,localhost:27019/momi-hebat?replicaSet=rs';
 export const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 export const JWT_KEY = 'jwt-secret';
 export const APP_VERSION = 'v0.0.1';

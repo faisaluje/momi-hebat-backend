@@ -34,6 +34,7 @@ import { newPaketRouter } from './paket/routes/new';
 import { indexPaketRouter } from './paket/routes';
 import { updatePaketRouter } from './paket/routes/update';
 import { deletePaketRouter } from './paket/routes/delete';
+import { newTransaksiSaldoRouter } from './transaksi-saldo/routes/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -96,6 +97,9 @@ app.use(newPaketRouter);
 app.use(indexPaketRouter);
 app.use(updatePaketRouter);
 app.use(deletePaketRouter);
+
+// Transaksi Saldo Modul
+app.use(newTransaksiSaldoRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();

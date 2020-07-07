@@ -1,25 +1,56 @@
 version: '3.1'
 
 services:
-  momi-hebat:
-    image: faisaluje/momi-hebat
-    ports:
-      - 8031:3001
-    depends_on:
-      - mongo
-    environment:
-      MONGO_URI: mongodb://root:ainkpisan@mongo:27017/momi-hebat?authSource=admin
+  # momi-hebat:
+  #   image: faisaluje/momi-hebat
+  #   ports:
+  #     - 8031:3001
+  #   depends_on:
+  #     - mongo-1
+  #     - mongo-2
+  #     - mongo-3
+  #   environment:
+  #     MONGO_URI: mongodb://mongo-1:27017,mongo-2:27017,mongo-3:27017/momi-hebat?replicaSet=rs0
+  #   networks:
+  #     - mongo_replica_set
 
-  mongo:
+  mongo-1:
     image: mongo
     restart: always
     volumes:
-      - db-data:/data/db
+      - db-data-1:/data/db
     ports:
       - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ainkpisan
+    command: mongod --replSet rs0
+    networks:
+      - mongo_replica_set
+
+  mongo-2:
+    image: mongo
+    restart: always
+    volumes:
+      - db-data-2:/data/db
+    ports:
+      - 27018:27017
+    command: mongod --replSet rs0
+    networks:
+      - mongo_replica_set
+
+  mongo-3:
+    image: mongo
+    restart: always
+    volumes:
+      - db-data-3:/data/db
+    ports:
+      - 27019:27017
+    command: mongod --replSet rs0
+    networks:
+      - mongo_replica_set
 
 volumes:
-  db-data:
+  db-data-1:
+  db-data-2:
+  db-data-3:
+
+networks:
+  mongo_replica_set:

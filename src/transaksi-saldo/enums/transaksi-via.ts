@@ -1,4 +1,4 @@
 export enum TransaksiVia {
-  TUNAI = 'tunia',
+  TUNAI = 'tunai',
   TRANSFER = 'transfer',
 }
