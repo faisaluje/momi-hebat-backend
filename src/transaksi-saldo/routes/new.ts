@@ -1,16 +1,18 @@
-import express, { Request, Response } from 'express';
-import { URL_TRANSAKSI_SALDO } from '../../contants';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { TransaksiSaldoAttrs, TransaksiSaldo } from '../models/transaksi-saldo';
-import { validateRequest } from '../../common/middleware/validate-request';
-import { body } from 'express-validator';
-import { Agen } from '../../agen/models/agen';
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import mongoose from 'mongoose';
-import { BadRequestError } from '../../common/errors/bad-request-error';
-import { Periode } from '../../periode/models/periode';
-import { SaldoAgen } from '../models/saldo-agen';
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
+import express, { Request, Response } from 'express'
+import { body } from 'express-validator'
+import mongoose from 'mongoose'
+
+import { Agen } from '../../agen/models/agen'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { BadRequestError } from '../../common/errors/bad-request-error'
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { validateRequest } from '../../common/middleware/validate-request'
+import { URL_TRANSAKSI_SALDO } from '../../contants'
+import { Periode } from '../../periode/models/periode'
+import { SaldoAgen } from '../../saldo-agen/models/saldo-agen'
+import { Saldo } from '../../saldo-agen/services/saldo'
+import { TransaksiSaldo, TransaksiSaldoAttrs } from '../models/transaksi-saldo'
 
 const router = express.Router();
 
@@ -40,15 +42,8 @@ router.post(
     });
 
     try {
-      await transaksiSaldo.save();
-      let saldoAgen = await SaldoAgen.findOne({ periode: periode });
-      if (!saldoAgen) {
-        saldoAgen = SaldoAgen.build({
-          periode: periode._id,
-          saldo: [],
-        });
-        await saldoAgen.save();
-      }
+      await transaksiSaldo.save({ session });
+      const saldoAgen = await Saldo.getSaldoByPeriode(periode);
 
       const currentSaldo = saldoAgen.saldo.find(
         (saldo) => saldo.agen == agen.id
@@ -71,7 +66,7 @@ router.post(
         }
       }
 
-      await saldoAgen.save();
+      await saldoAgen.save({ session });
       await session.commitTransaction();
       session.endSession();
       res.status(201).send(transaksiSaldo);

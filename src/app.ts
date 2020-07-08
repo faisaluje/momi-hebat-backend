@@ -1,40 +1,44 @@
-import express from 'express';
-import 'express-async-errors';
-import cors from 'cors';
-import { json } from 'body-parser';
-import cookieSession from 'cookie-session';
-import { currentUserRouter } from './auth/routes/current-user';
-import { signinRouter } from './auth/routes/signin';
-import { signoutRouter } from './auth/routes/signout';
-import { signupRouter } from './auth/routes/signup';
-import { NotFoundError } from './common/errors/not-foud-error';
-import { errorHandler } from './common/middleware/error-handler';
-import { URL_FRONTEND } from './contants';
-import { indexPenggunaRouter } from './pengguna/routes';
-import { currentUser } from './common/middleware/current-user';
-import { newPenggunaRouter } from './pengguna/routes/new';
-import { updatePenggunaRouter } from './pengguna/routes/update';
-import { changePenggunaPasswordRouter } from './pengguna/routes/change-password';
-import { newPeriodeRouter } from './periode/routes/new';
-import { indexPeriodeRouter } from './periode/routes';
-import { deletePeriodeRouter } from './periode/routes/delete';
-import { updatePeriodeRouter } from './periode/routes/update';
-import { newKaryawanRouter } from './karyawan/routes/new';
-import { indexKaryawanRouter } from './karyawan/routes';
-import { updateKaryawanRouter } from './karyawan/routes/update';
-import { deleteKaryawanRouter } from './karyawan/routes/delete';
-import { newAgenRouter } from './agen/routes/new';
-import { indexAgenRouter } from './agen/routes';
-import { updateAgenRouter } from './agen/routes/update';
-import { newBarangRouter } from './barang/routes/new';
-import { indexBarangRouter } from './barang/routes';
-import { updateBarangRouter } from './barang/routes/update';
-import { deleteBarangRouter } from './barang/routes/delete';
-import { newPaketRouter } from './paket/routes/new';
-import { indexPaketRouter } from './paket/routes';
-import { updatePaketRouter } from './paket/routes/update';
-import { deletePaketRouter } from './paket/routes/delete';
-import { newTransaksiSaldoRouter } from './transaksi-saldo/routes/new';
+import 'express-async-errors'
+
+import { json } from 'body-parser'
+import cookieSession from 'cookie-session'
+import cors from 'cors'
+import express from 'express'
+
+import { indexAgenRouter } from './agen/routes'
+import { newAgenRouter } from './agen/routes/new'
+import { updateAgenRouter } from './agen/routes/update'
+import { currentUserRouter } from './auth/routes/current-user'
+import { signinRouter } from './auth/routes/signin'
+import { signoutRouter } from './auth/routes/signout'
+import { signupRouter } from './auth/routes/signup'
+import { indexBarangRouter } from './barang/routes'
+import { deleteBarangRouter } from './barang/routes/delete'
+import { newBarangRouter } from './barang/routes/new'
+import { updateBarangRouter } from './barang/routes/update'
+import { NotFoundError } from './common/errors/not-foud-error'
+import { currentUser } from './common/middleware/current-user'
+import { errorHandler } from './common/middleware/error-handler'
+import { URL_FRONTEND } from './contants'
+import { indexKaryawanRouter } from './karyawan/routes'
+import { deleteKaryawanRouter } from './karyawan/routes/delete'
+import { newKaryawanRouter } from './karyawan/routes/new'
+import { updateKaryawanRouter } from './karyawan/routes/update'
+import { indexPaketRouter } from './paket/routes'
+import { deletePaketRouter } from './paket/routes/delete'
+import { newPaketRouter } from './paket/routes/new'
+import { updatePaketRouter } from './paket/routes/update'
+import { indexPenggunaRouter } from './pengguna/routes'
+import { changePenggunaPasswordRouter } from './pengguna/routes/change-password'
+import { newPenggunaRouter } from './pengguna/routes/new'
+import { updatePenggunaRouter } from './pengguna/routes/update'
+import { indexPeriodeRouter } from './periode/routes'
+import { deletePeriodeRouter } from './periode/routes/delete'
+import { newPeriodeRouter } from './periode/routes/new'
+import { updatePeriodeRouter } from './periode/routes/update'
+import { indexTransaksiSaldoRouter } from './transaksi-saldo/routes'
+import { deleteTransaksiSaldoRouter } from './transaksi-saldo/routes/delete'
+import { newTransaksiSaldoRouter } from './transaksi-saldo/routes/new'
 
 const app = express();
 app.set('trust proxy', true);
@@ -100,6 +104,8 @@ app.use(deletePaketRouter);
 
 // Transaksi Saldo Modul
 app.use(newTransaksiSaldoRouter);
+app.use(indexTransaksiSaldoRouter);
+app.use(deleteTransaksiSaldoRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();

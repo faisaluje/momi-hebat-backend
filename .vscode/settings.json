@@ -1,0 +1,4 @@
+{
+  "typescriptHero.imports.disableImportRemovalOnOrganize": true,
+  "typescriptHero.imports.organizeOnSave": true
+}

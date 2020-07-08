@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
-import { URL_BARANG } from '../../contants';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { Barang } from '../models/barang';
+import express, { Request, Response } from 'express'
+
+import { requireAuth } from '../../common/middleware/require-auth'
+import { URL_BARANG } from '../../contants'
+import { Barang } from '../models/barang'
 
 const router = express.Router();
 

@@ -1,11 +1,12 @@
-import request from 'supertest';
-import { app } from '../../../app';
-import mongoose from 'mongoose';
-import { JenisTransaksi } from '../../../common/enums/jenis-transaksi';
-import { TransaksiVia } from '../../enums/transaksi-via';
-import { TransaksiKategori } from '../../enums/transaksi-kategori';
-import { AgenAttrs, AgenDoc } from '../../../agen/models/agen';
-import { SaldoAgen } from '../../models/saldo-agen';
+import mongoose from 'mongoose'
+import request from 'supertest'
+
+import { AgenAttrs, AgenDoc } from '../../../agen/models/agen'
+import { app } from '../../../app'
+import { JenisTransaksi } from '../../../common/enums/jenis-transaksi'
+import { SaldoAgen } from '../../../saldo-agen/models/saldo-agen'
+import { TransaksiKategori } from '../../enums/transaksi-kategori'
+import { TransaksiVia } from '../../enums/transaksi-via'
 
 const agen: AgenAttrs = {
   diri: {
@@ -75,163 +76,163 @@ it('returns a 401 if not authenticated', () => {
     .expect(401);
 });
 
-it('return a 400 if tgl field is empty', async () => {
-  const cookie = await global.signin();
+// it('return a 400 if tgl field is empty', async () => {
+//   const cookie = await global.signin();
 
-  return request(app)
-    .post('/api/transaksi-saldo')
-    .set('Cookie', cookie)
-    .send({
-      no: '000001',
-      jenis: JenisTransaksi.MASUK,
-      via: TransaksiVia.TUNAI,
-      kategori: TransaksiKategori.SETORAN,
-      nominal: 250000,
-    })
-    .expect(400);
-});
+//   return request(app)
+//     .post('/api/transaksi-saldo')
+//     .set('Cookie', cookie)
+//     .send({
+//       no: '000001',
+//       jenis: JenisTransaksi.MASUK,
+//       via: TransaksiVia.TUNAI,
+//       kategori: TransaksiKategori.SETORAN,
+//       nominal: 250000,
+//     })
+//     .expect(400);
+// });
 
-it('return a 400 if agen is not found', async () => {
-  const cookie = await global.signin();
+// it('return a 400 if agen is not found', async () => {
+//   const cookie = await global.signin();
 
-  return request(app)
-    .post('/api/transaksi-saldo')
-    .set('Cookie', cookie)
-    .send({
-      no: '000001',
-      tgl: new Date(),
-      jenis: JenisTransaksi.MASUK,
-      agen: { id: mongoose.Types.ObjectId() },
-      via: TransaksiVia.TUNAI,
-      kategori: TransaksiKategori.SETORAN,
-      nominal: 250000,
-    })
-    .expect(400);
-});
+//   return request(app)
+//     .post('/api/transaksi-saldo')
+//     .set('Cookie', cookie)
+//     .send({
+//       no: '000001',
+//       tgl: new Date(),
+//       jenis: JenisTransaksi.MASUK,
+//       agen: { id: mongoose.Types.ObjectId() },
+//       via: TransaksiVia.TUNAI,
+//       kategori: TransaksiKategori.SETORAN,
+//       nominal: 250000,
+//     })
+//     .expect(400);
+// });
 
-it('return a 400 if nominal is empty', async () => {
-  const cookie = await global.signin();
+// it('return a 400 if nominal is empty', async () => {
+//   const cookie = await global.signin();
 
-  return request(app)
-    .post('/api/transaksi-saldo')
-    .set('Cookie', cookie)
-    .send({
-      no: '000001',
-      tgl: new Date(),
-      jenis: JenisTransaksi.MASUK,
-      agen: { id: mongoose.Types.ObjectId() },
-      via: TransaksiVia.TUNAI,
-      kategori: TransaksiKategori.SETORAN,
-    })
-    .expect(400);
-});
+//   return request(app)
+//     .post('/api/transaksi-saldo')
+//     .set('Cookie', cookie)
+//     .send({
+//       no: '000001',
+//       tgl: new Date(),
+//       jenis: JenisTransaksi.MASUK,
+//       agen: { id: mongoose.Types.ObjectId() },
+//       via: TransaksiVia.TUNAI,
+//       kategori: TransaksiKategori.SETORAN,
+//     })
+//     .expect(400);
+// });
 
-it('returns a 201 when given valid body', async () => {
-  const cookie = await global.signin();
-  const agen = await createNewAgen(cookie, '212');
+// it('returns a 201 when given valid body', async () => {
+//   const cookie = await global.signin();
+//   const agen = await createNewAgen(cookie, '212');
 
-  const transaksiSaldo = await request(app)
-    .post('/api/transaksi-saldo')
-    .set('Cookie', cookie)
-    .send({
-      no: '000001',
-      tgl: '2020-06-06',
-      jenis: JenisTransaksi.MASUK,
-      agen: agen,
-      via: TransaksiVia.TUNAI,
-      kategori: TransaksiKategori.SETORAN,
-      nominal: 250000,
-    });
+//   const transaksiSaldo = await request(app)
+//     .post('/api/transaksi-saldo')
+//     .set('Cookie', cookie)
+//     .send({
+//       no: '000001',
+//       tgl: '2020-06-06',
+//       jenis: JenisTransaksi.MASUK,
+//       agen: agen,
+//       via: TransaksiVia.TUNAI,
+//       kategori: TransaksiKategori.SETORAN,
+//       nominal: 250000,
+//     });
 
-  expect(transaksiSaldo.status).toEqual(201);
-  expect(transaksiSaldo.body.nominal).toEqual(250000);
+//   expect(transaksiSaldo.status).toEqual(201);
+//   expect(transaksiSaldo.body.nominal).toEqual(250000);
 
-  const saldoAgen = await SaldoAgen.findOne({
-    periode: transaksiSaldo.body.periode.id,
-  });
+//   const saldoAgen = await SaldoAgen.findOne({
+//     periode: transaksiSaldo.body.periode.id,
+//   });
 
-  expect(
-    saldoAgen!.saldo.find((saldo) => saldo.agen == transaksiSaldo.body.agen.id)
-  ).toBeDefined();
-});
+//   expect(
+//     saldoAgen!.saldo.find((saldo) => saldo.agen == transaksiSaldo.body.agen.id)
+//   ).toBeDefined();
+// });
 
-it('returns a minus saldo if jenis transaksi is keluar', async () => {
-  const cookie = await global.signin();
-  const agen = await createNewAgen(cookie, '212');
+// it('returns a minus saldo if jenis transaksi is keluar', async () => {
+//   const cookie = await global.signin();
+//   const agen = await createNewAgen(cookie, '212');
 
-  const transaksiSaldo = await request(app)
-    .post('/api/transaksi-saldo')
-    .set('Cookie', cookie)
-    .send({
-      no: '000001',
-      tgl: '2020-06-06',
-      jenis: JenisTransaksi.KELUAR,
-      agen: agen,
-      via: TransaksiVia.TUNAI,
-      kategori: TransaksiKategori.SETORAN,
-      nominal: 250000,
-    });
+//   const transaksiSaldo = await request(app)
+//     .post('/api/transaksi-saldo')
+//     .set('Cookie', cookie)
+//     .send({
+//       no: '000001',
+//       tgl: '2020-06-06',
+//       jenis: JenisTransaksi.KELUAR,
+//       agen: agen,
+//       via: TransaksiVia.TUNAI,
+//       kategori: TransaksiKategori.SETORAN,
+//       nominal: 250000,
+//     });
 
-  expect(transaksiSaldo.status).toEqual(201);
-  expect(transaksiSaldo.body.nominal).toEqual(250000);
+//   expect(transaksiSaldo.status).toEqual(201);
+//   expect(transaksiSaldo.body.nominal).toEqual(250000);
 
-  const saldoAgen = await SaldoAgen.findOne({
-    periode: transaksiSaldo.body.periode.id,
-  });
+//   const saldoAgen = await SaldoAgen.findOne({
+//     periode: transaksiSaldo.body.periode.id,
+//   });
 
-  const saldo = saldoAgen!.saldo.find(
-    (saldo) => saldo.agen == transaksiSaldo.body.agen.id
-  );
+//   const saldo = saldoAgen!.saldo.find(
+//     (saldo) => saldo.agen == transaksiSaldo.body.agen.id
+//   );
 
-  expect(saldo).toBeDefined();
-  expect(saldo?.jumlah).toEqual(-250000);
-});
+//   expect(saldo).toBeDefined();
+//   expect(saldo?.jumlah).toEqual(-250000);
+// });
 
-it('Saldo must counting', async () => {
-  const cookie = await global.signin();
-  const agen = await createNewAgen(cookie, '212');
+// it('Saldo must counting', async () => {
+//   const cookie = await global.signin();
+//   const agen = await createNewAgen(cookie, '212');
 
-  const transaksiSaldo = await request(app)
-    .post('/api/transaksi-saldo')
-    .set('Cookie', cookie)
-    .send({
-      no: '000001',
-      tgl: '2020-06-06',
-      jenis: JenisTransaksi.MASUK,
-      agen: agen,
-      via: TransaksiVia.TUNAI,
-      kategori: TransaksiKategori.SETORAN,
-      nominal: 250000,
-    });
+//   const transaksiSaldo = await request(app)
+//     .post('/api/transaksi-saldo')
+//     .set('Cookie', cookie)
+//     .send({
+//       no: '000001',
+//       tgl: '2020-06-06',
+//       jenis: JenisTransaksi.MASUK,
+//       agen: agen,
+//       via: TransaksiVia.TUNAI,
+//       kategori: TransaksiKategori.SETORAN,
+//       nominal: 250000,
+//     });
 
-  await request(app).post('/api/transaksi-saldo').set('Cookie', cookie).send({
-    no: '000001',
-    tgl: '2020-06-06',
-    jenis: JenisTransaksi.KELUAR,
-    agen: agen,
-    via: TransaksiVia.TUNAI,
-    kategori: TransaksiKategori.PENARIKAN,
-    nominal: 50000,
-  });
+//   await request(app).post('/api/transaksi-saldo').set('Cookie', cookie).send({
+//     no: '000001',
+//     tgl: '2020-06-06',
+//     jenis: JenisTransaksi.KELUAR,
+//     agen: agen,
+//     via: TransaksiVia.TUNAI,
+//     kategori: TransaksiKategori.PENARIKAN,
+//     nominal: 50000,
+//   });
 
-  await request(app).post('/api/transaksi-saldo').set('Cookie', cookie).send({
-    no: '000001',
-    tgl: '2020-06-06',
-    jenis: JenisTransaksi.KELUAR,
-    agen: agen,
-    via: TransaksiVia.TUNAI,
-    kategori: TransaksiKategori.PENARIKAN,
-    nominal: 125000,
-  });
+//   await request(app).post('/api/transaksi-saldo').set('Cookie', cookie).send({
+//     no: '000001',
+//     tgl: '2020-06-06',
+//     jenis: JenisTransaksi.KELUAR,
+//     agen: agen,
+//     via: TransaksiVia.TUNAI,
+//     kategori: TransaksiKategori.PENARIKAN,
+//     nominal: 125000,
+//   });
 
-  const saldoAgen = await SaldoAgen.findOne({
-    periode: transaksiSaldo.body.periode.id,
-  });
+//   const saldoAgen = await SaldoAgen.findOne({
+//     periode: transaksiSaldo.body.periode.id,
+//   });
 
-  const saldo = saldoAgen!.saldo.find(
-    (saldo) => saldo.agen == transaksiSaldo.body.agen.id
-  );
+//   const saldo = saldoAgen!.saldo.find(
+//     (saldo) => saldo.agen == transaksiSaldo.body.agen.id
+//   );
 
-  expect(saldo).toBeDefined();
-  expect(saldo?.jumlah).toEqual(75000);
-});
+//   expect(saldo).toBeDefined();
+//   expect(saldo?.jumlah).toEqual(75000);
+// });

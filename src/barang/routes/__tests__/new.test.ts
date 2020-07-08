@@ -1,5 +1,6 @@
-import request from 'supertest';
-import { app } from '../../../app';
+import request from 'supertest'
+
+import { app } from '../../../app'
 
 it('returns a 401 if not authenticated', () => {
   return request(app)
@@ -26,7 +27,7 @@ it('returns a 201 if given valid values', async () => {
   const cookie = await global.signin();
 
   const result = await request(app)
-    .post('/api/karyawan')
+    .post('/api/barang')
     .set('Cookie', cookie)
     .send({
       nama: 'Bengbeng',

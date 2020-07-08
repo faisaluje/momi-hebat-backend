@@ -1,6 +1,7 @@
-import mongoose from 'mongoose';
-import { app } from './app';
-import { JWT_KEY, MONGO_URI } from './contants';
+import mongoose from 'mongoose'
+
+import { app } from './app'
+import { JWT_KEY, MONGO_URI } from './contants'
 
 const start = async () => {
   if (!process.env.JWT_KEY && !JWT_KEY) {
@@ -17,6 +18,7 @@ const start = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: true,
     });
 
     console.log('Connected to MongoDb');
