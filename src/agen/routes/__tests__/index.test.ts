@@ -1,6 +1,7 @@
-import request from 'supertest';
-import { app } from '../../../app';
-import { AgenAttrs, AgenDoc, Agen } from '../../models/agen';
+import request from 'supertest'
+
+import { app } from '../../../app'
+import { Agen, AgenAttrs, AgenDoc } from '../../models/agen'
 
 const agen: AgenAttrs = {
   diri: {
@@ -81,6 +82,20 @@ it('responds with list of agens', async () => {
     expect(newAgen.diri.nama.lengkap).toBeDefined();
     expect(newAgen.no).toEqual(`${no}`);
   }
+});
+
+it('responds with only one agen detail', async () => {
+  const cookie = await global.signin();
+
+  const newAgen = await createNewAgen(`121`, cookie);
+
+  const response = await request(app)
+    .get('/api/agen/' + newAgen.body.id)
+    .set('Cookie', cookie)
+    .send()
+    .expect(200);
+
+  expect(response.body.no).toEqual('121');
 });
 
 it('responds agen with sub agen', async () => {
