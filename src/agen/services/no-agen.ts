@@ -1,10 +1,10 @@
-import { AgenDoc, Agen } from '../models/agen';
-import { ALPHABET } from '../../contants';
+import { numberToAlphabet } from '../../utils'
+import { Agen, AgenDoc } from '../models/agen'
 
 export class NoAgen {
   static async generateNoAgen(topAgen: AgenDoc): Promise<string> {
     const subAgenCount = await Agen.countDocuments({ topAgen });
-    const no = `${topAgen.no}${ALPHABET[subAgenCount]}`;
+    const no = `${topAgen.no}/${numberToAlphabet(subAgenCount + 1)}`;
 
     return no;
   }
