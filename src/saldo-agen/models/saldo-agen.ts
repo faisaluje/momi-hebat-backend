@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
-import { PeriodeDoc } from '../../periode/models/periode';
-import { AgenDoc } from '../../agen/models/agen';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
+
+import { AgenDoc } from '../../agen/models/agen'
+import { PeriodeDoc } from '../../periode/models/periode'
 
 interface SaldoAgenAttrs {
   periode: PeriodeDoc;
@@ -26,33 +27,45 @@ interface SaldoAgenModel extends mongooseDelete.SoftDeleteModel<SaldoAgenDoc> {
   build(attrs: SaldoAgenAttrs): SaldoAgenDoc;
 }
 
-const saldoAgenSchema = new mongoose.Schema({
-  periode: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Periode',
-    required: true,
-  },
-  saldo: [
-    {
-      agen: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Agen',
-      },
-      jumlah: {
-        type: Number,
-        required: true,
-        default: 0,
-      },
-      bonus: {
-        type: Number,
-        required: true,
-        default: 0,
-      },
-      updatedAt: Date,
+const saldoAgenSchema = new mongoose.Schema(
+  {
+    periode: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Periode',
+      required: true,
     },
-  ],
-});
+    saldo: [
+      {
+        agen: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Agen',
+        },
+        jumlah: {
+          type: Number,
+          required: true,
+          default: 0,
+        },
+        bonus: {
+          type: Number,
+          required: true,
+          default: 0,
+        },
+        updatedAt: Date,
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+    toJSON: {
+      transform(_doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+  }
+);
 
 saldoAgenSchema.statics.build = (attrs: SaldoAgenAttrs) => new SaldoAgen(attrs);
 

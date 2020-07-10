@@ -1,18 +1,18 @@
 version: '3.1'
 
 services:
-  # momi-hebat:
-  #   image: faisaluje/momi-hebat
-  #   ports:
-  #     - 8031:3001
-  #   depends_on:
-  #     - mongo-1
-  #     - mongo-2
-  #     - mongo-3
-  #   environment:
-  #     MONGO_URI: mongodb://mongo-1:27017,mongo-2:27017,mongo-3:27017/momi-hebat?replicaSet=rs0
-  #   networks:
-  #     - mongo_replica_set
+  momi-hebat:
+    image: faisaluje/momi-hebat
+    ports:
+      - 8031:3001
+    depends_on:
+      - mongo-1
+      - mongo-2
+      - mongo-3
+    environment:
+      MONGO_URI: mongodb://mongo-1:27017,mongo-2:27017,mongo-3:27017/momi-hebat?replicaSet=rs0
+    networks:
+      - mongo_replica_set
 
   mongo-1:
     image: mongo

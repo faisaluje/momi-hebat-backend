@@ -10,9 +10,9 @@ import { requireAuth } from '../../common/middleware/require-auth'
 import { validateRequest } from '../../common/middleware/validate-request'
 import { URL_TRANSAKSI_SALDO } from '../../contants'
 import { Periode } from '../../periode/models/periode'
-import { SaldoAgen } from '../../saldo-agen/models/saldo-agen'
 import { Saldo } from '../../saldo-agen/services/saldo'
 import { TransaksiSaldo, TransaksiSaldoAttrs } from '../models/transaksi-saldo'
+import { NoTransaksiSaldo } from '../services/no-transaksi-saldo'
 
 const router = express.Router();
 
@@ -33,10 +33,17 @@ router.post(
       throw new NotFoundError();
     }
 
+    const noTransaksiSaldo = await NoTransaksiSaldo.generateNoTransaksi({
+      ...body,
+      agen,
+      periode,
+    });
+
     const session = await mongoose.startSession();
     session.startTransaction();
     const transaksiSaldo = TransaksiSaldo.build({
       ...body,
+      no: noTransaksiSaldo,
       agen,
       periode,
     });

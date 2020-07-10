@@ -1,10 +1,12 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
-import { AgenDoc } from '../../agen/models/agen';
-import { PeriodeDoc } from '../../periode/models/periode';
-import { TransaksiVia } from '../enums/transaksi-via';
-import { TransaksiKategori } from '../enums/transaksi-kategori';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
+
+import { AgenDoc } from '../../agen/models/agen'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { PeriodeDoc } from '../../periode/models/periode'
+import { TransaksiKategori } from '../enums/transaksi-kategori'
+import { TransaksiVia } from '../enums/transaksi-via'
+
 interface TransaksiSaldoAttrs {
   no?: string;
   tgl: Date;
@@ -12,6 +14,7 @@ interface TransaksiSaldoAttrs {
   catatan?: string;
   agen: AgenDoc;
   via?: TransaksiVia;
+  namaBank?: string;
   atasNama?: string;
   kategori: TransaksiKategori;
   nominal: number;
@@ -19,12 +22,13 @@ interface TransaksiSaldoAttrs {
 }
 
 interface TransaksiSaldoDoc extends mongooseDelete.SoftDeleteDocument {
-  no?: string;
+  no: string;
   tgl: Date;
   jenis: JenisTransaksi;
   catatan?: string;
   agen: AgenDoc;
   via?: TransaksiVia;
+  namaBank: string;
   atasNama?: string;
   kategori: TransaksiKategori;
   nominal: number;
@@ -59,6 +63,7 @@ const transaksiSaldoSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(TransaksiVia),
     },
+    namaBank: String,
     atasNama: String,
     kategori: {
       type: String,
@@ -78,6 +83,7 @@ const transaksiSaldoSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
     toJSON: {
       transform(_doc, ret) {
         ret.id = ret._id;

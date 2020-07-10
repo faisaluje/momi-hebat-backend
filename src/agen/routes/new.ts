@@ -8,7 +8,7 @@ import { NoAgen } from '../services/no-agen'
 
 const router = express.Router();
 
-router.post(URL_AGEN, async (req: Request, res: Response) => {
+router.post(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
   const body: AgenAttrs = req.body;
   if (!body.topAgen && !body.no) {
     throw new BadRequestError('No. Agen tidak boleh kosong');
