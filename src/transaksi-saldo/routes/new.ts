@@ -20,7 +20,7 @@ router.post(
   URL_TRANSAKSI_SALDO,
   requireAuth,
   [
-    body('tgl').isDate().withMessage('Format tanggal salah'),
+    body('tgl').notEmpty().withMessage('Format tanggal salah'),
     body('agen').notEmpty().withMessage('Agen belum dipilih'),
     body('nominal').isNumeric().withMessage('Nominal harus angka'),
   ],
