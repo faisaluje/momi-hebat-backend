@@ -4,7 +4,7 @@ export class NoTransaksiSaldo {
   static async getCountTransaksiSaldo(
     data: TransaksiSaldoAttrs
   ): Promise<number> {
-    const countTransaksiSaldo = await TransaksiSaldo.countDocuments({
+    const countTransaksiSaldo = await TransaksiSaldo.countWithDeleted({
       periode: data.periode,
       agen: data.agen,
       jenis: data.jenis,

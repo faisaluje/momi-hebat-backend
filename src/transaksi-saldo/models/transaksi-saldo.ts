@@ -93,6 +93,11 @@ const transaksiSaldoSchema = new mongoose.Schema(
   }
 );
 
+transaksiSaldoSchema.plugin(mongooseDelete, {
+  overrideMethods: 'all',
+  indexFields: 'deleted',
+});
+
 transaksiSaldoSchema.statics.build = (attrs: TransaksiSaldoAttrs) => {
   return new TransaksiSaldo(attrs);
 };

@@ -80,10 +80,16 @@ const transaksiBarangSchema = new mongoose.Schema(
       transform(_doc, ret) {
         ret.id = ret._id;
         delete ret._id;
+        delete ret.deleted;
       },
     },
   }
 );
+
+transaksiBarangSchema.plugin(mongooseDelete, {
+  overrideMethods: 'all',
+  indexFields: 'deleted',
+});
 
 transaksiBarangSchema.statics.build = (attrs: TransaksiBarangAttrs) => {
   return new TransaksiBarang(attrs);
