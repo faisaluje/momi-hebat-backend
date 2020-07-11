@@ -56,7 +56,7 @@ router.post(
       });
       await transaksiBarang.save({ session });
 
-      await StokBarangService.upsertStokBarang(transaksiBarang, session);
+      await StokBarangService.upsertStokBarang(transaksiBarang, { session });
 
       await session.commitTransaction();
       session.endSession();

@@ -4,12 +4,20 @@ import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
 import { TransaksiBarangDoc } from '../../transaksi-barang/models/transaksi-barang'
 import { StokBarang } from '../models/stok-barang'
 
+interface upsertStokBarangOptions {
+  deleted?: boolean;
+  session?: ClientSession;
+}
+
 export class StokBarangService {
   static async upsertStokBarang(
     transaksiBarang: TransaksiBarangDoc,
-    session?: ClientSession
+    options: upsertStokBarangOptions
   ): Promise<void> {
-    const multiple = transaksiBarang.jenis == JenisTransaksi.MASUK ? 1 : -1;
+    let multiple = transaksiBarang.jenis == JenisTransaksi.MASUK ? 1 : -1;
+    if (options.deleted) {
+      multiple = transaksiBarang.jenis == JenisTransaksi.MASUK ? -1 : 1;
+    }
 
     for (const item of transaksiBarang.items) {
       await StokBarang.findOneAndUpdate(
@@ -23,7 +31,7 @@ export class StokBarangService {
         {
           new: true,
           upsert: true,
-          session,
+          session: options.session,
         }
       );
     }
