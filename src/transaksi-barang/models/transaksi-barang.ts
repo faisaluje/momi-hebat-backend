@@ -36,7 +36,10 @@ interface TransaksiBarangModel
 
 const transaksiBarangSchema = new mongoose.Schema(
   {
-    no: String,
+    no: {
+      type: String,
+      unique: true,
+    },
     tgl: {
       type: mongoose.Schema.Types.Date,
       required: true,
@@ -61,7 +64,6 @@ const transaksiBarangSchema = new mongoose.Schema(
         },
         biaya: {
           type: Number,
-          required: true,
         },
       },
     ],

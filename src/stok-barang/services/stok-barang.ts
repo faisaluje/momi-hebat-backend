@@ -1,17 +1,31 @@
-import { PeriodeDoc } from '../../periode/models/periode'
-import { StokBarang, StokBarangDoc } from '../models/stok-barang'
+import { ClientSession } from 'mongoose'
+
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { TransaksiBarangDoc } from '../../transaksi-barang/models/transaksi-barang'
+import { StokBarang } from '../models/stok-barang'
 
 export class StokBarangService {
-  // static async getStokBarangByPeriode(
-  //   periode: PeriodeDoc
-  // ): Promise<StokBarangDoc> {
-  //   let stokBarang = await StokBarang.findOne({ periode });
-  //   if (!stokBarang) {
-  //     stokBarang = StokBarang.build({
-  //       periode,
-  //       stok: [],
-  //     });
-  //   }
-  //   return stokBarang;
-  // }
+  static async upsertStokBarang(
+    transaksiBarang: TransaksiBarangDoc,
+    session?: ClientSession
+  ): Promise<void> {
+    const multiple = transaksiBarang.jenis == JenisTransaksi.MASUK ? 1 : -1;
+
+    for (const item of transaksiBarang.items) {
+      await StokBarang.findOneAndUpdate(
+        {
+          barang: item.barang,
+          periode: transaksiBarang.periode,
+        },
+        {
+          $inc: { jumlah: item.jumlah * multiple },
+        },
+        {
+          new: true,
+          upsert: true,
+          session,
+        }
+      );
+    }
+  }
 }

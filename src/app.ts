@@ -37,6 +37,8 @@ import { deletePeriodeRouter } from './periode/routes/delete'
 import { newPeriodeRouter } from './periode/routes/new'
 import { updatePeriodeRouter } from './periode/routes/update'
 import { indexSaldoAgenRouter } from './saldo-agen/routes'
+import { indexTransaksiBarangRouter } from './transaksi-barang/routes'
+import { newTransaksiBarangRouter } from './transaksi-barang/routes/new'
 import { indexTransaksiSaldoRouter } from './transaksi-saldo/routes'
 import { deleteTransaksiSaldoRouter } from './transaksi-saldo/routes/delete'
 import { newTransaksiSaldoRouter } from './transaksi-saldo/routes/new'
@@ -110,6 +112,10 @@ app.use(deleteTransaksiSaldoRouter);
 
 // Saldo Agen Modul
 app.use(indexSaldoAgenRouter);
+
+// Transaksi Barang Modul
+app.use(newTransaksiBarangRouter);
+app.use(indexTransaksiBarangRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();

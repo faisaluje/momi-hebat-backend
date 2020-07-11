@@ -29,6 +29,7 @@ const barangSchema = new mongoose.Schema(
       transform(_doc, ret) {
         ret.id = ret._id;
         delete ret._id;
+        delete ret.deleted;
       },
     },
     versionKey: false,
