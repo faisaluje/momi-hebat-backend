@@ -1,5 +1,3 @@
-import { ClientSession } from 'mongoose'
-
 import { PeriodeDoc } from '../../periode/models/periode'
 import { SaldoAgen, SaldoAgenDoc } from '../models/saldo-agen'
 

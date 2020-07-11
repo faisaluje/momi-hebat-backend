@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
 
 interface BarangAttrs {
   nama: string;
@@ -30,8 +30,8 @@ const barangSchema = new mongoose.Schema(
         ret.id = ret._id;
         delete ret._id;
       },
-      versionKey: false,
     },
+    versionKey: false,
   }
 );
 

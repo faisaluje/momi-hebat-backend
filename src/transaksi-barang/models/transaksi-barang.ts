@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
-import { BarangDoc } from '../../barang/models/barang';
-import { PeriodeDoc } from '../../periode/models/periode';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
+
+import { BarangDoc } from '../../barang/models/barang'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { PeriodeDoc } from '../../periode/models/periode'
 
 interface ItemDoc {
   barang: BarangDoc;
@@ -71,6 +72,7 @@ const transaksiBarangSchema = new mongoose.Schema(
     },
   },
   {
+    versionKey: false,
     timestamps: true,
     toJSON: {
       transform(_doc, ret) {

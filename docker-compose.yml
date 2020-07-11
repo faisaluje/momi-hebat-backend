@@ -20,7 +20,7 @@ services:
     volumes:
       - db-data-1:/data/db
     ports:
-      - 27017:27017
+      - 27354:27017
     command: mongod --replSet rs0
     networks:
       - mongo_replica_set
@@ -31,7 +31,7 @@ services:
     volumes:
       - db-data-2:/data/db
     ports:
-      - 27018:27017
+      - 28354:27017
     command: mongod --replSet rs0
     networks:
       - mongo_replica_set
@@ -42,7 +42,7 @@ services:
     volumes:
       - db-data-3:/data/db
     ports:
-      - 27019:27017
+      - 29354:27017
     command: mongod --replSet rs0
     networks:
       - mongo_replica_set
