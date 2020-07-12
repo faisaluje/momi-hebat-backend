@@ -22,7 +22,7 @@ router.get(
 
     const transaksiBarangList = await TransaksiBarang.find({
       periode,
-    });
+    }).populate('items.barang');
     res.send(transaksiBarangList);
   }
 );

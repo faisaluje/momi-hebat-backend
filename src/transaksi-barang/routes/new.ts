@@ -20,7 +20,9 @@ router.post(
   URL_TRANSAKSI_BARANG,
   requireAuth,
   [
-    body('tgl').isDate().withMessage('Tanggal transaksi harus berupa tanggal'),
+    body('tgl')
+      .notEmpty()
+      .withMessage('Tanggal transaksi harus berupa tanggal'),
     body('jenis')
       .isIn([JenisTransaksi.MASUK, JenisTransaksi.KELUAR])
       .withMessage('Jenis transaksi salah'),

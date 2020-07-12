@@ -17,9 +17,9 @@ router.get(
       : req.currentUser!.periode!;
     if (!periode) throw new NotFoundError();
 
-    const stokBarang = await StokBarang.findOne({
+    const stokBarang = await StokBarang.find({
       periode,
-    }).populate('stok.barang');
+    }).populate('barang');
     if (!stokBarang) throw new NotFoundError();
 
     res.send(stokBarang);

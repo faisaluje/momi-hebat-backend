@@ -37,6 +37,7 @@ import { deletePeriodeRouter } from './periode/routes/delete'
 import { newPeriodeRouter } from './periode/routes/new'
 import { updatePeriodeRouter } from './periode/routes/update'
 import { indexSaldoAgenRouter } from './saldo-agen/routes'
+import { indexStokBarangRouter } from './stok-barang/routes'
 import { indexTransaksiBarangRouter } from './transaksi-barang/routes'
 import { deleteTransaksiBarangRouter } from './transaksi-barang/routes/delete'
 import { newTransaksiBarangRouter } from './transaksi-barang/routes/new'
@@ -113,6 +114,9 @@ app.use(deleteTransaksiSaldoRouter);
 
 // Saldo Agen Modul
 app.use(indexSaldoAgenRouter);
+
+// Stok Barang Modul
+app.use(indexStokBarangRouter);
 
 // Transaksi Barang Modul
 app.use(newTransaksiBarangRouter);
