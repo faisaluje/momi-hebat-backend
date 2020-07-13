@@ -16,5 +16,6 @@ export const URL_PAKET = `${URL_API}/paket`;
 export const URL_JENIS_PAKET = `${URL_API}/jenis-paket`;
 export const URL_TRANSAKSI_BARANG = `${URL_API}/transaksi-barang`;
 export const URL_TRANSAKSI_SALDO = `${URL_API}/transaksi-saldo`;
+export const URL_TRANSAKSI_PAKET = `${URL_API}/transaksi-paket`;
 export const URL_SALDO_AGEN = `${URL_API}/saldo-agen`;
 export const URL_STOK_BARANG = `${URL_API}/stok-barang`;

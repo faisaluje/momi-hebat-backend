@@ -44,6 +44,9 @@ import { indexStokBarangRouter } from './stok-barang/routes'
 import { indexTransaksiBarangRouter } from './transaksi-barang/routes'
 import { deleteTransaksiBarangRouter } from './transaksi-barang/routes/delete'
 import { newTransaksiBarangRouter } from './transaksi-barang/routes/new'
+import { indexTransaksiPaketRouter } from './transaksi-paket/routes'
+import { deleteTransaksiPaketRouter } from './transaksi-paket/routes/delete'
+import { newTransasiPaketRouter } from './transaksi-paket/routes/new'
 import { indexTransaksiSaldoRouter } from './transaksi-saldo/routes'
 import { deleteTransaksiSaldoRouter } from './transaksi-saldo/routes/delete'
 import { newTransaksiSaldoRouter } from './transaksi-saldo/routes/new'
@@ -128,6 +131,11 @@ app.use(deleteTransaksiBarangRouter);
 app.use(newJenisPaketRouter);
 app.use(indexJenisPaketRouter);
 app.use(updateJenisPaketRouter);
+
+// Transaksi Paket Modul
+app.use(newTransasiPaketRouter);
+app.use(indexTransaksiPaketRouter);
+app.use(deleteTransaksiPaketRouter);
 
 app.use(express.static('public'));
 

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
 
 interface KaryawanAttrs {
   nama: string;
@@ -40,6 +40,7 @@ const karyawanSchema = new mongoose.Schema(
       transform(_doc, ret) {
         ret.id = ret._id;
         delete ret._id;
+        delete ret.deleted;
       },
       versionKey: false,
     },
@@ -53,7 +54,7 @@ karyawanSchema.plugin(mongooseDelete, {
 });
 
 karyawanSchema.pre('save', async function (next) {
-  const karyawanCount = await Karyawan.countDocuments();
+  const karyawanCount = await Karyawan.estimatedDocumentCount();
   if (!this.get('no')) {
     this.set('no', karyawanCount + 1);
   }
