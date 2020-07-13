@@ -22,8 +22,14 @@ router.get(
 );
 
 router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
-  const status = (req.query.status as AgenStatus) || AgenStatus.AKTIF;
-  const agenList = await Agen.find({ status })
+  let findQuery = {};
+  if (req.query.status !== 'all') {
+    findQuery = {
+      status: (req.query.status as AgenStatus) || AgenStatus.AKTIF,
+    };
+  }
+
+  const agenList = await Agen.find(findQuery)
     .populate('topAgen')
     .populate('subAgens');
 

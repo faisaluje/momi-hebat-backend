@@ -48,4 +48,4 @@ barangSchema.statics.build = (attrs: BarangAttrs) => {
 
 const Barang = mongoose.model<BarangDoc, BarangModel>('Barang', barangSchema);
 
-export { Barang, BarangDoc };
+export { barangSchema, Barang, BarangDoc };

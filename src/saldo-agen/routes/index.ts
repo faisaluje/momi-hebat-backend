@@ -19,7 +19,7 @@ router.get(
 
     const saldoAgen = await SaldoAgen.findOne({
       periode,
-    }).populate('saldo.agen');
+    });
     if (!saldoAgen) throw new NotFoundError();
 
     res.send(saldoAgen);

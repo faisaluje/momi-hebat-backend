@@ -4,6 +4,7 @@ import { json } from 'body-parser'
 import cookieSession from 'cookie-session'
 import cors from 'cors'
 import express from 'express'
+import path from 'path'
 
 import { indexAgenRouter } from './agen/routes'
 import { newAgenRouter } from './agen/routes/new'
@@ -20,6 +21,9 @@ import { NotFoundError } from './common/errors/not-foud-error'
 import { currentUser } from './common/middleware/current-user'
 import { errorHandler } from './common/middleware/error-handler'
 import { URL_FRONTEND } from './contants'
+import { indexJenisPaketRouter } from './jenis-paket/routes'
+import { newJenisPaketRouter } from './jenis-paket/routes/new'
+import { updateJenisPaketRouter } from './jenis-paket/routes/update'
 import { indexKaryawanRouter } from './karyawan/routes'
 import { deleteKaryawanRouter } from './karyawan/routes/delete'
 import { newKaryawanRouter } from './karyawan/routes/new'
@@ -60,8 +64,6 @@ app.use(
     secure: process.env.NODE_ENV === 'production',
   })
 );
-
-app.use(express.static('public'));
 
 // check user login before act all
 app.use(currentUser);
@@ -123,8 +125,15 @@ app.use(newTransaksiBarangRouter);
 app.use(indexTransaksiBarangRouter);
 app.use(deleteTransaksiBarangRouter);
 
-app.all('*', async () => {
-  throw new NotFoundError();
+// Jenis Paket Modul
+app.use(newJenisPaketRouter);
+app.use(indexJenisPaketRouter);
+app.use(updateJenisPaketRouter);
+
+app.use(express.static('public'));
+
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname + '/../public/index.html'));
 });
 
 app.use(errorHandler);
