@@ -32,8 +32,14 @@ router.patch(
         req.body.barangs,
         session
       );
-      jenisPaket.barangs = listBarang;
-      await jenisPaket.save({ session });
+
+      await JenisPaket.updateOne(
+        {
+          _id: req.params.jenisPaketId,
+        },
+        { ...req.body, barangs: listBarang },
+        { session }
+      );
 
       await session.commitTransaction();
       session.endSession();

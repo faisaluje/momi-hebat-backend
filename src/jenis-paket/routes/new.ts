@@ -27,6 +27,8 @@ router.post(
       throw new BadRequestError('Periode tidak ditemkan');
     }
 
+    await JenisPaket.createCollection();
+
     const session = await mongoose.startSession();
     session.startTransaction();
 

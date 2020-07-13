@@ -10,7 +10,6 @@ interface JenisPaketAttrs {
   biayaPacking: number;
   barangs: BarangDoc[];
   keterangan?: string;
-  status: JenisPaketStatus;
   periode: PeriodeDoc;
 }
 
