@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { ClientSession } from 'mongoose'
 
 import { BarangService } from '../../barang/services/barang'
 import { BadRequestError } from '../../common/errors/bad-request-error'
@@ -10,15 +10,13 @@ import { NoTransaksiBarang } from './no-transaksi-barang'
 
 export class TransaksiBarangService {
   static async createTransaksiBarang(
-    data: TransaksiBarangAttrs
+    data: TransaksiBarangAttrs,
+    session: ClientSession
   ): Promise<TransaksiBarangDoc> {
     const periode = await PeriodeAktif.getPeriodeAktif();
     if (!periode) {
       throw new BadRequestError('Periode tidak ditemkan');
     }
-
-    const session = await mongoose.startSession();
-    session.startTransaction();
 
     try {
       const noTransaksiBarang = await NoTransaksiBarang.generateNoTransaksi({
@@ -37,11 +35,7 @@ export class TransaksiBarangService {
         periode,
       });
       await transaksiBarang.save({ session });
-
       await StokBarangService.upsertStokBarang(transaksiBarang, { session });
-
-      await session.commitTransaction();
-      session.endSession();
 
       return transaksiBarang;
     } catch (e) {

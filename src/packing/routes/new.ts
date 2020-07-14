@@ -7,7 +7,9 @@ import { NotFoundError } from '../../common/errors/not-foud-error'
 import { requireAuth } from '../../common/middleware/require-auth'
 import { URL_PACKING } from '../../contants'
 import { PeriodeAktif } from '../../periode/services/periode-aktif'
+import { TransaksiBarangService } from '../../transaksi-barang/services/transaksi-barang'
 import { TransaksiKategori } from '../../transaksi-paket/enums/transaksi-kategori'
+import { Pakets } from '../../transaksi-paket/models/pakets'
 import { PaketsDoc } from '../../transaksi-paket/models/transaksi-paket'
 import { TransaksiPaketService } from '../../transaksi-paket/services/transaksi-paket'
 import { Packing } from '../models/packing'
@@ -43,7 +45,24 @@ router.post(URL_PACKING, requireAuth, async (req: Request, res: Response) => {
       session
     );
 
-    console.log(transaksiPaket);
+    const items = await Pakets.getAllBarang(transaksiPaket?._id, session);
+    const transaksiBarang = await TransaksiBarangService.createTransaksiBarang(
+      {
+        tgl: packing.tgl,
+        jenis: JenisTransaksi.KELUAR,
+        catatan: 'Packing',
+        items,
+        periode: packing.periode,
+      },
+      session
+    );
+
+    packing.set({
+      transaksiPaket: transaksiPaket,
+      transaksiBarang: transaksiBarang,
+    });
+
+    await packing.save({ session });
 
     await session.commitTransaction();
     session.endSession();

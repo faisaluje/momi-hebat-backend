@@ -5,6 +5,8 @@ import { JenisPaketDoc } from '../../jenis-paket/models/jenis-paket'
 import { KaryawanDoc } from '../../karyawan/models/karyawan'
 import { PeriodeDoc } from '../../periode/models/periode'
 import { PeriodeAktif } from '../../periode/services/periode-aktif'
+import { TransaksiBarangDoc } from '../../transaksi-barang/models/transaksi-barang'
+import { TransaksiPaketDoc } from '../../transaksi-paket/models/transaksi-paket'
 
 interface ProsesDoc {
   karyawan: string;
@@ -15,6 +17,8 @@ interface ProsesDoc {
 interface PackingAttrs {
   tgl: Date;
   proses: ProsesDoc[];
+  transaksiPaket: string;
+  transaksiBarang: string;
 }
 
 interface PackingDoc extends mongooseDelete.SoftDeleteDocument {
@@ -25,6 +29,8 @@ interface PackingDoc extends mongooseDelete.SoftDeleteDocument {
     jumlah: number;
   }[];
   periode: PeriodeDoc;
+  transaksiPaket: TransaksiPaketDoc;
+  transaksiBarang: TransaksiBarangDoc;
 }
 
 interface PackingModel extends mongooseDelete.SoftDeleteModel<PackingDoc> {
@@ -55,6 +61,14 @@ const packingSchema = new mongoose.Schema(
         },
       },
     ],
+    transaksiPaket: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'TransaksiPaket',
+    },
+    transaksiBarang: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'TransaksiBarang',
+    },
     periode: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Periode',

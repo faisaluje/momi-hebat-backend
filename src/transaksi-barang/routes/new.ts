@@ -33,9 +33,16 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const body: TransaksiBarangAttrs = req.body;
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     const transaksiBarang = await TransaksiBarangService.createTransaksiBarang(
-      body
+      body,
+      session
     );
+
+    await session.commitTransaction();
+    session.endSession();
 
     res.status(201).send(transaksiBarang);
   }
