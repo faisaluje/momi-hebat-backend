@@ -2,16 +2,13 @@ import mongoose from 'mongoose'
 import mongooseDelete from 'mongoose-delete'
 
 import { JenisPaketDoc } from '../../jenis-paket/models/jenis-paket'
-import { PeriodeDoc } from '../../periode/models/periode'
 
 interface StokPaketAttrs {
   jenisPaket: JenisPaketDoc;
   jumlah: number;
-  periode: PeriodeDoc;
 }
 
 interface StokPaketDoc extends mongooseDelete.SoftDeleteDocument {
-  periode: PeriodeDoc;
   jenisPaket: JenisPaketDoc;
   jumlah: number;
   updatedAt: Date;
@@ -23,11 +20,6 @@ interface StokPaketModel extends mongooseDelete.SoftDeleteModel<StokPaketDoc> {
 
 const stokPaketSchema = new mongoose.Schema(
   {
-    periode: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Periode',
-      required: true,
-    },
     jenisPaket: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'JenisPaket',

@@ -3,6 +3,7 @@ import mongooseDelete from 'mongoose-delete'
 
 import { BarangDoc, barangSchema } from '../../barang/models/barang'
 import { PeriodeDoc } from '../../periode/models/periode'
+import { StokPaketDoc } from '../../stok-paket/models/stok-paket'
 import { JenisPaketStatus } from '../enums/jenis-paket-status'
 
 interface JenisPaketAttrs {
@@ -20,6 +21,7 @@ interface JenisPaketDoc extends mongooseDelete.SoftDeleteDocument {
   keterangan: string;
   status: JenisPaketStatus;
   periode: PeriodeDoc;
+  stok: StokPaketDoc;
 }
 
 interface JenisPaketModel
@@ -61,9 +63,17 @@ const jenisPaketSchema = new mongoose.Schema(
         delete ret._id;
         delete ret.deleted;
       },
+      virtuals: true,
     },
   }
 );
+
+jenisPaketSchema.virtual('stok', {
+  ref: 'StokPaket',
+  localField: '_id',
+  foreignField: 'jenisPaket',
+  justOne: true,
+});
 
 jenisPaketSchema.plugin(mongooseDelete, {
   deletedAt: true,

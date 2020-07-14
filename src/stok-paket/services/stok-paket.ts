@@ -25,7 +25,6 @@ export class StokPaketService {
       await StokPaket.findOneAndUpdate(
         {
           jenisPaket: paket.jenisPaket,
-          periode: transaksiPaket.periode,
         },
         {
           $inc: { jumlah: paket.jumlah * multiple },
