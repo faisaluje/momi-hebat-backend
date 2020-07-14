@@ -12,11 +12,11 @@ export class PaketsService {
 
     const listPakets: PaketsDoc[] = pakets.map((paket) => {
       const jenisPaket = listJenisPaket.find((jenisPaket) =>
-        mongoose.Types.ObjectId(jenisPaket._id).equals(paket.jenisPaket.id)
+        mongoose.Types.ObjectId(jenisPaket._id).equals(paket.jenisPaket)
       );
       if (!jenisPaket) throw new BadRequestError('Paket tidak ditemukan');
 
-      return { ...paket, jenisPaket };
+      return { ...paket };
     });
 
     return listPakets;

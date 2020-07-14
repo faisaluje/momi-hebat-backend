@@ -8,7 +8,7 @@ import { PeriodeDoc } from '../../periode/models/periode'
 import { TransaksiKategori } from '../enums/transaksi-kategori'
 
 interface PaketsDoc {
-  jenisPaket: JenisPaketDoc;
+  jenisPaket: string;
   jumlah: number;
 }
 
@@ -29,7 +29,10 @@ interface TransaksiPaketDoc extends mongooseDelete.SoftDeleteDocument {
   jenis: JenisTransaksi;
   kategori: TransaksiKategori;
   agen: AgenDoc;
-  pakets: PaketsDoc[];
+  pakets: {
+    jenisPaket: JenisPaketDoc;
+    jumlah: number;
+  }[];
   catatan: string;
   periode: PeriodeDoc;
 }

@@ -19,3 +19,4 @@ export const URL_TRANSAKSI_SALDO = `${URL_API}/transaksi-saldo`;
 export const URL_TRANSAKSI_PAKET = `${URL_API}/transaksi-paket`;
 export const URL_SALDO_AGEN = `${URL_API}/saldo-agen`;
 export const URL_STOK_BARANG = `${URL_API}/stok-barang`;
+export const URL_PACKING = `${URL_API}/packing`;

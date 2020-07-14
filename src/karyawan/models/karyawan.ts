@@ -71,4 +71,4 @@ const Karyawan = mongoose.model<KaryawanDoc, KaryawanModel>(
   karyawanSchema
 );
 
-export { Karyawan, KaryawanDoc };
+export { Karyawan, KaryawanDoc, KaryawanAttrs };
