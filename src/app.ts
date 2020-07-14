@@ -28,6 +28,7 @@ import { deleteKaryawanRouter } from './karyawan/routes/delete'
 import { newKaryawanRouter } from './karyawan/routes/new'
 import { updateKaryawanRouter } from './karyawan/routes/update'
 import { indexPackingRouter } from './packing/routes'
+import { deletePackingRouter } from './packing/routes/delete'
 import { newPackingRouter } from './packing/routes/new'
 import { indexPaketRouter } from './paket/routes'
 import { deletePaketRouter } from './paket/routes/delete'
@@ -142,6 +143,7 @@ app.use(deleteTransaksiPaketRouter);
 // Packing Modul
 app.use(newPackingRouter);
 app.use(indexPackingRouter);
+app.use(deletePackingRouter);
 
 app.use(express.static('public'));
 

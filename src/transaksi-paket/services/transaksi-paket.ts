@@ -48,7 +48,29 @@ export class TransaksiPaketService {
       console.error(e);
       await session.abortTransaction();
       session.endSession();
-      throw new BadRequestError('Gagal menyimpan transaksi');
+      throw new BadRequestError('Gagal menyimpan transaksi paket');
+    }
+  }
+
+  static async deleteTransaksiPaket(
+    transaksiPaketId: string,
+    session: ClientSession
+  ): Promise<void> {
+    const transaksiPaket = await TransaksiPaket.findById(transaksiPaketId);
+    if (!transaksiPaket) throw new NotFoundError();
+
+    try {
+      transaksiPaket.$session(session);
+      await transaksiPaket.delete();
+      await StokPaketService.upsertStokPaket(transaksiPaket, {
+        deleted: true,
+        session,
+      });
+    } catch (e) {
+      console.error(e);
+      await session.abortTransaction();
+      session.endSession();
+      throw new BadRequestError('Gagal menghapus transaksi paket');
     }
   }
 }

@@ -1,7 +1,8 @@
-import mongoose, { ClientSession } from 'mongoose'
+import { ClientSession } from 'mongoose'
 
 import { BarangService } from '../../barang/services/barang'
 import { BadRequestError } from '../../common/errors/bad-request-error'
+import { NotFoundError } from '../../common/errors/not-foud-error'
 import { PeriodeAktif } from '../../periode/services/periode-aktif'
 import { StokBarangService } from '../../stok-barang/services/stok-barang'
 import { TransaksiBarang, TransaksiBarangAttrs, TransaksiBarangDoc } from '../models/transaksi-barang'
@@ -43,6 +44,28 @@ export class TransaksiBarangService {
       await session.abortTransaction();
       session.endSession();
       throw new BadRequestError('Gagal menyimpan transaksi');
+    }
+  }
+
+  static async deleteTransaksiBarang(
+    transaksiBarangId: string,
+    session: ClientSession
+  ): Promise<void> {
+    const transaksiBarang = await TransaksiBarang.findById(transaksiBarangId);
+    if (!transaksiBarang) throw new NotFoundError();
+
+    try {
+      transaksiBarang.$session(session);
+      await transaksiBarang.delete();
+      await StokBarangService.upsertStokBarang(transaksiBarang, {
+        deleted: true,
+        session,
+      });
+    } catch (e) {
+      console.error(e);
+      await session.abortTransaction();
+      session.endSession();
+      throw new BadRequestError('Gagal menghapus transaksi');
     }
   }
 }
