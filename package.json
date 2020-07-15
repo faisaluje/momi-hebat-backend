@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --poll src/index.ts",
     "test": "jest --watchAll --no-cache",
-    "start:prod": "forever start dist/index.js",
+    "start:prod": "forever dist/index.js",
     "stop:prod": "forever stop dist/index.js"
   },
   "jest": {

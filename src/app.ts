@@ -23,6 +23,7 @@ import { URL_FRONTEND } from './contants'
 import { indexJenisPaketRouter } from './jenis-paket/routes'
 import { newJenisPaketRouter } from './jenis-paket/routes/new'
 import { updateJenisPaketRouter } from './jenis-paket/routes/update'
+import { indexKartuPaketRouter } from './kartu-paket/routes'
 import { indexKaryawanRouter } from './karyawan/routes'
 import { deleteKaryawanRouter } from './karyawan/routes/delete'
 import { newKaryawanRouter } from './karyawan/routes/new'
@@ -47,6 +48,9 @@ import { indexStokBarangRouter } from './stok-barang/routes'
 import { indexTransaksiBarangRouter } from './transaksi-barang/routes'
 import { deleteTransaksiBarangRouter } from './transaksi-barang/routes/delete'
 import { newTransaksiBarangRouter } from './transaksi-barang/routes/new'
+import { indexTransaksiKartuPaketRouter } from './transaksi-kartu-paket/routes'
+import { deleteTransaksiKartuPaketRouter } from './transaksi-kartu-paket/routes/delete'
+import { newTransaksiKartuPaketRouter } from './transaksi-kartu-paket/routes/new'
 import { indexTransaksiPaketRouter } from './transaksi-paket/routes'
 import { deleteTransaksiPaketRouter } from './transaksi-paket/routes/delete'
 import { newTransasiPaketRouter } from './transaksi-paket/routes/new'
@@ -144,6 +148,14 @@ app.use(deleteTransaksiPaketRouter);
 app.use(newPackingRouter);
 app.use(indexPackingRouter);
 app.use(deletePackingRouter);
+
+// Kartu Paket Modul
+app.use(indexKartuPaketRouter);
+
+// Transaksi Kartu Paket Modul
+app.use(newTransaksiKartuPaketRouter);
+app.use(indexTransaksiKartuPaketRouter);
+app.use(deleteTransaksiKartuPaketRouter);
 
 app.use(express.static('public'));
 

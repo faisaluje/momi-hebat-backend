@@ -5,14 +5,14 @@ import mongoose from 'mongoose'
 import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
 import { requireAuth } from '../../common/middleware/require-auth'
 import { validateRequest } from '../../common/middleware/validate-request'
-import { URL_TRANSAKSI_BARANG } from '../../contants'
-import { TransaksiBarangAttrs } from '../models/transaksi-barang'
-import { TransaksiBarangService } from '../services/transaksi-barang'
+import { URL_TRANSAKSI_KARTU_PAKET } from '../../contants'
+import { TransaksiKartuPaketAttrs } from '../models/transaksi-kartu-paket'
+import { TransaksiKartuPaketService } from '../services/transaksi-kartu-paket'
 
 const router = express.Router();
 
 router.post(
-  URL_TRANSAKSI_BARANG,
+  URL_TRANSAKSI_KARTU_PAKET,
   requireAuth,
   [
     body('tgl')
@@ -26,11 +26,11 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const body: TransaksiBarangAttrs = req.body;
+    const body: TransaksiKartuPaketAttrs = req.body;
     const session = await mongoose.startSession();
     session.startTransaction();
 
-    const transaksiBarang = await TransaksiBarangService.createTransaksiBarang(
+    const transaksiKartuPaket = await TransaksiKartuPaketService.createTransaksiKartuPaket(
       body,
       session
     );
@@ -38,8 +38,8 @@ router.post(
     await session.commitTransaction();
     session.endSession();
 
-    res.status(201).send(transaksiBarang);
+    res.status(201).send(transaksiKartuPaket);
   }
 );
 
-export { router as newTransaksiBarangRouter };
+export { router as newTransaksiKartuPaketRouter };
