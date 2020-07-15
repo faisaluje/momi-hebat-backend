@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import mongooseDelete from 'mongoose-delete'
 
+import { KaryawanStatus } from '../enums/karyawan-status'
+
 interface KaryawanAttrs {
   nama: string;
   alamat: string;
@@ -12,6 +14,7 @@ interface KaryawanDoc extends mongooseDelete.SoftDeleteDocument {
   nama: string;
   alamat: string;
   noHp: string;
+  status: KaryawanStatus;
 }
 
 interface KaryawanModel extends mongooseDelete.SoftDeleteModel<KaryawanDoc> {
@@ -20,18 +23,18 @@ interface KaryawanModel extends mongooseDelete.SoftDeleteModel<KaryawanDoc> {
 
 const karyawanSchema = new mongoose.Schema(
   {
-    no: {
-      type: Number,
-    },
+    no: Number,
     nama: {
       type: String,
       required: true,
     },
-    alamat: {
+    alamat: String,
+    noHp: String,
+    status: {
       type: String,
-    },
-    noHp: {
-      type: String,
+      required: true,
+      enum: Object.values(KaryawanStatus),
+      default: KaryawanStatus.AKTIF,
     },
   },
   {

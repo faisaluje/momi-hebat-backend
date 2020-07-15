@@ -1,11 +1,12 @@
-import express, { Request, Response } from 'express';
-import { URL_KARYAWAN } from '../../contants';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { body } from 'express-validator';
-import { validateRequest } from '../../common/middleware/validate-request';
-import { Karyawan } from '../models/karyawan';
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import { BadRequestError } from '../../common/errors/bad-request-error';
+import express, { Request, Response } from 'express'
+import { body } from 'express-validator'
+
+import { BadRequestError } from '../../common/errors/bad-request-error'
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { validateRequest } from '../../common/middleware/validate-request'
+import { URL_KARYAWAN } from '../../contants'
+import { Karyawan } from '../models/karyawan'
 
 const router = express.Router();
 
@@ -15,7 +16,6 @@ router.patch(
   [
     body('no').isEmpty().withMessage('No Karyawan tidak bisa dirubah'),
     body('nama').notEmpty().withMessage('Nama tidak boleh kosong'),
-    body('noHp').optional().isNumeric().withMessage('No. HP harus angka semua'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
