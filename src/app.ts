@@ -24,6 +24,7 @@ import { indexJenisPaketRouter } from './jenis-paket/routes'
 import { newJenisPaketRouter } from './jenis-paket/routes/new'
 import { updateJenisPaketRouter } from './jenis-paket/routes/update'
 import { indexKartuPaketRouter } from './kartu-paket/routes'
+import { updateKartuPaketRouter } from './kartu-paket/routes/update'
 import { indexKaryawanRouter } from './karyawan/routes'
 import { deleteKaryawanRouter } from './karyawan/routes/delete'
 import { newKaryawanRouter } from './karyawan/routes/new'
@@ -151,6 +152,7 @@ app.use(deletePackingRouter);
 
 // Kartu Paket Modul
 app.use(indexKartuPaketRouter);
+app.use(updateKartuPaketRouter);
 
 // Transaksi Kartu Paket Modul
 app.use(newTransaksiKartuPaketRouter);

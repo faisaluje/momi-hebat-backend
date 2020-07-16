@@ -5,25 +5,25 @@ import { BadRequestError } from '../../common/errors/bad-request-error'
 import { NotFoundError } from '../../common/errors/not-foud-error'
 import { requireAuth } from '../../common/middleware/require-auth'
 import { validateRequest } from '../../common/middleware/validate-request'
-import { URL_BARANG } from '../../contants'
-import { Barang } from '../models/barang'
+import { URL_KARTU_PAKET } from '../../contants'
+import { KartuPaket } from '../models/kartu-paket'
 
 const router = express.Router();
 
 router.patch(
-  `${URL_BARANG}/:barangId`,
+  `${URL_KARTU_PAKET}/:kartuPaketId`,
   requireAuth,
-  [body('nama').notEmpty().withMessage('Nama barang tidak boleh kosong')],
+  [body('nama').notEmpty().withMessage('Nama Kartu Paket tidak boleh kosong')],
   validateRequest,
   async (req: Request, res: Response) => {
-    const barang = await Barang.findById(req.params.barangId);
-    if (!barang) throw new NotFoundError();
+    const kartuPaket = await KartuPaket.findById(req.params.kartuPaketId);
+    if (!kartuPaket) throw new NotFoundError();
 
-    barang.set({ nama: req.body.nama });
+    kartuPaket.set({ nama: req.body.nama });
 
     try {
-      await barang.save();
-      res.status(200).send(barang);
+      await kartuPaket.save();
+      res.status(200).send(kartuPaket);
     } catch (e) {
       console.error(e);
       throw new BadRequestError(e.message);
@@ -31,4 +31,4 @@ router.patch(
   }
 );
 
-export { router as updateBarangRouter };
+export { router as updateKartuPaketRouter };
