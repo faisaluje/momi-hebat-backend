@@ -1,6 +1,8 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
-import { AgenStatus } from '../enums/agen-status';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
+import mongoosePaginate from 'mongoose-paginate-v2'
+
+import { AgenStatus } from '../enums/agen-status'
 
 interface BiodataDoc {
   nama: { lengkap: string; panggilan?: string | null };
@@ -38,6 +40,7 @@ interface AgenDoc extends mongooseDelete.SoftDeleteDocument {
 }
 
 interface AgenModel extends mongooseDelete.SoftDeleteModel<AgenDoc> {
+  paginate(query?: any, options?: any): Promise<any>;
   build(attrs: AgenAttrs): AgenDoc;
   findByAktif(): Promise<AgenDoc[]>;
 }
@@ -108,6 +111,8 @@ agenSchema.plugin(mongooseDelete, {
   overrideMethods: true,
 });
 
+agenSchema.plugin(mongoosePaginate);
+
 agenSchema.pre('save', async function (next) {
   const topAgen = this.get('topAgen');
   if (this.isNew && topAgen) {
@@ -139,6 +144,13 @@ agenSchema.virtual('subAgens', {
   ref: 'Agen', // The model to use
   localField: '_id', // Find people where `localField`
   foreignField: 'topAgen', // is equal to `foreignField`
+});
+
+agenSchema.virtual('stok', {
+  ref: 'StokAgen',
+  localField: '_id',
+  foreignField: 'agen',
+  justOne: true,
 });
 
 const Agen = mongoose.model<AgenDoc, AgenModel>('Agen', agenSchema);
