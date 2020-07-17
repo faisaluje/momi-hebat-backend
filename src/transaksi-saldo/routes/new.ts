@@ -3,14 +3,13 @@ import { body } from 'express-validator'
 import mongoose from 'mongoose'
 
 import { Agen } from '../../agen/models/agen'
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { SaldoAgenService } from '../../agen/services/saldo-agen'
 import { BadRequestError } from '../../common/errors/bad-request-error'
 import { NotFoundError } from '../../common/errors/not-foud-error'
 import { requireAuth } from '../../common/middleware/require-auth'
 import { validateRequest } from '../../common/middleware/validate-request'
 import { URL_TRANSAKSI_SALDO } from '../../contants'
 import { Periode } from '../../periode/models/periode'
-import { Saldo } from '../../saldo-agen/services/saldo'
 import { TransaksiSaldo, TransaksiSaldoAttrs } from '../models/transaksi-saldo'
 import { NoTransaksiSaldo } from '../services/no-transaksi-saldo'
 
@@ -50,30 +49,8 @@ router.post(
 
     try {
       await transaksiSaldo.save({ session });
-      const saldoAgen = await Saldo.getSaldoByPeriode(periode);
+      await SaldoAgenService.upsertSaldoAgen(transaksiSaldo, { session });
 
-      const currentSaldo = saldoAgen.saldo.find(
-        (saldo) => saldo.agen == agen.id
-      );
-      if (!currentSaldo) {
-        saldoAgen.saldo.push({
-          agen: agen,
-          jumlah:
-            transaksiSaldo.jenis === JenisTransaksi.MASUK
-              ? transaksiSaldo.nominal
-              : transaksiSaldo.nominal * -1,
-          bonus: 0,
-          updatedAt: new Date(),
-        });
-      } else {
-        if (transaksiSaldo.jenis === JenisTransaksi.MASUK) {
-          currentSaldo.jumlah += transaksiSaldo.nominal;
-        } else {
-          currentSaldo.jumlah -= transaksiSaldo.nominal;
-        }
-      }
-
-      await saldoAgen.save({ session });
       await session.commitTransaction();
       session.endSession();
       res.status(201).send(transaksiSaldo);
