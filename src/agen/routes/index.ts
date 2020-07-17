@@ -55,7 +55,7 @@ router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
       { path: 'subAgens', select: 'no diri.nama -topAgen' },
       'stok',
     ],
-    limit: req.query.limit ? parseInt(req.query.limit as string) : 100,
+    limit: req.query.limit ? parseInt(req.query.limit as string) : 50,
   };
 
   if (req.query.page) {

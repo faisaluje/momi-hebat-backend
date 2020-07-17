@@ -7,7 +7,6 @@ import express from 'express'
 import path from 'path'
 
 import { indexAgenRouter } from './agen/routes'
-import { indexStokAgenRouter } from './agen/routes/index-stok'
 import { newAgenRouter } from './agen/routes/new'
 import { updateAgenRouter } from './agen/routes/update'
 import { currentUserRouter } from './auth/routes/current-user'
@@ -127,7 +126,6 @@ app.use(deleteTransaksiSaldoRouter);
 
 // Stok Agen Modul
 app.use(indexSaldoAgenRouter);
-app.use(indexStokAgenRouter);
 
 // Stok Barang Modul
 app.use(indexStokBarangRouter);

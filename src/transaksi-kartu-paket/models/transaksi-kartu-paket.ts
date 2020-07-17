@@ -41,7 +41,6 @@ const transaksiKartuPaketSchema = new mongoose.Schema(
   {
     no: {
       type: String,
-      unique: true,
     },
     tgl: {
       type: Date,

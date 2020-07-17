@@ -46,7 +46,6 @@ const transaksiPaketSchema = new mongoose.Schema(
   {
     no: {
       type: String,
-      unique: true,
     },
     tgl: {
       type: mongoose.Schema.Types.Date,

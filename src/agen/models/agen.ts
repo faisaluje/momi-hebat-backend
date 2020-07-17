@@ -47,7 +47,13 @@ interface AgenModel extends mongooseDelete.SoftDeleteModel<AgenDoc> {
 
 const biodataSchema = new mongoose.Schema(
   {
-    nama: { lengkap: String, panggilan: String },
+    nama: {
+      lengkap: {
+        type: String,
+        index: true,
+      },
+      panggilan: String,
+    },
     alamat: {
       jalan: String,
       rt: String,
