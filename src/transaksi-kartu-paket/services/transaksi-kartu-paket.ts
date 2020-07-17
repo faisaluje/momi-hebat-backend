@@ -1,5 +1,6 @@
 import { ClientSession } from 'mongoose'
 
+import { KartuPaketAgenService } from '../../agen/services/kartu-paket-agen'
 import { BadRequestError } from '../../common/errors/bad-request-error'
 import { NotFoundError } from '../../common/errors/not-foud-error'
 import { KartuPaket } from '../../kartu-paket/models/kartu-paket'
@@ -48,6 +49,13 @@ export class TransaksiKartuPaketService {
         session,
       });
 
+      if (transaksiKartuPaket.agen) {
+        await KartuPaketAgenService.upsertStokKartuPaketAgen(
+          transaksiKartuPaket,
+          { session }
+        );
+      }
+
       return transaksiKartuPaket;
     } catch (e) {
       console.error(e);
@@ -73,6 +81,13 @@ export class TransaksiKartuPaketService {
         deleted: true,
         session,
       });
+
+      if (transaksiKartuPaket.agen) {
+        await KartuPaketAgenService.upsertStokKartuPaketAgen(
+          transaksiKartuPaket,
+          { session, deleted: true }
+        );
+      }
     } catch (e) {
       console.error(e);
       await session.abortTransaction();

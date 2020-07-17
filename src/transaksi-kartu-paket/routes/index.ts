@@ -12,6 +12,12 @@ router.get(
   `${URL_TRANSAKSI_KARTU_PAKET}`,
   requireAuth,
   async (req: Request, res: Response) => {
+    let findQuery = {};
+    if (req.query.agenId) {
+      findQuery = {
+        agen: req.query.agenId,
+      };
+    }
     const { periodeId } = req.query;
     const periode = periodeId
       ? await Periode.findById(periodeId)
@@ -21,6 +27,7 @@ router.get(
     }
 
     const transaksiKartuPaketList = await TransaksiKartuPaket.find({
+      ...findQuery,
       periode,
     }).populate('items.kartuPaket');
     res.send(transaksiKartuPaketList);
