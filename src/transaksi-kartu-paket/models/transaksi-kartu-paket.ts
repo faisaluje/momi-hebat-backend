@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import mongooseDelete from 'mongoose-delete';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 import { AgenDoc } from '../../agen/models/agen';
 import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
@@ -34,6 +35,7 @@ interface TransaksiKartuPaketDoc extends mongooseDelete.SoftDeleteDocument {
 
 interface TransaksiKartuPaketModel
   extends mongooseDelete.SoftDeleteModel<TransaksiKartuPaketDoc> {
+  paginate(query?: any, options?: any): Promise<any>;
   build(attrs: TransaksiKartuPaketAttrs, no: string): TransaksiKartuPaketDoc;
 }
 
@@ -94,6 +96,8 @@ transaksiKartuPaketSchema.plugin(mongooseDelete, {
   overrideMethods: 'all',
   indexFields: 'deleted',
 });
+
+transaksiKartuPaketSchema.plugin(mongoosePaginate);
 
 transaksiKartuPaketSchema.statics.build = (
   attrs: TransaksiKartuPaketAttrs,

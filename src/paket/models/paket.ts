@@ -1,15 +1,14 @@
 import mongoose from 'mongoose';
 import mongooseDelete from 'mongoose-delete';
-import { BarangDoc } from '../../barang/models/barang';
-import { PeriodeDoc } from '../../periode/models/periode';
+
+import { JenisPaketDoc } from '../../jenis-paket/models/jenis-paket';
+import { PaketStatus } from '../enums/paket-status';
 
 interface PaketAttrs {
   nama: string;
   harga: number;
   cashback: number;
-  biayaPacking: number;
-  barangs: BarangDoc[];
-  periode: PeriodeDoc;
+  jenisPaket: string;
 }
 
 interface PaketDoc extends mongooseDelete.SoftDeleteDocument {
@@ -17,8 +16,8 @@ interface PaketDoc extends mongooseDelete.SoftDeleteDocument {
   harga: number;
   cashback: number;
   biayaPacking: number;
-  barangs: BarangDoc[];
-  periode: PeriodeDoc;
+  jenisPaket: JenisPaketDoc;
+  status: PaketStatus;
 }
 
 interface PaketModel extends mongooseDelete.SoftDeleteModel<PaketDoc> {
@@ -41,29 +40,26 @@ const paketSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    biayaPacking: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    barangs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Barang',
-      },
-    ],
-    periode: {
+    jenisPaket: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Periode',
+      ref: 'JenisPaket',
       required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: Object.values(PaketStatus),
+      default: PaketStatus.AKTIF,
     },
   },
   {
     timestamps: true,
+    versionKey: false,
     toJSON: {
       transform(_doc, ret) {
         ret.id = ret._id;
         delete ret._id;
+        delete ret.deleted;
       },
     },
   }

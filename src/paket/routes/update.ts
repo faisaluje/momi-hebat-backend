@@ -1,14 +1,12 @@
 import express, { Request, Response } from 'express';
-import { URL_PAKET } from '../../contants';
-import { requireAuth } from '../../common/middleware/require-auth';
 import { body } from 'express-validator';
-import { validateRequest } from '../../common/middleware/validate-request';
-import { Paket, PaketAttrs } from '../models/paket';
-import { Periode } from '../../periode/models/periode';
+
 import { BadRequestError } from '../../common/errors/bad-request-error';
-import { BarangDoc, Barang } from '../../barang/models/barang';
-import { ListBarang } from '../services/list-barang';
 import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { validateRequest } from '../../common/middleware/validate-request';
+import { URL_PAKET } from '../../contants';
+import { Paket, PaketAttrs } from '../models/paket';
 
 const router = express.Router();
 
@@ -22,14 +20,14 @@ router.patch(
     if (!paket) throw new NotFoundError();
 
     const body: PaketAttrs = req.body;
-    let listBarang: BarangDoc[] = [];
 
-    if (body.barangs?.length > 0) {
-      listBarang = await ListBarang.manipulateListBarang(body.barangs);
+    if (body.jenisPaket) {
+      // @ts-ignore
+      delete body.jenisPaket;
     }
 
     try {
-      paket.set({ ...body, barangs: listBarang });
+      paket.set({ ...body });
       await paket.save();
 
       res.status(200).send(paket);
