@@ -1,10 +1,10 @@
-import mongoose from 'mongoose'
-import mongooseDelete from 'mongoose-delete'
+import mongoose from 'mongoose';
+import mongooseDelete from 'mongoose-delete';
 
-import { AgenDoc } from '../../agen/models/agen'
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
-import { KartuPaketDoc } from '../../kartu-paket/models/kartu-paket'
-import { PeriodeDoc } from '../../periode/models/periode'
+import { AgenDoc } from '../../agen/models/agen';
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
+import { KartuPaketDoc } from '../../kartu-paket/models/kartu-paket';
+import { PeriodeDoc } from '../../periode/models/periode';
 
 interface TransaksiKartuPaketItem {
   kartuPaket: KartuPaketDoc;
@@ -43,7 +43,7 @@ const transaksiKartuPaketSchema = new mongoose.Schema(
       type: String,
     },
     tgl: {
-      type: Date,
+      type: mongoose.Schema.Types.Date,
       required: true,
     },
     jenis: {

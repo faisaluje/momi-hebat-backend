@@ -1,6 +1,9 @@
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
-import { PeriodeDoc } from '../../periode/models/periode'
-import { TransaksiKartuPaket, TransaksiKartuPaketAttrs } from '../models/transaksi-kartu-paket'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
+import { PeriodeDoc } from '../../periode/models/periode';
+import {
+  TransaksiKartuPaket,
+  TransaksiKartuPaketAttrs,
+} from '../models/transaksi-kartu-paket';
 
 export class NoTransaksiKartuPaket {
   static async getCountTransaksiKartuPaket(
@@ -22,7 +25,7 @@ export class NoTransaksiKartuPaket {
       data.periode
     );
 
-    const noTransaksiKartuPaket = `TB/${data.jenis[0].toUpperCase()}/${new Date(
+    const noTransaksiKartuPaket = `TKP/${data.jenis[0].toUpperCase()}/${new Date(
       data.tgl
     ).getFullYear()}/${countTransaksiKartuPaket + 1}`;
     return noTransaksiKartuPaket;
