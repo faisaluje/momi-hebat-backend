@@ -1,11 +1,12 @@
-import express, { Request, Response } from 'express'
-import mongoose from 'mongoose'
+import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_AGEN } from '../../contants'
-import { AgenStatus } from '../enums/agen-status'
-import { Agen } from '../models/agen'
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_AGEN } from '../../contants';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { AgenStatus } from '../enums/agen-status';
+import { Agen } from '../models/agen';
 
 const router = express.Router();
 
@@ -24,7 +25,9 @@ router.get(
 );
 
 router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
+  const periodeAktif = await PeriodeAktif.getPeriodeAktif();
   let findQuery = {};
+
   if (req.query.status !== 'all') {
     findQuery = {
       ...findQuery,
@@ -52,20 +55,23 @@ router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
     sort: { level: 1, createdAt: 1 },
     populate: [
       { path: 'topAgen', select: 'no diri.nama' },
-      { path: 'subAgens', select: 'no diri.nama -topAgen' },
-      'stok',
+      {
+        path: 'subAgens',
+        match: { status: AgenStatus.AKTIF },
+        select: 'no diri.nama -topAgen',
+      },
+      { path: 'stok', match: { periode: periodeAktif?._id } },
     ],
     limit: req.query.limit ? parseInt(req.query.limit as string) : 50,
   };
 
+  if (!req.query.detail) {
+    delete paginateOptions.populate;
+  }
+
   if (req.query.page) {
     paginateOptions.page = parseInt(req.query.page as string);
   }
-
-  // const agenList = await Agen.find(findQuery)
-  //   .populate('topAgen')
-  //   .populate('subAgens')
-  //   .populate('stok');
 
   const agenList = await Agen.paginate(findQuery, paginateOptions);
 

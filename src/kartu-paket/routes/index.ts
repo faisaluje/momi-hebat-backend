@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 import { NotFoundError } from '../../common/errors/not-foud-error';
 import { requireAuth } from '../../common/middleware/require-auth';
@@ -9,7 +10,7 @@ import { KartuPaket } from '../models/kartu-paket';
 const router = express.Router();
 
 router.get(
-  URL_KARTU_PAKET,
+  `${URL_KARTU_PAKET}/with-transaksi`,
   requireAuth,
   async (req: Request, res: Response) => {
     const { periodeId } = req.query;
@@ -21,6 +22,11 @@ router.get(
     }
 
     const kartuPaketList = await KartuPaket.aggregate([
+      {
+        $match: {
+          $and: [{ deleted: false }, { periode: periode._id }],
+        },
+      },
       {
         $lookup: {
           from: 'transaksikartupakets',
@@ -84,6 +90,24 @@ router.get(
         },
       },
     ]);
+
+    res.send(kartuPaketList);
+  }
+);
+
+router.get(
+  URL_KARTU_PAKET,
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const { periodeId } = req.query;
+    const periode = periodeId
+      ? await Periode.findById(periodeId)
+      : req.currentUser!.periode;
+    if (!periode) {
+      throw new NotFoundError();
+    }
+
+    const kartuPaketList = await KartuPaket.find({ periode });
 
     res.send(kartuPaketList);
   }
