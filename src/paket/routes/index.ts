@@ -19,7 +19,10 @@ router.get(URL_PAKET, requireAuth, async (req: Request, res: Response) => {
 
   const paketList = await Paket.find({
     'jenisPaket.periode': periodeId,
-  }).populate('JenisPaket');
+  }).populate({
+    path: 'jenisPaket',
+    select: '-barangs',
+  });
 
   res.send(paketList);
 });

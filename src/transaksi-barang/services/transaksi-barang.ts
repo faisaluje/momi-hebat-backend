@@ -1,13 +1,17 @@
-import { ClientSession } from 'mongoose'
+import { ClientSession } from 'mongoose';
 
-import { BarangService } from '../../barang/services/barang'
-import { BadRequestError } from '../../common/errors/bad-request-error'
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { PeriodeAktif } from '../../periode/services/periode-aktif'
-import { StokBarangService } from '../../stok-barang/services/stok-barang'
-import { TransaksiBarang, TransaksiBarangAttrs, TransaksiBarangDoc } from '../models/transaksi-barang'
-import { Items } from './items'
-import { NoTransaksiBarang } from './no-transaksi-barang'
+import { BarangService } from '../../barang/services/barang';
+import { BadRequestError } from '../../common/errors/bad-request-error';
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { StokBarangService } from '../../stok-barang/services/stok-barang';
+import {
+  TransaksiBarang,
+  TransaksiBarangAttrs,
+  TransaksiBarangDoc,
+} from '../models/transaksi-barang';
+import { ItemsService } from './items';
+import { NoTransaksiBarang } from './no-transaksi-barang';
 
 export class TransaksiBarangService {
   static async createTransaksiBarang(
@@ -28,7 +32,7 @@ export class TransaksiBarangService {
         data.items.map((item) => item.barang),
         session
       );
-      const items = Items.getItems(listBarang, data.items);
+      const items = ItemsService.getItems(listBarang, data.items);
       const transaksiBarang = TransaksiBarang.build({
         ...data,
         no: noTransaksiBarang,

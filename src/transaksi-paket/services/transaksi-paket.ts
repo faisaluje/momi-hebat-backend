@@ -1,13 +1,17 @@
-import mongoose, { ClientSession } from 'mongoose'
+import mongoose, { ClientSession } from 'mongoose';
 
-import { Agen } from '../../agen/models/agen'
-import { BadRequestError } from '../../common/errors/bad-request-error'
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { PeriodeAktif } from '../../periode/services/periode-aktif'
-import { StokPaketService } from '../../stok-paket/services/stok-paket'
-import { TransaksiPaket, TransaksiPaketAttrs, TransaksiPaketDoc } from '../models/transaksi-paket'
-import { NoTransaksiPaket } from './no-transaksi-paket'
-import { PaketsService } from './pakets'
+import { Agen } from '../../agen/models/agen';
+import { BadRequestError } from '../../common/errors/bad-request-error';
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { StokPaketService } from '../../jenis-paket/services/stok-paket';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import {
+  TransaksiPaket,
+  TransaksiPaketAttrs,
+  TransaksiPaketDoc,
+} from '../models/transaksi-paket';
+import { NoTransaksiPaket } from './no-transaksi-paket';
+import { PaketsService } from './pakets';
 
 export class TransaksiPaketService {
   static async createTransaksiPaket(
@@ -39,9 +43,7 @@ export class TransaksiPaketService {
 
     try {
       await transaksiPaket.save({ session: session });
-      await StokPaketService.upsertStokPaket(transaksiPaket, {
-        session: session,
-      });
+      await StokPaketService.updateStokPaket(transaksiPaket, { session });
 
       return transaksiPaket;
     } catch (e) {
@@ -62,7 +64,7 @@ export class TransaksiPaketService {
     try {
       transaksiPaket.$session(session);
       await transaksiPaket.delete();
-      await StokPaketService.upsertStokPaket(transaksiPaket, {
+      await StokPaketService.updateStokPaket(transaksiPaket, {
         deleted: true,
         session,
       });

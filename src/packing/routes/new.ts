@@ -1,18 +1,18 @@
-import express, { Request, Response } from 'express'
-import mongoose from 'mongoose'
+import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
-import { BadRequestError } from '../../common/errors/bad-request-error'
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_PACKING } from '../../contants'
-import { PeriodeAktif } from '../../periode/services/periode-aktif'
-import { TransaksiBarangService } from '../../transaksi-barang/services/transaksi-barang'
-import { TransaksiKategori } from '../../transaksi-paket/enums/transaksi-kategori'
-import { Pakets } from '../../transaksi-paket/models/pakets'
-import { PaketsDoc } from '../../transaksi-paket/models/transaksi-paket'
-import { TransaksiPaketService } from '../../transaksi-paket/services/transaksi-paket'
-import { Packing } from '../models/packing'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
+import { BadRequestError } from '../../common/errors/bad-request-error';
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_PACKING } from '../../contants';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { ItemsService } from '../../transaksi-barang/services/items';
+import { TransaksiBarangService } from '../../transaksi-barang/services/transaksi-barang';
+import { TransaksiKategori } from '../../transaksi-paket/enums/transaksi-kategori';
+import { PaketsDoc } from '../../transaksi-paket/models/transaksi-paket';
+import { TransaksiPaketService } from '../../transaksi-paket/services/transaksi-paket';
+import { Packing } from '../models/packing';
 
 const router = express.Router();
 
@@ -29,8 +29,8 @@ router.post(URL_PACKING, requireAuth, async (req: Request, res: Response) => {
   try {
     await packing.save({ session });
 
-    const pakets: PaketsDoc[] = packing.proses.map((proses) => ({
-      jenisPaket: proses.jenisPaket._id,
+    const pakets = packing.proses.map((proses: any) => ({
+      jenisPaket: proses.jenisPaket,
       jumlah: proses.jumlah,
     }));
 
@@ -45,7 +45,7 @@ router.post(URL_PACKING, requireAuth, async (req: Request, res: Response) => {
       session
     );
 
-    const items = await Pakets.getAllBarang(transaksiPaket?._id, session);
+    const items = await ItemsService.getItemsByTransaksiPaket(transaksiPaket);
     const transaksiBarang = await TransaksiBarangService.createTransaksiBarang(
       {
         tgl: packing.tgl,
