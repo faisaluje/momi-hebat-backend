@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-import { BadRequestError } from '../../common/errors/bad-request-error'
-import { JenisPaketService } from '../../jenis-paket/services/jenis-paket'
-import { PaketsDoc } from '../models/transaksi-paket'
+import { BadRequestError } from '../../common/errors/bad-request-error';
+import { JenisPaketService } from '../../jenis-paket/services/jenis-paket';
+import { PaketsDoc } from '../../transaksi-paket/models/transaksi-paket';
 
 export class PaketsService {
   static async getPakets(pakets: PaketsDoc[]): Promise<PaketsDoc[]> {

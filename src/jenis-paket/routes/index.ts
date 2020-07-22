@@ -32,7 +32,9 @@ router.get(
     const jenisPaketList = await JenisPaket.find({
       ...findQuery,
       periode,
-    }).populate('barangs.barang');
+    })
+      .populate('barangs.barang')
+      .sort({ createdAt: 1 });
 
     res.send(jenisPaketList);
   }

@@ -1,3 +1,5 @@
+import mongoose from 'mongoose'
+
 export function numberToAlphabet(num: number) {
   var s = '',
     t;
@@ -8,4 +10,8 @@ export function numberToAlphabet(num: number) {
     num = ((num - t) / 26) | 0;
   }
   return s || undefined;
+}
+
+export function compareObjectId(sourceId: any, targetId: any): boolean {
+  return mongoose.Types.ObjectId(sourceId).equals(targetId);
 }

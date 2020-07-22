@@ -9,22 +9,25 @@ import { AgenDoc } from './agen'
 interface StokAgenAttrs {
   agen: string;
   saldo: number;
-  bonus: number;
-  kartuPakets: {
+  totalBonus?: number;
+  kartuPakets?: {
     kartuPaket: string;
     jumlah: number;
   }[];
-  pakets: {
+  pakets?: {
     paket: string;
     jumlah: number;
   }[];
-  periode: string;
+  bonusPakets?: {
+    paket: string;
+    nominal: number;
+  }[];
 }
 
 interface StokAgenDoc extends mongooseDelete.SoftDeleteDocument {
   agen: AgenDoc;
   saldo: number;
-  bonus: number;
+  totalBonus: number;
   kartuPakets: {
     kartuPaket: KartuPaketDoc;
     jumlah?: number;
@@ -32,6 +35,10 @@ interface StokAgenDoc extends mongooseDelete.SoftDeleteDocument {
   pakets: {
     paket: PaketDoc;
     jumlah?: number;
+  }[];
+  bonusPakets: {
+    paket: PaketDoc;
+    nominal?: number;
   }[];
   periode: PeriodeDoc;
 }
@@ -53,7 +60,7 @@ const stokAgenSchema = new mongoose.Schema(
       required: true,
     },
     saldo: Number,
-    bonus: Number,
+    totalBonus: Number,
     kartuPakets: [
       {
         kartuPaket: {
@@ -70,6 +77,15 @@ const stokAgenSchema = new mongoose.Schema(
           ref: 'Paket',
         },
         jumlah: Number,
+      },
+    ],
+    bonusPakets: [
+      {
+        paket: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Paket',
+        },
+        nominal: Number,
       },
     ],
   },

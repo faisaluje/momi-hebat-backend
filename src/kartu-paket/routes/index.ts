@@ -58,6 +58,7 @@ router.get(
             id: '$_id',
             nama: '$nama',
             stok: '$stok',
+            createdAt: `$createdAt`,
           },
           stokMasuk: {
             $sum: {
@@ -89,6 +90,7 @@ router.get(
           },
         },
       },
+      { $sort: { '_id.createdAt': 1 } },
     ]);
 
     res.send(kartuPaketList);
@@ -107,7 +109,9 @@ router.get(
       throw new NotFoundError();
     }
 
-    const kartuPaketList = await KartuPaket.find({ periode });
+    const kartuPaketList = await KartuPaket.find({ periode }).sort({
+      createdAt: 1,
+    });
 
     res.send(kartuPaketList);
   }

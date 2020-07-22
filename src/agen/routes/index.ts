@@ -14,10 +14,12 @@ router.get(
   `${URL_AGEN}/:agenId`,
   requireAuth,
   async (req: Request, res: Response) => {
+    const periodeAktif = await PeriodeAktif.getPeriodeAktif();
+
     const agen = await Agen.findById(req.params.agenId)
       .populate({ path: 'topAgen', select: 'no diri.nama' })
       .populate({ path: 'subAgens', select: 'no diri.nama -topAgen' })
-      .populate('stok');
+      .populate({ path: 'stok', match: { periode: periodeAktif?._id } });
     if (!agen) throw new NotFoundError();
 
     res.send(agen);
