@@ -50,12 +50,14 @@ router.patch(
   }
 );
 
-router.patch(`${URL_AGEN}/stok/:agenId`, requireAuth, async (req, res) => {
+router.patch(`${URL_AGEN}/bonus/:agenId`, requireAuth, async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const result = await StokAgenService.updateStokAgen(req.body, { session });
+    const result = await BonusPaketAgenService.updateBonusAgen(req.body, {
+      session,
+    });
     if (!result) {
       console.log(result);
 

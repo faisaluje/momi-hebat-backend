@@ -1,34 +1,30 @@
 import express, { Request, Response } from 'express'
 
-import { Agen } from '../../agen/models/agen'
 import { NotFoundError } from '../../common/errors/not-foud-error'
 import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_TRANSAKSI_SALDO } from '../../contants'
+import { URL_PENGATURAN_PAKET_AGEN } from '../../contants'
 import { Periode } from '../../periode/models/periode'
-import { TransaksiSaldo } from '../models/transaksi-saldo'
+import { PengaturanPaketAgen } from '../models/pengaturan-paket-agen'
 
 const router = express.Router();
 
 router.get(
-  `${URL_TRANSAKSI_SALDO}/:agenId`,
+  `${URL_PENGATURAN_PAKET_AGEN}`,
   requireAuth,
   async (req: Request, res: Response) => {
-    const { agenId } = req.params;
     const { periodeId } = req.query;
-    const agen = await Agen.findById(agenId);
     const periode = periodeId
       ? await Periode.findById(periodeId)
       : req.currentUser!.periode;
-    if (!agen || !periode) {
+    if (!periode) {
       throw new NotFoundError();
     }
 
-    const transaksiSaldoList = await TransaksiSaldo.find({
-      agen,
+    const pengaturanPaketAgen = await PengaturanPaketAgen.find({
       periode,
-    }).sort({ tgl: 1, createdAt: 1 });
-    res.send(transaksiSaldoList);
+    });
+    res.send(pengaturanPaketAgen);
   }
 );
 
-export { router as indexTransaksiSaldoRouter };
+export { router as indexPengaturanPaketAgenRouter };

@@ -22,3 +22,4 @@ export const URL_STOK_BARANG = `${URL_API}/stok-barang`;
 export const URL_PACKING = `${URL_API}/packing`;
 export const URL_KARTU_PAKET = `${URL_API}/kartu-paket`;
 export const URL_TRANSAKSI_KARTU_PAKET = `${URL_API}/transaksi-kartu-paket`;
+export const URL_PENGATURAN_PAKET_AGEN = `${URL_API}/pengaturan-paket-agen`;

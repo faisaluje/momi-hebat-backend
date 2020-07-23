@@ -35,6 +35,8 @@ import { newPackingRouter } from './packing/routes/new'
 import { indexPaketRouter } from './paket/routes'
 import { newPaketRouter } from './paket/routes/new'
 import { updatePaketRouter } from './paket/routes/update'
+import { indexPengaturanPaketAgenRouter } from './pengaturan-paket-agen/routes'
+import { newPengaturanPaketAgenRouter } from './pengaturan-paket-agen/routes/new'
 import { indexPenggunaRouter } from './pengguna/routes'
 import { changePenggunaPasswordRouter } from './pengguna/routes/change-password'
 import { newPenggunaRouter } from './pengguna/routes/new'
@@ -152,6 +154,10 @@ app.use(updateKartuPaketRouter);
 app.use(newTransaksiKartuPaketRouter);
 app.use(indexTransaksiKartuPaketRouter);
 app.use(deleteTransaksiKartuPaketRouter);
+
+// Pengaturan Paket Agen Modul
+app.use(newPengaturanPaketAgenRouter);
+app.use(indexPengaturanPaketAgenRouter);
 
 app.use(express.static('public'));
 

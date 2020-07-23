@@ -8,9 +8,9 @@ export class KartuPaketAgenService {
     transaksiKartuPaket: TransaksiKartuPaketDoc,
     options: UpdateStokOptions
   ): Promise<void> {
-    let multiple = transaksiKartuPaket.jenis == JenisTransaksi.MASUK ? -1 : 1;
+    let multiply = transaksiKartuPaket.jenis == JenisTransaksi.MASUK ? -1 : 1;
     if (options.deleted) {
-      multiple = transaksiKartuPaket.jenis == JenisTransaksi.MASUK ? 1 : -1;
+      multiply = transaksiKartuPaket.jenis == JenisTransaksi.MASUK ? 1 : -1;
     }
 
     for (const item of transaksiKartuPaket.items) {
@@ -22,7 +22,7 @@ export class KartuPaketAgenService {
       const result = await StokAgen.updateOne(
         { ...filter, 'kartuPakets.kartuPaket': item.kartuPaket },
         {
-          $inc: { 'kartuPakets.$.jumlah': item.jumlah * multiple },
+          $inc: { 'kartuPakets.$.jumlah': item.jumlah * multiply },
         },
         { session: options.session }
       );
@@ -34,7 +34,7 @@ export class KartuPaketAgenService {
             $addToSet: {
               kartuPakets: {
                 kartuPaket: item.kartuPaket,
-                jumlah: item.jumlah * multiple,
+                jumlah: item.jumlah * multiply,
               },
             },
           },
