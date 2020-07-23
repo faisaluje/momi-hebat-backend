@@ -9,7 +9,7 @@ import { PengaturanPaketAgen } from '../models/pengaturan-paket-agen'
 const router = express.Router();
 
 router.get(
-  `${URL_PENGATURAN_PAKET_AGEN}`,
+  `${URL_PENGATURAN_PAKET_AGEN}/:agenId`,
   requireAuth,
   async (req: Request, res: Response) => {
     const { periodeId } = req.query;
@@ -21,8 +21,9 @@ router.get(
     }
 
     const pengaturanPaketAgen = await PengaturanPaketAgen.find({
+      agen: req.params.agenId as any,
       periode,
-    });
+    }).sort({ tgl: 1, createdAt: 1 });
     res.send(pengaturanPaketAgen);
   }
 );
