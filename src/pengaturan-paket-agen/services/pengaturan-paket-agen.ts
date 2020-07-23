@@ -139,6 +139,10 @@ export class PengaturanPaketAgenService {
       periode: periode._id,
     });
 
+    pengaturanPaketAgen.items.forEach((item, idx) => {
+      if (!item.jumlah) pengaturanPaketAgen.items.splice(idx, 1);
+    });
+
     await pengaturanPaketAgen.save({ session });
     await pengaturanPaketAgen
       .populate('agen')
