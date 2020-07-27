@@ -4,7 +4,6 @@ import request from 'supertest'
 import { AgenAttrs, AgenDoc } from '../../../agen/models/agen'
 import { app } from '../../../app'
 import { JenisTransaksi } from '../../../common/enums/jenis-transaksi'
-import { SaldoAgen } from '../../../saldo-agen/models/saldo-agen'
 import { TransaksiKategori } from '../../enums/transaksi-kategori'
 import { TransaksiVia } from '../../enums/transaksi-via'
 

@@ -9,6 +9,7 @@ interface PaketAttrs {
   harga: number;
   cashback: number;
   jenisPaket: string;
+  bgColor?: string;
 }
 
 interface PaketDoc extends mongooseDelete.SoftDeleteDocument {
@@ -18,6 +19,7 @@ interface PaketDoc extends mongooseDelete.SoftDeleteDocument {
   biayaPacking: number;
   jenisPaket: JenisPaketDoc;
   status: PaketStatus;
+  bgColor: string;
 }
 
 interface PaketModel extends mongooseDelete.SoftDeleteModel<PaketDoc> {
@@ -44,6 +46,10 @@ const paketSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'JenisPaket',
       required: true,
+    },
+    bgColor: {
+      type: String,
+      default: '#FFF',
     },
     status: {
       type: String,

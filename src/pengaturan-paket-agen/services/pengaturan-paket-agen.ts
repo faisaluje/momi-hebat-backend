@@ -59,7 +59,7 @@ export class PengaturanPaketAgenService {
       if (kategoriPengaturan === TransaksiKategori.CASHBACK) {
         nominal = this.calculateBiayaPaket(data, JenisNominal.CASHBACK);
         jenis = JenisTransaksi.KELUAR;
-        kategori = TransaksiKategori.PAKET;
+        kategori = TransaksiKategori.CASHBACK;
       }
     }
 

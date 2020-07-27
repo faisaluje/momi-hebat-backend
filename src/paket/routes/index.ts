@@ -1,11 +1,11 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response } from 'express';
 
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_PAKET } from '../../contants'
-import { Periode } from '../../periode/models/periode'
-import { PaketStatus } from '../enums/paket-status'
-import { Paket } from '../models/paket'
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_PAKET } from '../../contants';
+import { Periode } from '../../periode/models/periode';
+import { PaketStatus } from '../enums/paket-status';
+import { Paket } from '../models/paket';
 
 const router = express.Router();
 
