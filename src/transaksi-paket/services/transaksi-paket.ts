@@ -1,4 +1,4 @@
-import mongoose, { ClientSession } from 'mongoose'
+import { ClientSession } from 'mongoose'
 
 import { BadRequestError } from '../../common/errors/bad-request-error'
 import { NotFoundError } from '../../common/errors/not-foud-error'

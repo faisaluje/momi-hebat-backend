@@ -17,6 +17,7 @@ interface StokAgenAttrs {
   pakets?: {
     paket: string;
     jumlah: number;
+    stok: number;
   }[];
   bonusPakets?: {
     paket: string;
@@ -35,6 +36,7 @@ interface StokAgenDoc extends mongooseDelete.SoftDeleteDocument {
   pakets: {
     paket: PaketDoc;
     jumlah?: number;
+    stok?: number;
   }[];
   bonusPakets: {
     paket: PaketDoc;
@@ -77,6 +79,7 @@ const stokAgenSchema = new mongoose.Schema(
           ref: 'Paket',
         },
         jumlah: Number,
+        stok: Number,
       },
     ],
     bonusPakets: [

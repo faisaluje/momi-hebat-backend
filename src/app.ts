@@ -52,6 +52,9 @@ import { newTransaksiBarangRouter } from './transaksi-barang/routes/new'
 import { indexTransaksiKartuPaketRouter } from './transaksi-kartu-paket/routes'
 import { deleteTransaksiKartuPaketRouter } from './transaksi-kartu-paket/routes/delete'
 import { newTransaksiKartuPaketRouter } from './transaksi-kartu-paket/routes/new'
+import { indexTransaksiPaketAgenRouter } from './transaksi-paket-agen/routes'
+import { deleteTransaksiPaketAgenRouter } from './transaksi-paket-agen/routes/delete'
+import { newTransaksiPaketAgenRouter } from './transaksi-paket-agen/routes/new'
 import { indexTransaksiPaketRouter } from './transaksi-paket/routes'
 import { deleteTransaksiPaketRouter } from './transaksi-paket/routes/delete'
 import { newTransasiPaketRouter } from './transaksi-paket/routes/new'
@@ -158,6 +161,11 @@ app.use(deleteTransaksiKartuPaketRouter);
 // Pengaturan Paket Agen Modul
 app.use(newPengaturanPaketAgenRouter);
 app.use(indexPengaturanPaketAgenRouter);
+
+// Transaksi Paket Agen Modul
+app.use(newTransaksiPaketAgenRouter);
+app.use(indexTransaksiPaketAgenRouter);
+app.use(deleteTransaksiPaketAgenRouter);
 
 app.use(express.static('public'));
 

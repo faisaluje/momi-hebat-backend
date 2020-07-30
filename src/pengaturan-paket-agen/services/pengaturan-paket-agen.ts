@@ -163,7 +163,7 @@ export class PengaturanPaketAgenService {
     );
     await this.createTransaksiPaket(pengaturanPaketAgen, session);
 
-    await PaketAgenService.updateStokPaketAgen(pengaturanPaketAgen, {
+    await PaketAgenService.updateStokPaketTersediaAgen(pengaturanPaketAgen, {
       session,
     });
 
