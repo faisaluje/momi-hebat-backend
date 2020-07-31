@@ -1,12 +1,12 @@
-import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import express, { Request, Response } from 'express'
+import mongoose from 'mongoose'
 
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { URL_AGEN } from '../../contants';
-import { PeriodeAktif } from '../../periode/services/periode-aktif';
-import { AgenStatus } from '../enums/agen-status';
-import { Agen } from '../models/agen';
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { URL_AGEN } from '../../contants'
+import { PeriodeAktif } from '../../periode/services/periode-aktif'
+import { AgenStatus } from '../enums/agen-status'
+import { Agen } from '../models/agen'
 
 const router = express.Router();
 
@@ -50,6 +50,13 @@ router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
       'diri.nama.lengkap': {
         $regex: new RegExp(req.query.nama as string, 'is'),
       },
+    };
+  }
+
+  if (req.query.tglLahir) {
+    findQuery = {
+      ...findQuery,
+      'diri.lahir.tanggal': req.query.tglLahir,
     };
   }
 
