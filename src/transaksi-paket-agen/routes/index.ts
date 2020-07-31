@@ -28,6 +28,7 @@ router.get(
 
     const transaksiPaketAgen = await TransaksiPaketAgen.find(filter).sort({
       tgl: 1,
+      createdAt: 1,
     });
 
     res.send(transaksiPaketAgen);
