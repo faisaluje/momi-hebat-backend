@@ -1,11 +1,13 @@
-import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import express, { Request, Response } from 'express'
+import mongoose from 'mongoose'
 
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { URL_KARTU_PAKET } from '../../contants';
-import { Periode } from '../../periode/models/periode';
-import { KartuPaket } from '../models/kartu-paket';
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { URL_KARTU_PAKET } from '../../contants'
+import { Periode } from '../../periode/models/periode'
+import { TransaksiKartuPaketService } from '../../transaksi-kartu-paket/services/transaksi-kartu-paket'
+import { TransaksiPaketAgen } from '../../transaksi-paket-agen/models/transaksi-paket-agen'
+import { KartuPaket } from '../models/kartu-paket'
 
 const router = express.Router();
 
@@ -92,6 +94,22 @@ router.get(
       },
       { $sort: { '_id.createdAt': 1 } },
     ]);
+
+    const transaksiKartuPaketAgen = await TransaksiKartuPaketService.getTransaksiKartuPaketAgen(
+      periode
+    );
+
+    if (transaksiKartuPaketAgen?.length > 0) {
+      kartuPaketList.forEach((kartuPaket) => {
+        const kartuPaketSelected = transaksiKartuPaketAgen.find((kartu) =>
+          mongoose.Types.ObjectId(kartu._id.id).equals(kartuPaket._id.id)
+        );
+        if (kartuPaketSelected) {
+          kartuPaket.stokMasuk -= kartuPaketSelected.jumlahMasuk;
+          kartuPaket.stokKeluar -= kartuPaketSelected.jumlahMasuk;
+        }
+      });
+    }
 
     res.send(kartuPaketList);
   }
