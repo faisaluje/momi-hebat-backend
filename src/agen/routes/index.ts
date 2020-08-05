@@ -68,6 +68,7 @@ router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
         path: 'subAgens',
         match: { status: AgenStatus.AKTIF },
         select: 'no diri.nama -topAgen',
+        options: { sort: { createdAt: 1 } },
       },
       { path: 'stok', match: { periode: periodeAktif?._id } },
     ],
