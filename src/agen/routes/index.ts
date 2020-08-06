@@ -72,8 +72,17 @@ router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
       },
       { path: 'stok', match: { periode: periodeAktif?._id } },
     ],
-    limit: req.query.limit ? parseInt(req.query.limit as string) : 50,
   };
+
+  paginateOptions.limit = 50;
+
+  if (req.query.limit) {
+    if (req.query.limit !== 'all') {
+      paginateOptions.limit = parseInt(req.query.limit as string);
+    } else {
+      paginateOptions.pagination = false;
+    }
+  }
 
   if (!req.query.detail) {
     delete paginateOptions.populate;
