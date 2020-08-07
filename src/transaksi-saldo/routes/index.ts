@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import moment from 'moment'
 
 import { Agen } from '../../agen/models/agen'
 import { NotFoundError } from '../../common/errors/not-foud-error'
@@ -27,6 +28,45 @@ router.get(
       agen,
       periode,
     }).sort({ tgl: 1, createdAt: 1 });
+    res.send(transaksiSaldoList);
+  }
+);
+
+router.get(
+  `${URL_TRANSAKSI_SALDO}/`,
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const { periodeId } = req.query;
+    const dateFirst = req.query.dateFirst;
+    const dateLast = req.query.dateLast;
+    const periode = periodeId
+      ? await Periode.findById(periodeId)
+      : req.currentUser!.periode;
+    if (!periode || !dateFirst || !dateLast) {
+      throw new NotFoundError();
+    }
+
+    let findConditions = {};
+
+    if (req.query.agen) {
+      findConditions = {
+        agen: req.query.agen,
+      };
+    }
+
+    const transaksiSaldoList = await TransaksiSaldo.find({
+      periode,
+      tgl: {
+        $gte: new Date(dateFirst.toString()),
+        $lte: new Date(dateLast.toString()),
+      },
+      ...findConditions,
+    })
+      .sort({
+        tgl: 1,
+        createdAt: 1,
+      })
+      .populate('agen');
     res.send(transaksiSaldoList);
   }
 );

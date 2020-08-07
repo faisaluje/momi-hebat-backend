@@ -1,12 +1,14 @@
-import mongoose from 'mongoose';
-import { PeriodeStatus } from '../enums/periode-status';
-import mongooseDelete from 'mongoose-delete';
-import { PeriodeAktif } from '../services/periode-aktif';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
+
+import { PeriodeStatus } from '../enums/periode-status'
+import { PeriodeAktif } from '../services/periode-aktif'
 
 interface ReferensiDoc {
   judul: string;
   alamat: string;
   noHp: string;
+  ig: string;
 }
 
 interface PeriodeAttrs {
@@ -55,12 +57,9 @@ const periodeSchema = new mongoose.Schema(
         required: true,
         default: 'Paket Momi Hebat',
       },
-      alamat: {
-        type: String,
-      },
-      noHp: {
-        type: String,
-      },
+      alamat: String,
+      noHp: String,
+      ig: String,
     },
   },
   {
