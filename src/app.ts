@@ -8,6 +8,7 @@ import path from 'path'
 
 import { indexAgenRouter } from './agen/routes'
 import { newAgenRouter } from './agen/routes/new'
+import { profilePhotoRouter } from './agen/routes/profile-photo'
 import { updateAgenRouter } from './agen/routes/update'
 import { currentUserRouter } from './auth/routes/current-user'
 import { signinRouter } from './auth/routes/signin'
@@ -109,6 +110,7 @@ app.use(deleteKaryawanRouter);
 app.use(newAgenRouter);
 app.use(indexAgenRouter);
 app.use(updateAgenRouter);
+app.use(profilePhotoRouter);
 
 // Barang Modul
 app.use(newBarangRouter);

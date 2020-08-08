@@ -1,12 +1,13 @@
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import { Pengguna } from '../models/pengguna';
-import { validateRequest } from '../../common/middleware/validate-request';
-import { BadRequestError } from '../../common/errors/bad-request-error';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { PenggunaStatus } from '../enums/pengguna-status';
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import { URL_PENGGUNA } from '../../contants';
+import express, { Request, Response } from 'express'
+import { body } from 'express-validator'
+
+import { BadRequestError } from '../../common/errors/bad-request-error'
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { validateRequest } from '../../common/middleware/validate-request'
+import { URL_PENGGUNA } from '../../contants'
+import { PenggunaStatus } from '../enums/pengguna-status'
+import { Pengguna } from '../models/pengguna'
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.patch(
     body('nama').trim().notEmpty().withMessage('Nama harus diisi'),
     body('peran').isEmpty().withMessage('Peran harus kosong'),
     body('status')
-      .isIn([PenggunaStatus.AKTIF, PenggunaStatus.TIDAK_AKTIF])
+      .isIn([PenggunaStatus.AKTIF, PenggunaStatus.TIDAK_AKTIF, undefined])
       .withMessage('Status hanya aktif & tidak_aktif'),
   ],
   validateRequest,
