@@ -9,6 +9,8 @@ services:
       - mongo-1
       - mongo-2
       - mongo-3
+    volumes:
+      - profile-pictures:/app/public/profile-pictures
     environment:
       MONGO_URI: mongodb://mongo-1:27017,mongo-2:27017,mongo-3:27017/momi-hebat?replicaSet=rs0
     networks:
@@ -51,6 +53,7 @@ volumes:
   db-data-1:
   db-data-2:
   db-data-3:
+  profile-pictures:
 
 networks:
   mongo_replica_set:
