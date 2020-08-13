@@ -1,10 +1,12 @@
-import { UpdateStokOptions } from '../../common/dto/update-stok-options';
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
-import { TransaksiSaldoDoc } from '../../transaksi-saldo/models/transaksi-saldo';
-import { StokAgen } from '../models/stok-agen';
+import { UpdateStokOptions } from '../../common/dto/update-stok-options'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { TransaksiSaldoDoc } from '../../transaksi-saldo/models/transaksi-saldo'
+import { StokAgen } from '../models/stok-agen'
 
 export class SaldoAgenService {
-  static async getSumSaldoAgen(periodeId: string): Promise<{ saldo: number }> {
+  static async getSumSaldoAgen(
+    periodeId: string
+  ): Promise<{ saldo: number; bonus: number }> {
     try {
       const saldo = await StokAgen.aggregate([
         {
@@ -18,17 +20,20 @@ export class SaldoAgenService {
             saldo: {
               $sum: '$saldo',
             },
+            bonus: {
+              $sum: '$totalBonus',
+            },
           },
         },
         {
-          $project: { saldo: 1, _id: 0 },
+          $project: { saldo: 1, bonus: 1, _id: 0 },
         },
       ]);
 
       return saldo[0];
     } catch (e) {
       console.error(e.message);
-      return { saldo: 0 };
+      return { saldo: 0, bonus: 0 };
     }
   }
 

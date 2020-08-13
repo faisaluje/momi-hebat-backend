@@ -7,6 +7,7 @@ import express from 'express'
 import path from 'path'
 
 import { indexAgenRouter } from './agen/routes'
+import { laporanAgenRouter } from './agen/routes/laporan'
 import { newAgenRouter } from './agen/routes/new'
 import { profilePhotoRouter } from './agen/routes/profile-photo'
 import { updateAgenRouter } from './agen/routes/update'
@@ -108,6 +109,7 @@ app.use(deleteKaryawanRouter);
 
 // Agen Modul
 app.use(newAgenRouter);
+app.use(laporanAgenRouter);
 app.use(indexAgenRouter);
 app.use(updateAgenRouter);
 app.use(profilePhotoRouter);

@@ -1,13 +1,13 @@
-import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
+import express, { Request, Response } from 'express'
+import mongoose from 'mongoose'
 
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { URL_AGEN } from '../../contants';
-import { PeriodeAktif } from '../../periode/services/periode-aktif';
-import { AgenStatus } from '../enums/agen-status';
-import { Agen } from '../models/agen';
-import { SaldoAgenService } from '../services/saldo-agen';
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { URL_AGEN } from '../../contants'
+import { PeriodeAktif } from '../../periode/services/periode-aktif'
+import { AgenStatus } from '../enums/agen-status'
+import { Agen } from '../models/agen'
+import { SaldoAgenService } from '../services/saldo-agen'
 
 const router = express.Router();
 
