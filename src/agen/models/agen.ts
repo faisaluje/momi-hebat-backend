@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import aggregatePaginate from 'mongoose-aggregate-paginate-v2'
 import mongooseDelete from 'mongoose-delete'
 import mongoosePaginate from 'mongoose-paginate-v2'
 
@@ -41,6 +42,7 @@ interface AgenDoc extends mongooseDelete.SoftDeleteDocument {
 
 interface AgenModel extends mongooseDelete.SoftDeleteModel<AgenDoc> {
   paginate(query?: any, options?: any): Promise<any>;
+  aggregatePaginate(aggregate?: any, options?: any): Promise<any>;
   build(attrs: AgenAttrs): AgenDoc;
   findByAktif(): Promise<AgenDoc[]>;
 }
@@ -118,6 +120,7 @@ agenSchema.plugin(mongooseDelete, {
 });
 
 agenSchema.plugin(mongoosePaginate);
+agenSchema.plugin(aggregatePaginate);
 
 agenSchema.pre('save', async function (next) {
   const topAgen = this.get('topAgen');

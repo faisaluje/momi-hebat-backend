@@ -68,9 +68,15 @@ router.get(URL_AGEN, requireAuth, async (req: Request, res: Response) => {
   }
 
   if (req.query.tglLahir) {
+    const tglLahir = new Date(req.query.tglLahir as string);
     findQuery = {
       ...findQuery,
-      'diri.lahir.tanggal': req.query.tglLahir,
+      $expr: {
+        $and: [
+          { $eq: [{ $month: '$diri.lahir.tanggal' }, tglLahir.getMonth() + 1] },
+          { $eq: [{ $dayOfMonth: '$diri.lahir.tanggal' }, tglLahir.getDate()] },
+        ],
+      },
     };
   }
 
