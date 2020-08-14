@@ -1,17 +1,18 @@
-import express, { Request, Response } from 'express'
-import { body } from 'express-validator'
-import mongoose from 'mongoose'
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import mongoose from 'mongoose';
 
-import { Agen } from '../../agen/models/agen'
-import { SaldoAgenService } from '../../agen/services/saldo-agen'
-import { BadRequestError } from '../../common/errors/bad-request-error'
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { validateRequest } from '../../common/middleware/validate-request'
-import { URL_TRANSAKSI_SALDO } from '../../contants'
-import { Periode } from '../../periode/models/periode'
-import { TransaksiSaldo, TransaksiSaldoAttrs } from '../models/transaksi-saldo'
-import { NoTransaksiSaldo } from '../services/no-transaksi-saldo'
+import { Agen } from '../../agen/models/agen';
+import { SaldoAgenService } from '../../agen/services/saldo-agen';
+import { BadRequestError } from '../../common/errors/bad-request-error';
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { validateRequest } from '../../common/middleware/validate-request';
+import { URL_TRANSAKSI_SALDO } from '../../contants';
+import { Periode } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { TransaksiSaldo, TransaksiSaldoAttrs } from '../models/transaksi-saldo';
+import { NoTransaksiSaldo } from '../services/no-transaksi-saldo';
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.post(
   async (req: Request, res: Response) => {
     const body: TransaksiSaldoAttrs = req.body;
     const agen = await Agen.findById(body.agen.id);
-    const periode = await Periode.findById(req.currentUser?.periode?._id);
+    const periode = await PeriodeAktif.getPeriodeAktif();
     if (!agen || !periode) {
       throw new NotFoundError();
     }

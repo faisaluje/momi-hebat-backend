@@ -1,10 +1,11 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response } from 'express';
 
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_PENGATURAN_PAKET_AGEN } from '../../contants'
-import { Periode } from '../../periode/models/periode'
-import { PengaturanPaketAgen } from '../models/pengaturan-paket-agen'
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_PENGATURAN_PAKET_AGEN } from '../../contants';
+import { Periode } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { PengaturanPaketAgen } from '../models/pengaturan-paket-agen';
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.get(
     const { periodeId } = req.query;
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!periode) {
       throw new NotFoundError();
     }

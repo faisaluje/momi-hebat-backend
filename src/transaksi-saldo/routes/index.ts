@@ -1,12 +1,13 @@
-import express, { Request, Response } from 'express'
-import moment from 'moment'
+import express, { Request, Response } from 'express';
+import moment from 'moment';
 
-import { Agen } from '../../agen/models/agen'
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_TRANSAKSI_SALDO } from '../../contants'
-import { Periode } from '../../periode/models/periode'
-import { TransaksiSaldo } from '../models/transaksi-saldo'
+import { Agen } from '../../agen/models/agen';
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_TRANSAKSI_SALDO } from '../../contants';
+import { Periode } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { TransaksiSaldo } from '../models/transaksi-saldo';
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.get(
     const agen = await Agen.findById(agenId);
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!agen || !periode) {
       throw new NotFoundError();
     }
@@ -41,7 +42,7 @@ router.get(
     const dateLast = req.query.dateLast;
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!periode || !dateFirst || !dateLast) {
       throw new NotFoundError();
     }

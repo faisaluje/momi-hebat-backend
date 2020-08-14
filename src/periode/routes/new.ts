@@ -1,10 +1,13 @@
-import express, { Response, Request } from 'express';
-import { URL_PERIODE } from '../../contants';
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import mongoose from 'mongoose';
+
 import { requireAuth } from '../../common/middleware/require-auth';
 import { validateRequest } from '../../common/middleware/validate-request';
-import { body } from 'express-validator';
+import { URL_PERIODE } from '../../contants';
+import { JenisPaketService } from '../../jenis-paket/services/jenis-paket';
+import { KartuPaketService } from '../../kartu-paket/services/kartu-paket';
 import { Periode } from '../models/periode';
-import { PeriodeAktif } from '../services/periode-aktif';
 
 const router = express.Router();
 
@@ -27,10 +30,27 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const periode = Periode.build(req.body);
-    await periode.save();
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    res.status(201).send(periode);
+    try {
+      const periode = Periode.build(req.body);
+      await periode.save({ session });
+
+      await KartuPaketService.generateKartuPakets(periode, session);
+      await JenisPaketService.generateJenisPakets(periode, session);
+
+      await session.commitTransaction();
+      session.endSession();
+
+      res.status(201).send(periode);
+    } catch (e) {
+      console.error(e.message);
+      await session.abortTransaction();
+      session.endSession();
+
+      throw e;
+    }
   }
 );
 

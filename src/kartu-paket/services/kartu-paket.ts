@@ -1,7 +1,10 @@
-import { ClientSession } from 'mongoose'
+import { ClientSession } from 'mongoose';
 
-import { PeriodeAktif } from '../../periode/services/periode-aktif'
-import { KartuPaket, KartuPaketDoc } from '../models/kartu-paket'
+import { BadRequestError } from '../../common/errors/bad-request-error';
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { PeriodeDoc } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { KartuPaket, KartuPaketDoc } from '../models/kartu-paket';
 
 export class KartuPaketService {
   static async createKartuPaketExists(
@@ -49,5 +52,30 @@ export class KartuPaketService {
     }
 
     return newListKartuPaket;
+  }
+
+  static async generateKartuPakets(
+    periode: PeriodeDoc,
+    session?: ClientSession
+  ): Promise<void> {
+    const periodeAktif = await PeriodeAktif.getPeriodeAktif();
+    if (!periodeAktif) {
+      throw new NotFoundError();
+    }
+
+    const listKartuPaketExisting = await KartuPaket.find({
+      periode: periodeAktif,
+    });
+
+    if (listKartuPaketExisting.length > 0) {
+      await KartuPaket.insertMany(
+        listKartuPaketExisting.map((kartuPaket) => ({
+          nama: kartuPaket.nama,
+          stok: 0,
+          periode: periode._id,
+        })),
+        { session }
+      );
+    }
   }
 }

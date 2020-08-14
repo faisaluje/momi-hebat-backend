@@ -1,13 +1,13 @@
-import express, { Request, Response } from 'express'
-import mongoose from 'mongoose'
+import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_KARTU_PAKET } from '../../contants'
-import { Periode } from '../../periode/models/periode'
-import { TransaksiKartuPaketService } from '../../transaksi-kartu-paket/services/transaksi-kartu-paket'
-import { TransaksiPaketAgen } from '../../transaksi-paket-agen/models/transaksi-paket-agen'
-import { KartuPaket } from '../models/kartu-paket'
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_KARTU_PAKET } from '../../contants';
+import { Periode } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import { TransaksiKartuPaketService } from '../../transaksi-kartu-paket/services/transaksi-kartu-paket';
+import { KartuPaket } from '../models/kartu-paket';
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get(
     const { periodeId } = req.query;
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!periode) {
       throw new NotFoundError();
     }
@@ -122,7 +122,7 @@ router.get(
     const { periodeId } = req.query;
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!periode) {
       throw new NotFoundError();
     }

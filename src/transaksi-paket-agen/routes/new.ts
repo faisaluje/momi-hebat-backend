@@ -1,12 +1,12 @@
-import express, { Request, Response } from 'express'
-import { body } from 'express-validator'
-import mongoose from 'mongoose'
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import mongoose from 'mongoose';
 
-import { requireAuth } from '../../common/middleware/require-auth'
-import { validateRequest } from '../../common/middleware/validate-request'
-import { URL_TRANSAKSI_PAKET_AGEN } from '../../contants'
-import { TransaksiPaketAgenAttrs } from '../models/transaksi-paket-agen'
-import { TransaksiPaketAgenService } from '../services/transaksi-paket-agen'
+import { requireAuth } from '../../common/middleware/require-auth';
+import { validateRequest } from '../../common/middleware/validate-request';
+import { URL_TRANSAKSI_PAKET_AGEN } from '../../contants';
+import { TransaksiPaketAgenAttrs } from '../models/transaksi-paket-agen';
+import { TransaksiPaketAgenService } from '../services/transaksi-paket-agen';
 
 const router = express.Router();
 
@@ -38,6 +38,8 @@ router.post(
       console.error(e.message);
       await session.abortTransaction();
       session.endSession();
+
+      throw e;
     }
   }
 );

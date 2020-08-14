@@ -5,6 +5,7 @@ import { NotFoundError } from '../../common/errors/not-foud-error';
 import { requireAuth } from '../../common/middleware/require-auth';
 import { URL_TRANSAKSI_KARTU_PAKET } from '../../contants';
 import { Periode } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
 import { TransaksiKartuPaket } from '../models/transaksi-kartu-paket';
 
 const router = express.Router();
@@ -24,7 +25,7 @@ router.get(
     const { periodeId } = req.query;
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!periode) {
       throw new NotFoundError();
     }

@@ -39,7 +39,6 @@ const paketSchema = new mongoose.Schema(
     },
     cashback: {
       type: Number,
-      required: true,
       default: 0,
     },
     jenisPaket: {

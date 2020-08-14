@@ -1,11 +1,15 @@
-import express, { Request, Response } from 'express'
-import { FilterQuery } from 'mongoose'
+import express, { Request, Response } from 'express';
+import { FilterQuery } from 'mongoose';
 
-import { NotFoundError } from '../../common/errors/not-foud-error'
-import { requireAuth } from '../../common/middleware/require-auth'
-import { URL_TRANSAKSI_PAKET_AGEN } from '../../contants'
-import { Periode } from '../../periode/models/periode'
-import { TransaksiPaketAgen, TransaksiPaketAgenDoc } from '../models/transaksi-paket-agen'
+import { NotFoundError } from '../../common/errors/not-foud-error';
+import { requireAuth } from '../../common/middleware/require-auth';
+import { URL_TRANSAKSI_PAKET_AGEN } from '../../contants';
+import { Periode } from '../../periode/models/periode';
+import { PeriodeAktif } from '../../periode/services/periode-aktif';
+import {
+  TransaksiPaketAgen,
+  TransaksiPaketAgenDoc,
+} from '../models/transaksi-paket-agen';
 
 const router = express.Router();
 
@@ -16,7 +20,7 @@ router.get(
     const { periodeId } = req.query;
     const periode = periodeId
       ? await Periode.findById(periodeId)
-      : req.currentUser!.periode;
+      : await PeriodeAktif.getPeriodeAktif();
     if (!periode) {
       throw new NotFoundError();
     }
