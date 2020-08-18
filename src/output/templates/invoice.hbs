@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link rel="stylesheet" href="http://localhost:3001/css/style.css" />
+
+  <script src="https://kit.fontawesome.com/ab04eba8e8.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      font-family: 'saxMono';
+      margin: 0 0 0 5px;
+      padding: 8px;
+      width: 96.5%;
+      height: auto !important;
+      overflow: initial !important;
+      font-size: 8pt;
+    }
+
+    .column {
+      padding: 4px;
+    }
+
+    .border {
+      border: 1px solid;
+    }
+
+    .border-x {
+      border-right: 1px solid;
+      border-left: 1px solid;
+    }
+
+    .border-t {
+      border-top: 1px solid;
+    }
+  </style>
+
+  <title>Invoice Paket Momi Hebat</title>
+</head>
+
+<body>
+  {{> header periode=periode no=no jenis=jenis tgl=tgl }}
+
+  {{> @partial-block }}
+
+  {{> footer }}
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{{#> invoice }}
+
+{{#if catatan}}
+<p style="font-style: italic; margin: 20px 0 0 0; padding-left: 10px;">
+  {{#if agen}}
+  Catatan : {{ jenis }} Oleh Agen {{ agen.no }} - {{ agen.diri.nama.lengkap }}
+  {{else}}
+  Catatan : {{ catatan }}
+  {{/if}}
+</p>
+{{/if}}
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px">
+  <thead>
+    <tr>
+      <th class="border column">No.</th>
+      <th class="border column">Nama Kartu Paket</th>
+      <th class="border column">Qty</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#each items as |item|}}
+    <tr>
+      <td style="width: 20px; max-width: 40px;" class="column border-x" align="right">{{ sum @index 1 }}</td>
+      <td class="column border-x">{{ item.kartuPaket.nama }}</td>
+      <td align="center" class="column border-x">{{ thousandSeperator item.jumlah }}</td>
+    </tr>
+    {{/each}}
+    <tr class="border-t">
+      <th colspan="2" align="right" class="column" style="padding: 10px;">
+        Total :
+      </th>
+      <th align="center" class="column">{{ thousandSeperator total }}</th>
+    </tr>
+  </tbody>
+</table>
+{{/invoice}}

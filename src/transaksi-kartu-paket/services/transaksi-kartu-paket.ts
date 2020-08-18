@@ -144,4 +144,14 @@ export class TransaksiKartuPaketService {
       },
     ]).exec();
   }
+
+  static getTransaksiKartuPaketOne(
+    transaksiKartuPaketId: string
+  ): Promise<TransaksiKartuPaketDoc | null> {
+    return TransaksiKartuPaket.findById(transaksiKartuPaketId)
+      .populate('agen')
+      .populate('periode')
+      .populate('items.kartuPaket')
+      .exec();
+  }
 }

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 export function numberToAlphabet(num: number) {
   var s = '',
-    t;
+    t: number;
 
   while (num > 0) {
     t = (num - 1) % 26;
@@ -14,4 +14,10 @@ export function numberToAlphabet(num: number) {
 
 export function compareObjectId(sourceId: any, targetId: any): boolean {
   return mongoose.Types.ObjectId(sourceId).equals(targetId);
+}
+
+export function thousandSeparator(value: number, separator: string = '.') {
+  return !value
+    ? '-'
+    : value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }

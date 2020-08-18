@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
-import mongooseDelete from 'mongoose-delete';
-import mongoosePaginate from 'mongoose-paginate-v2';
+import mongoose from 'mongoose'
+import mongooseDelete from 'mongoose-delete'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
-import { AgenDoc } from '../../agen/models/agen';
-import { JenisTransaksi } from '../../common/enums/jenis-transaksi';
-import { KartuPaketDoc } from '../../kartu-paket/models/kartu-paket';
-import { PeriodeDoc } from '../../periode/models/periode';
+import { AgenDoc } from '../../agen/models/agen'
+import { JenisTransaksi } from '../../common/enums/jenis-transaksi'
+import { KartuPaketDoc } from '../../kartu-paket/models/kartu-paket'
+import { PeriodeDoc } from '../../periode/models/periode'
 
 interface TransaksiKartuPaketItem {
   kartuPaket: KartuPaketDoc;

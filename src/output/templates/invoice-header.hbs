@@ -1,0 +1,44 @@
+<table style="
+  border-bottom: 1px solid black;
+  padding-bottom: 2.5px;
+  width: 100%;
+">
+  <tbody>
+    <tr>
+      <td rowspan="3" style="width: 65%;">
+        <p style="font-size: 12pt; margin: 0 0 10px 0;">
+          {{ periode.referensi.judul }}
+        </p>
+        <i class="fas fa-home" style="margin-right: 3px; margin-left: -1px;"></i>
+        {{ periode.referensi.alamat }} <br />
+        <i class="fab fa-whatsapp" style="margin-right: 4px;"></i>
+        {{ periode.referensi.noHp }} <br />
+        <i class="fab fa-instagram" style="margin-right: 4px;"></i>
+        {{ periode.referensi.ig }}
+      </td>
+      <td colspan="2" align="center" valign="top" style="font-size: 16pt; font-weight: lighter; height: 28px;">
+        {{ no }}
+      </td>
+    </tr>
+    <tr>
+      <td align="right" style="
+        font-weight: lighter;
+        padding-right: 12px;
+        vertical-align: bottom;
+      ">
+        Tanggal
+      </td>
+      <td valign="bottom">{{ tgl }}</td>
+    </tr>
+    <tr>
+      <td align="right" style="
+        font-weight: lighter;
+        padding-right: 12px;
+        vertical-align: top;
+      ">
+        Jenis
+      </td>
+      <td valign="top">{{ jenis }}</td>
+    </tr>
+  </tbody>
+</table>
