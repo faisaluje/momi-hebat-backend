@@ -12,6 +12,10 @@ export class OutputInvoice {
     const invoice = fs.readFileSync(`${dirPath}/invoice.hbs`, 'utf-8');
     const footer = fs.readFileSync(`${dirPath}/invoice-footer.hbs`, 'utf-8');
 
+    Handlebars.registerHelper('multiply', function (a: number, b: number) {
+      return thousandSeparator(a * b);
+    });
+
     Handlebars.registerHelper('sum', function (a: number, b: number) {
       return a + b;
     });

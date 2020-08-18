@@ -56,4 +56,14 @@ export class TransaksiPaketAgenService {
       deleted: true,
     });
   }
+
+  static getTransaksiPaketAgenOne(
+    transaksiPaketAgenId: string
+  ): Promise<TransaksiPaketAgenDoc | null> {
+    return TransaksiPaketAgen.findById(transaksiPaketAgenId)
+      .populate('periode')
+      .populate('agen')
+      .populate('items.paket')
+      .exec();
+  }
 }

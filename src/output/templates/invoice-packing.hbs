@@ -1,0 +1,50 @@
+{{#> invoice }}
+
+{{#if keterangan}}
+<p style="font-style: italic; margin: 20px 0 0 0; padding-left: 10px;">
+  Keterangan : {{ keterangan }}
+</p>
+{{/if}}
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px">
+  <thead>
+    <tr>
+      <th class="border column">No.</th>
+      <th class="border column">Karyawan</th>
+      <th class="border column">Nama Barang</th>
+      <th class="border column">Qty</th>
+      <th class="border column">Biaya</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#each proses as |item|}}
+    <tr>
+      <td style="width: 20px; max-width: 40px;" class="column border-x" align="right">{{ sum @index 1 }}</td>
+      <td style="width: 136px;" class="column border-x">{{ item.karyawan.nama }}</td>
+      <td style="width: 236px;" class="column border-x">{{ item.jenisPaket.nama }}</td>
+      <td align="center" class="column border-x">{{ thousandSeperator item.jumlah }}</td>
+      <td class="column border-x">
+        {{#if item.jenisPaket.biayaPacking}}
+        Rp. {{ multiply item.jenisPaket.biayaPacking item.jumlah }}
+        {{else}}
+        -
+        {{/if}}
+      </td>
+    </tr>
+    {{/each}}
+    <tr class="border-t">
+      <th colspan="4" align="right" class="column" style="padding: 10px;">
+        Total :
+      </th>
+      <th align="left" class="column">
+        {{#if total}}
+        Rp. {{ thousandSeperator total }}
+        {{else}}
+        -
+        {{/if}}
+      </th>
+    </tr>
+  </tbody>
+</table>
+{{/invoice}}
