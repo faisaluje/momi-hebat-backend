@@ -1,6 +1,7 @@
 export const MONGO_URI =
   'mongodb://localhost:27017,localhost:27018,localhost:27019/momi-hebat?replicaSet=rs';
 export const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+export const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3001';
 export const JWT_KEY = 'jwt-secret';
 export const APP_VERSION = 'v0.0.1';
 export const URL_FRONTEND = ['http://localhost:3000', 'http://localhost:5000'];

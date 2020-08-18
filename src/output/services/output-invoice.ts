@@ -2,6 +2,7 @@ import * as fs from 'fs'
 import Handlebars from 'handlebars'
 import { join } from 'path'
 
+import { SERVER_URL } from '../../contants'
 import { thousandSeparator } from '../../utils'
 
 const dirPath = join(__dirname, '..', 'templates');
@@ -22,6 +23,10 @@ export class OutputInvoice {
 
     Handlebars.registerHelper('thousandSeperator', function (amount: number) {
       return thousandSeparator(amount);
+    });
+
+    Handlebars.registerHelper('baseUrl', function () {
+      return SERVER_URL;
     });
 
     Handlebars.registerPartial('header', header);

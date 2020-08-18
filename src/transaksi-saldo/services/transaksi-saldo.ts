@@ -40,4 +40,13 @@ export class TransaksiSaldoService {
 
     return transaksiSaldo;
   }
+
+  static getTransaksiSaldoOne(
+    transaksiSaldoId: string
+  ): Promise<TransaksiSaldoDoc | null> {
+    return TransaksiSaldo.findById(transaksiSaldoId)
+      .populate('agen')
+      .populate('periode')
+      .exec();
+  }
 }

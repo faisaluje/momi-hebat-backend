@@ -1,0 +1,42 @@
+{{#> invoice }}
+<div style="margin: 0 auto; align-items: center; justify-content: center; width: 100%; display: flex;">
+  <h1 style="text-align: center;">{{ kategori }}</h1>
+</div>
+
+<table style="width: 100%; margin-top: 10px;">
+  <tbody>
+    <tr>
+      <td class="column" style="width: 128px;">Agen</td>
+      <td class="column" colspan="2">: {{ agen.no }} - {{ agen.diri.nama.lengkap }}</td>
+    </tr>
+    <tr>
+      <td class="column" style="width: 128px;">Banyaknya Uang</td>
+      <td class="column" colspan="2">: {{ terbilang }}</td>
+    </tr>
+
+    {{#if via}}
+    <tr>
+      <td class="column" style="width: 128px;">Via</td>
+      <td class="column" colspan="2">: {{ via }}</td>
+    </tr>
+    {{/if}}
+
+    <tr>
+      <td class="column" valign="top" style="width: 128px; height: 64px;">Catatan</td>
+      <td class="column" valign="top" style="height: 64px;" colspan="2">: {{ catatan }}</td>
+    </tr>
+    <tr>
+      <td class="column" style="width: 128px;">Terbilang</td>
+      <td class="column" style="width: 254px;">: Rp. {{ thousandSeperator nominal }}</td>
+      <td class="column" align="center">
+        Yang Menerima
+        <br>
+        <br>
+        <br>
+        <br>
+        ________________________
+      </td>
+    </tr>
+  </tbody>
+</table>
+{{/invoice}}

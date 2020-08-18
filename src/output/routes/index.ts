@@ -4,6 +4,7 @@ import { OutputPackingService } from '../services/output-packing'
 import { OutputTransaksiBarangService } from '../services/output-transaksi-barang'
 import { OutputTransaksiKartuPaketService } from '../services/output-transaksi-kartu-paket'
 import { OutputTransaksiPaketAgenService } from '../services/output-transaksi-paket-agen'
+import { OutputTransaksiSaldoService } from '../services/output-transaksi-saldo'
 
 const router = express.Router();
 
@@ -46,6 +47,18 @@ router.get(
   async (req: Request, res: Response) => {
     const pdf = await OutputTransaksiPaketAgenService.getPdf(
       req.params.transaksiPaketAgenId
+    );
+
+    res.contentType('application/pdf');
+    res.send(pdf);
+  }
+);
+
+router.get(
+  '/api/output/transaksi-saldo/:transaksiSaldoId',
+  async (req: Request, res: Response) => {
+    const pdf = await OutputTransaksiSaldoService.getPdf(
+      req.params.transaksiSaldoId
     );
 
     res.contentType('application/pdf');

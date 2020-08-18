@@ -13,6 +13,7 @@ services:
       - profile-pictures:/app/public/profile-pictures
     environment:
       MONGO_URI: mongodb://mongo-1:27017,mongo-2:27017,mongo-3:27017/momi-hebat?replicaSet=rs0
+      SERVER_URL: http://110.136.78.105:8031
     networks:
       - mongo_replica_set
 
