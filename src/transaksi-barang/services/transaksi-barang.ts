@@ -1,17 +1,13 @@
-import { ClientSession } from 'mongoose';
+import { ClientSession } from 'mongoose'
 
-import { BarangService } from '../../barang/services/barang';
-import { BadRequestError } from '../../common/errors/bad-request-error';
-import { NotFoundError } from '../../common/errors/not-foud-error';
-import { PeriodeAktif } from '../../periode/services/periode-aktif';
-import { StokBarangService } from '../../stok-barang/services/stok-barang';
-import {
-  TransaksiBarang,
-  TransaksiBarangAttrs,
-  TransaksiBarangDoc,
-} from '../models/transaksi-barang';
-import { ItemsService } from './items';
-import { NoTransaksiBarang } from './no-transaksi-barang';
+import { BarangService } from '../../barang/services/barang'
+import { BadRequestError } from '../../common/errors/bad-request-error'
+import { NotFoundError } from '../../common/errors/not-foud-error'
+import { PeriodeAktif } from '../../periode/services/periode-aktif'
+import { StokBarangService } from '../../stok-barang/services/stok-barang'
+import { TransaksiBarang, TransaksiBarangAttrs, TransaksiBarangDoc } from '../models/transaksi-barang'
+import { ItemsService } from './items'
+import { NoTransaksiBarang } from './no-transaksi-barang'
 
 export class TransaksiBarangService {
   static async createTransaksiBarang(
@@ -71,5 +67,14 @@ export class TransaksiBarangService {
       session.endSession();
       throw new BadRequestError('Gagal menghapus transaksi');
     }
+  }
+
+  static getTransaksiBarangOne(
+    transaksiBarangId: string
+  ): Promise<TransaksiBarangDoc | null> {
+    return TransaksiBarang.findById(transaksiBarangId)
+      .populate('periode')
+      .populate('items.barang')
+      .exec();
   }
 }
