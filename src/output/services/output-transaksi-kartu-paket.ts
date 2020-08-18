@@ -2,7 +2,6 @@ import * as fs from 'fs'
 import Handlebars from 'handlebars'
 import { sumBy } from 'lodash'
 import moment from 'moment'
-import { join } from 'path'
 
 import { NotFoundError } from '../../common/errors/not-foud-error'
 import { TransaksiKartuPaketDoc } from '../../transaksi-kartu-paket/models/transaksi-kartu-paket'
@@ -10,14 +9,12 @@ import { TransaksiKartuPaketService } from '../../transaksi-kartu-paket/services
 import { OutputInvoice } from './output-invoice'
 import { PdfService } from './pdf'
 
-const dirPath = join(__dirname, '..', 'templates');
-
 export class OutputTransaksiKartuPaketService {
   static getHtml(transaksiKartuPaket: TransaksiKartuPaketDoc) {
     OutputInvoice.generateTemplate();
 
     const content = fs.readFileSync(
-      `${dirPath}/invoice-transaksi-kartu-paket.hbs`,
+      'templates/invoice-transaksi-kartu-paket.hbs',
       'utf-8'
     );
 

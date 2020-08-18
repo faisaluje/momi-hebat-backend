@@ -3,7 +3,6 @@ import * as fs from 'fs'
 import Handlebars from 'handlebars'
 import { startCase } from 'lodash'
 import moment from 'moment'
-import { join } from 'path'
 
 import { NotFoundError } from '../../common/errors/not-foud-error'
 import { TransaksiSaldoDoc } from '../../transaksi-saldo/models/transaksi-saldo'
@@ -11,14 +10,12 @@ import { TransaksiSaldoService } from '../../transaksi-saldo/services/transaksi-
 import { OutputInvoice } from './output-invoice'
 import { PdfService } from './pdf'
 
-const dirPath = join(__dirname, '..', 'templates');
-
 export class OutputTransaksiSaldoService {
   static getHtml(transaksiSaldo: TransaksiSaldoDoc) {
     OutputInvoice.generateTemplate();
 
     const content = fs.readFileSync(
-      `${dirPath}/invoice-transaksi-saldo.hbs`,
+      'templates/invoice-transaksi-saldo.hbs',
       'utf-8'
     );
 
