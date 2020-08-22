@@ -24,7 +24,9 @@ export class OutputTransaksiKartuPaketService {
     return template(
       {
         ...context,
-        tgl: context.tgl ? moment(context.tgl).format('D MMMM YYYY') : '',
+        tgl: context.tgl
+          ? moment(context.tgl).utcOffset(7).format('D MMMM YYYY')
+          : '',
         jenis:
           context.jenis === 'masuk'
             ? context.agen

@@ -49,7 +49,9 @@ export class OutputTransaksiSaldoService {
                 : ''
             }`
           : null,
-        tgl: context.tgl ? moment(context.tgl).format('D MMMM YYYY') : '',
+        tgl: context.tgl
+          ? moment(context.tgl).utcOffset(7).format('D MMMM YYYY')
+          : '',
         jenis: 'Saldo',
         terbilang: startCase(`${terbilang(context?.nominal)} rupiah`),
       },
@@ -70,8 +72,8 @@ export class OutputTransaksiSaldoService {
 
     const html = this.getHtml(transaksiSaldo);
     const pdf = await PdfService.generatePdf(html, {
-      width: '215mm',
-      height: '140mm',
+      width: '210mm',
+      height: '180mm',
     });
 
     return pdf;

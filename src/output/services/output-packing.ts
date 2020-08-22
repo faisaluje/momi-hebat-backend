@@ -21,7 +21,9 @@ export class OutputPackingService {
     return template(
       {
         ...context,
-        tgl: context.tgl ? moment(context.tgl).format('D MMMM YYYY') : '',
+        tgl: context.tgl
+          ? moment(context.tgl).utcOffset(7).format('D MMMM YYYY')
+          : '',
         no: 'Packing',
         total: sumBy(
           context.proses,

@@ -24,7 +24,9 @@ export class OutputTransaksiBarangService {
     return template(
       {
         ...context,
-        tgl: context.tgl ? moment(context.tgl).format('D MMMM YYYY') : '',
+        tgl: context.tgl
+          ? moment(context.tgl).utcOffset(7).format('D MMMM YYYY')
+          : '',
         jenis: `Barang ${startCase(context.jenis)}`,
         total: sumBy(context.items, 'biaya'),
       },
