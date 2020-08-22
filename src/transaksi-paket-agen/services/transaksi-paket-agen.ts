@@ -19,8 +19,6 @@ export class TransaksiPaketAgenService {
       periode,
     });
 
-    await TransaksiPaketAgen.createCollection();
-
     const transaksiPaketAgen = TransaksiPaketAgen.build({
       ...data,
       no: noTransaksi,

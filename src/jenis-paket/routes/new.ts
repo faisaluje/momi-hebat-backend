@@ -1,15 +1,15 @@
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import mongoose from 'mongoose';
+import express, { Request, Response } from 'express'
+import { body } from 'express-validator'
+import mongoose from 'mongoose'
 
-import { BarangService } from '../../barang/services/barang';
-import { BadRequestError } from '../../common/errors/bad-request-error';
-import { requireAuth } from '../../common/middleware/require-auth';
-import { validateRequest } from '../../common/middleware/validate-request';
-import { URL_JENIS_PAKET } from '../../contants';
-import { Periode } from '../../periode/models/periode';
-import { PeriodeAktif } from '../../periode/services/periode-aktif';
-import { JenisPaket, JenisPaketAttrs } from '../models/jenis-paket';
+import { BarangService } from '../../barang/services/barang'
+import { BadRequestError } from '../../common/errors/bad-request-error'
+import { requireAuth } from '../../common/middleware/require-auth'
+import { validateRequest } from '../../common/middleware/validate-request'
+import { URL_JENIS_PAKET } from '../../contants'
+import { Periode } from '../../periode/models/periode'
+import { PeriodeAktif } from '../../periode/services/periode-aktif'
+import { JenisPaket, JenisPaketAttrs } from '../models/jenis-paket'
 
 const router = express.Router();
 
@@ -27,8 +27,6 @@ router.post(
     if (!periode) {
       throw new BadRequestError('Periode tidak ditemkan');
     }
-
-    await JenisPaket.createCollection();
 
     const session = await mongoose.startSession();
     session.startTransaction();

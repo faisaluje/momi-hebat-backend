@@ -22,9 +22,6 @@ export class TransaksiKartuPaketService {
       throw new BadRequestError('Periode tidak ditemkan');
     }
 
-    await KartuPaket.createCollection();
-    await TransaksiKartuPaket.createCollection();
-
     try {
       const noTransaksiKartuPaket = await NoTransaksiKartuPaket.generateNoTransaksi(
         { ...data, periode }

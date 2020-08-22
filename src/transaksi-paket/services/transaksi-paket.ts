@@ -21,8 +21,6 @@ export class TransaksiPaketService {
       periode,
     });
 
-    await TransaksiPaket.createCollection();
-
     const pakets = await PaketsService.getPakets(data.pakets);
     const transaksiPaket = TransaksiPaket.build({
       ...data,

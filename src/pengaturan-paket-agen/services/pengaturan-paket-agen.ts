@@ -124,8 +124,6 @@ export class PengaturanPaketAgenService {
     const periode = await PeriodeAktif.getPeriodeAktif();
     if (!periode) throw new BadRequestError('Periode tidak ditemukan');
 
-    await PengaturanPaketAgen.createCollection();
-
     const noPengaturanPaketAgen = await NoPengaturanPaketAgenService.generateNoPengaturanPaketAgen(
       {
         ...data,
