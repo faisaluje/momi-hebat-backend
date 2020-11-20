@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 
 import { requireAuth } from '../../common/middleware/require-auth'
 import { URL_AGEN } from '../../contants'
+import { PeriodeAktif } from '../../periode/services/periode-aktif'
 import { AgenStatus } from '../enums/agen-status'
 import { Agen } from '../models/agen'
 
@@ -13,6 +14,7 @@ router.get(
   requireAuth,
   async (req: Request, res: Response) => {
     let findQuery = {};
+    const periodeAktif = await PeriodeAktif.getPeriodeAktif();
 
     if (req.query.status !== 'all') {
       findQuery = {
@@ -31,7 +33,10 @@ router.get(
     const paginateOptions: mongoose.PaginateOptions = {
       pagination: false,
       sort: { level: 1, createdAt: 1 },
-      populate: [{ path: 'topAgen', select: 'no diri.nama' }],
+      populate: [
+        { path: 'topAgen', select: 'no diri.nama' },
+        { path: 'stok', match: { periode: periodeAktif?._id } },
+      ],
     };
 
     if (req.query.agenId) {
@@ -47,12 +52,18 @@ router.get(
           match: { status: AgenStatus.AKTIF },
           select: 'no diri -topAgen',
           options: { sort: { createdAt: 1 } },
-          populate: {
-            path: 'subAgens',
-            match: { status: AgenStatus.AKTIF },
-            select: 'no diri -topAgen',
-            options: { sort: { createdAt: 1 } },
-          },
+          populate: [
+            {
+              path: 'subAgens',
+              match: { status: AgenStatus.AKTIF },
+              select: 'no diri -topAgen',
+              options: { sort: { createdAt: 1 } },
+              populate: [
+                { path: 'stok', match: { periode: periodeAktif?._id } },
+              ],
+            },
+            { path: 'stok', match: { periode: periodeAktif?._id } },
+          ],
         },
       ];
     }

@@ -7,12 +7,12 @@ export class NoTransaksiBarang {
     jenis: JenisTransaksi,
     periode: PeriodeDoc
   ): Promise<number> {
-    const countTransaksiSaldo = await TransaksiBarang.countWithDeleted({
+    const countTransaksiBarang = await TransaksiBarang.countWithDeleted({
       periode,
       jenis,
     });
 
-    return countTransaksiSaldo;
+    return countTransaksiBarang;
   }
 
   static async generateNoTransaksi(
