@@ -1,0 +1,115 @@
+{{#> invoice }}
+
+<table style="margin: 10px 0 0 0;">
+  <tbody>
+    <tr>
+      <td>Periode </td>
+      <td>: {{ periode.nama }}</td>
+    </tr>
+    <tr>
+      <td>Agen </td>
+      <td>: {{ agen.no }}. {{ agen.diri.nama.lengkap }}</td>
+    </tr>
+    <tr>
+      <td>Saldo </td>
+      <td>: Rp. {{ thousandSeperator saldo }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px">
+  <tbody>
+    <tr>
+      <td colspan="5" style="font-weight: lighter; font-size: 11pt; padding: 10px 0px;">1. Biaya Paket <br></td>
+    </tr>
+    {{#each listBiaya as |item|}}
+      <tr>
+        <td style="width: 30%;">- {{ item.paket.nama }}</td>
+        <td>Rp. {{ thousandSeperator item.paket.harga }}</td>
+        <td> x {{ thousandSeperator item.jumlah }} = </td>
+        <td align="right">Rp. </td>
+        <td align="right">{{ thousandSeperator item.total }}</td>
+      </tr>
+    {{/each}}
+    <tr>
+      <td colspan="3" style="font-weight: lighter; padding: 10px 0px;" align="right">Total Biaya : <br></td>
+      <td style="font-weight: lighter;" align="right">Rp. </td>
+      <td style="font-weight: lighter;" align="right">{{ thousandSeperator total.allBiaya }} <br></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px">
+  <tbody>
+    <tr>
+      <td colspan="5" style="font-weight: lighter; font-size: 11pt; padding: 10px 0px;">2. Cashback Paket <br></td>
+    </tr>
+    {{#each listCashback as |item|}}
+      <tr>
+        <td style="width: 30%;">- {{ item.paket.nama }}</td>
+        <td>Rp. {{ thousandSeperator item.paket.cashback }}</td>
+        <td> x {{ thousandSeperator item.jumlah }} = </td>
+        <td align="right">Rp. </td>
+        <td align="right">{{ thousandSeperator item.total }}</td>
+      </tr>
+    {{/each}}
+    <tr>
+      <td colspan="3" style="font-weight: lighter; padding: 10px 0px;" align="right">Total Cashback : <br></td>
+      <td style="font-weight: lighter;" align="right">Rp. </td>
+      <td style="font-weight: lighter;" align="right">{{ thousandSeperator total.allCashback }} <br></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px">
+  <tbody>
+    <tr>
+      <td colspan="5" style="font-weight: lighter; font-size: 11pt; padding: 10px 0px;">3. Bonus Paket <br></td>
+    </tr>
+    {{#each listBonus as |item|}}
+      <tr>
+        <td style="width: 30%;">- {{ item.paket.nama }}</td>
+        <td>Rp. {{ thousandSeperator item.bonus.nominal }}</td>
+        <td> x {{ thousandSeperator item.jumlah }} = </td>
+        <td align="right">Rp. </td>
+        <td align="right">{{ thousandSeperator item.total }}</td>
+      </tr>
+    {{/each}}
+    <tr>
+      <td colspan="3" style="font-weight: lighter; padding: 10px 0px;" align="right">Total Bonus : <br></td>
+      <td style="font-weight: lighter;" align="right">Rp. </td>
+      <td style="font-weight: lighter;" align="right">{{ thousandSeperator total.allBonus }} <br></td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin: 25px;">
+  <tbody>
+    <tr>
+      <td>Saldo</td>
+      <td>: Rp. {{ thousandSeperator saldo }}</td>
+    </tr>
+    <tr>
+      <td>Biaya Paket</td>
+      <td>: Rp. {{ thousandSeperator total.allBiaya }}</td>
+    </tr>
+    <tr>
+      <td>Jumlah</td>
+      <td>: (- Rp. {{ subtract saldo total.allBiaya }})</td>
+    </tr>
+    <tr>
+      <td>Cashback</td>
+      <td>: Rp. {{ thousandSeperator total.allCashback }}</td>
+    </tr>
+    <tr>
+      <td>Bonus</td>
+      <td>: Rp. {{ thousandSeperator total.allBonus }}</td>
+    </tr>
+    <tr>
+      <td style="color: red; font-weight: lighter; font-size: 11pt;">Sisa Saldo</td>
+      <td style="color: red; font-weight: lighter; font-size: 11pt;">: Rp. {{ thousandSeperator sisaSaldo }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{{/invoice}}

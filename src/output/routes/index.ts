@@ -1,10 +1,11 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response } from 'express';
 
-import { OutputPackingService } from '../services/output-packing'
-import { OutputTransaksiBarangService } from '../services/output-transaksi-barang'
-import { OutputTransaksiKartuPaketService } from '../services/output-transaksi-kartu-paket'
-import { OutputTransaksiPaketAgenService } from '../services/output-transaksi-paket-agen'
-import { OutputTransaksiSaldoService } from '../services/output-transaksi-saldo'
+import { OutputBookingPaketService } from '../services/output-booking-paket';
+import { OutputPackingService } from '../services/output-packing';
+import { OutputTransaksiBarangService } from '../services/output-transaksi-barang';
+import { OutputTransaksiKartuPaketService } from '../services/output-transaksi-kartu-paket';
+import { OutputTransaksiPaketAgenService } from '../services/output-transaksi-paket-agen';
+import { OutputTransaksiSaldoService } from '../services/output-transaksi-saldo';
 
 const router = express.Router();
 
@@ -60,6 +61,16 @@ router.get(
     const pdf = await OutputTransaksiSaldoService.getPdf(
       req.params.transaksiSaldoId
     );
+
+    res.contentType('application/pdf');
+    res.send(pdf);
+  }
+);
+
+router.post(
+  '/api/output/booking-paket',
+  async (req: Request, res: Response) => {
+    const pdf = await OutputBookingPaketService.getPdf(req.body);
 
     res.contentType('application/pdf');
     res.send(pdf);

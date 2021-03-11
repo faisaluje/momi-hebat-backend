@@ -1,8 +1,8 @@
-import * as fs from 'fs'
-import Handlebars from 'handlebars'
+import * as fs from 'fs';
+import Handlebars from 'handlebars';
 
-import { SERVER_URL } from '../../contants'
-import { thousandSeparator } from '../../utils'
+import { SERVER_URL } from '../../contants';
+import { thousandSeparator } from '../../utils';
 
 export class OutputInvoice {
   static generateTemplate(): void {
@@ -12,6 +12,10 @@ export class OutputInvoice {
 
     Handlebars.registerHelper('multiply', function (a: number, b: number) {
       return thousandSeparator(a * b);
+    });
+
+    Handlebars.registerHelper('subtract', function (a: number, b: number) {
+      return thousandSeparator(a - b);
     });
 
     Handlebars.registerHelper('sum', function (a: number, b: number) {
